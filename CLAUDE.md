@@ -8,7 +8,7 @@ The sibling project `/home/alex/projects/iceland-postcards` is the reference for
 
 - `PRODUCT.md`: who it's for, what it must do, constraints.
 - `DESIGN.md`: the design system ("Survey Sheet"), with tokens, components and rules. Keep it true to the code.
-- `README.md`: how to run, build, edit content, add photos and deploy.
+- `README.md`: just the live link and one line (the user asked, Oct 23, 2026). The working notes (how to run, build, edit content, add photos and deploy) moved to `docs/how-it-works.md`; keep that file current.
 - `.impeccable/surfaces/src-app-svelte.md`: the page's design plan (direction contract).
 - `content/trip.js`: the itinerary. Its header comment lists every field.
 - `content/media/<place>/photos.json`: each place's photos, in order, with captions and comments.
@@ -146,7 +146,7 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 ## Decisions (all from the user)
 
 - **Structure:** chapters by place or leg, not one per day.
-- **Stack:** same as Iceland. Svelte 5 + Vite, fully static, no backend, no map API keys. Deploy to GitHub Pages at `taiwan.pinkoa2.lol` (`subdomain` in trip.js; not deployed yet).
+- **Stack:** same as Iceland. Svelte 5 + Vite, fully static, no backend, no map API keys. Deployed to GitHub Pages at https://taiwan.pinkoa2.lol/ (`subdomain` in trip.js).
 - **Audience:** Alex and Ting keep it as a keepsake. Friends and family open a shared link, mostly on phones.
 - **Keepsake, no live tracker:** only completed legs show. Tainan and Kaohsiung get added once done.
 - **Units:** miles in trip.js, but **no distances are shown anywhere** (the user asked).
@@ -212,6 +212,7 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
   - **Dedupe:** skip exact duplicates (by hash) across devices and "(1)" copies; skip Live Photo `.MOV` companions; take JPEG over RAW.
   - **New places:** the batch includes new stops (Tainan, Kaohsiung, maybe more). Ask the user for the dates and how they travelled, add the legs to trip.js, and fetch their routes.
   - Everything goes in unpicked with `new: true`, sorted by time, for the user to review in the picker's New filter.
+  - **Size limit to keep in mind:** a published GitHub Pages site is capped at 1 GB. The built site is about 1.25 MB per photo (four WebP sizes; `dist` was 279 MB for 223 photos on Oct 23, 2026), so the cap is reached at roughly 800 photos. The user expects to stay under 800. After the import, check `du -sh dist`. If it's getting close, either build only picked photos (this breaks `?display=all`, which the user wants to keep) or skip the 2000px size for unpicked photos (keeps display=all).
 - **Picks (Oct 23, 2026):** by default the page shows only `pick: true` photos. Claude made a first pick of 53, about 3–6 per stop and 12 for the hike (the user asked for "only the absolute necessary" by default). **`?display=all`** in the URL shows every photo (222); the user wants to keep that option. `show: false` hides a photo even from display=all. The filtering is in `App.svelte`; `pick` comes through prepare-trip.js.
 - **Captions and comments are all empty.** The user will write them in the photo picker (`npm run curate`).
 - Stand-in Wikimedia photos and `scripts/mock-photos.js` were removed.
@@ -234,7 +235,7 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 4. [x] Real photos imported and named, with dates, day trips, the metro mode and video playback (Oct 23, 2026).
 5. [ ] **Next:** the user uses the photo picker (`npm run curate`) to review the 53 picks, write captions and notes, and write the place descriptions. Captions were first planned as one-by-one sessions with Claude; the picker now covers that, but offer to help draft captions if asked.
 6. [ ] Tainan and Kaohsiung once done.
-7. [ ] Deploy: `git init`, a GitHub repo, a Porkbun DNS record for `taiwan.pinkoa2.lol`. **The user wants git set up at the very end** (said Oct 23, 2026). Don't init or commit before then.
+7. [x] **Deployed (Oct 23, 2026).** The user set up git and pushed to `pinkoa2/taiwan-map-scroller` (public; SSH remote `git@github.com:pinkoa2/taiwan-map-scroller.git`). Pages is enabled with "GitHub Actions" as its source (`.github/workflows/deploy.yml`, about 5 minutes per build) and the custom domain `taiwan.pinkoa2.lol` (Porkbun CNAME → `pinkoa2.github.io`), with HTTPS enforced. Every push to `main` redeploys. **The user does their own pushes**; commit or push only when asked.
 
 ## Known leftovers
 
