@@ -1,0 +1,531 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T08:00:17+00:00",
+  "title": "Design System: Taiwan 臺灣",
+  "extensions": {
+    "colorMeta": {
+      "route": {
+        "role": "primary",
+        "displayName": "Overprint Vermilion",
+        "canonical": "oklch(60.7% 0.204 33.6)",
+        "tonalRamp": [
+          "#340000",
+          "#5b0000",
+          "#840000",
+          "#af1600",
+          "#df3e1a",
+          "#ff6e4e",
+          "#ff9b7c",
+          "#ffdccb"
+        ]
+      },
+      "route-deep": {
+        "role": "primary",
+        "displayName": "Deep Vermilion",
+        "canonical": "oklch(48.7% 0.166 33.9)",
+        "tonalRamp": [
+          "#300000",
+          "#560000",
+          "#7d0000",
+          "#a62a0b",
+          "#cb563d",
+          "#f08067",
+          "#ffaa91",
+          "#ffe1d4"
+        ]
+      },
+      "sea": {
+        "role": "secondary",
+        "displayName": "Survey Sea",
+        "canonical": "oklch(91.1% 0.021 223.0)",
+        "tonalRamp": [
+          "#060c0f",
+          "#1d2629",
+          "#384245",
+          "#546064",
+          "#758388",
+          "#98a8ad",
+          "#bdced4",
+          "#e7f0f4"
+        ]
+      },
+      "sea-line": {
+        "role": "secondary",
+        "displayName": "Water-Line Blue",
+        "canonical": "oklch(64.9% 0.079 234.3)",
+        "tonalRamp": [
+          "#000d1e",
+          "#00283d",
+          "#14455d",
+          "#306480",
+          "#4f88a7",
+          "#74adcd",
+          "#9ed3f2",
+          "#daf3ff"
+        ]
+      },
+      "coast": {
+        "role": "secondary",
+        "displayName": "Coast Blue",
+        "canonical": "oklch(51.8% 0.095 242.3)",
+        "tonalRamp": [
+          "#000b27",
+          "#002647",
+          "#034469",
+          "#25638d",
+          "#4c86b2",
+          "#75abd5",
+          "#9fd1f9",
+          "#dbf2ff"
+        ]
+      },
+      "river": {
+        "role": "secondary",
+        "displayName": "River Blue",
+        "canonical": "oklch(59.2% 0.106 243.8)",
+        "tonalRamp": [
+          "#000a29",
+          "#002649",
+          "#00436c",
+          "#216391",
+          "#4286ba",
+          "#6dabde",
+          "#97d2ff",
+          "#d8f2ff"
+        ]
+      },
+      "land": {
+        "role": "tertiary",
+        "displayName": "Lowland Survey Green",
+        "canonical": "oklch(91.3% 0.038 123.7)",
+        "tonalRamp": [
+          "#9c7664",
+          "#ac836a",
+          "#be9575",
+          "#cda880",
+          "#dabe91",
+          "#e5d3a3",
+          "#e0e0b5",
+          "#d3e0bd",
+          "#dde7cc"
+        ],
+        "purpose": "Hypsometric tint ramp 3500 m to 0 m (palette.js stops 3500,3000,2500,2000,1500,1000,500,200,0)."
+      },
+      "contour": {
+        "role": "tertiary",
+        "displayName": "Contour Brown",
+        "canonical": "oklch(53.5% 0.093 62.4)",
+        "tonalRamp": [
+          "#1e0100",
+          "#3d1900",
+          "#5e3402",
+          "#815121",
+          "#a67446",
+          "#ca996e",
+          "#efc098",
+          "#ffead7"
+        ]
+      },
+      "contour-text": {
+        "role": "tertiary",
+        "displayName": "Spot-Height Brown",
+        "canonical": "oklch(43.0% 0.076 60.5)",
+        "tonalRamp": [
+          "#1d0300",
+          "#3b1a00",
+          "#5b3511",
+          "#7c5330",
+          "#9f7756",
+          "#c29c7d",
+          "#e7c3a5",
+          "#fcebdd"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Sheet Ink",
+        "canonical": "oklch(23.5% 0.010 125.0)",
+        "tonalRamp": [
+          "#0a0c08",
+          "#232520",
+          "#3e413b",
+          "#5c5f59",
+          "#7f817b",
+          "#a3a69f",
+          "#c9ccc5",
+          "#eeefeb"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "oklch(40.6% 0.019 123.5)",
+        "tonalRamp": [
+          "#0a0c06",
+          "#22251c",
+          "#3e4137",
+          "#5b5f54",
+          "#7e8277",
+          "#a2a69c",
+          "#c8ccc2",
+          "#edefeb"
+        ]
+      },
+      "ink-faint": {
+        "role": "neutral",
+        "displayName": "Faint Ink",
+        "canonical": "oklch(48.5% 0.019 122.1)",
+        "tonalRamp": [
+          "#0a0c06",
+          "#22251c",
+          "#3e4137",
+          "#5c6054",
+          "#7e8276",
+          "#a3a69b",
+          "#c9ccc1",
+          "#edefea"
+        ]
+      },
+      "margin": {
+        "role": "neutral",
+        "displayName": "Sheet Margin",
+        "canonical": "oklch(96.1% 0.009 113.2)",
+        "tonalRamp": [
+          "#0b0c07",
+          "#24251f",
+          "#40403b",
+          "#5d5e58",
+          "#80817b",
+          "#a4a59f",
+          "#cacbc4",
+          "#eeefeb"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(98.7% 0.005 106.5)",
+        "tonalRamp": [
+          "#0b0b09",
+          "#242421",
+          "#40403d",
+          "#5e5e5a",
+          "#80807d",
+          "#a5a5a1",
+          "#cbcbc7",
+          "#eeeeec"
+        ]
+      },
+      "halo": {
+        "role": "neutral",
+        "displayName": "Label Halo",
+        "canonical": "oklch(97.6% 0.009 113.2)",
+        "tonalRamp": [
+          "#0b0c07",
+          "#24251f",
+          "#40403b",
+          "#5d5e58",
+          "#80817b",
+          "#a4a59f",
+          "#cacbc4",
+          "#eeefeb"
+        ]
+      },
+      "rail": {
+        "role": "neutral",
+        "displayName": "Rail Black",
+        "canonical": "oklch(25.4% 0.007 118.3)",
+        "tonalRamp": [
+          "#0b0c08",
+          "#242521",
+          "#3f403c",
+          "#5d5e5a",
+          "#80817c",
+          "#a4a5a0",
+          "#cacbc6",
+          "#eeefec"
+        ]
+      },
+      "viewer-ground": {
+        "role": "neutral",
+        "displayName": "Darkroom",
+        "canonical": "oklch(20.6% 0.012 115.1)",
+        "tonalRamp": [
+          "#0b0c07",
+          "#24251f",
+          "#3f403a",
+          "#5d5e58",
+          "#80817b",
+          "#a4a5a0",
+          "#cacbc6",
+          "#eeefec"
+        ]
+      },
+      "viewer-rule": {
+        "role": "neutral",
+        "displayName": "Darkroom Rule",
+        "canonical": "oklch(35.1% 0.015 117.4)",
+        "tonalRamp": [
+          "#0b0c06",
+          "#23251d",
+          "#3f4138",
+          "#5d5f56",
+          "#7f8179",
+          "#a4a69d",
+          "#caccc4",
+          "#eeefeb"
+        ]
+      },
+      "viewer-text-soft": {
+        "role": "neutral",
+        "displayName": "Darkroom Soft",
+        "canonical": "oklch(78.9% 0.020 116.7)",
+        "tonalRamp": [
+          "#0b0c06",
+          "#23251e",
+          "#3f4138",
+          "#5d5f55",
+          "#7f8276",
+          "#a3a699",
+          "#c9ccbf",
+          "#eeefe9"
+        ]
+      },
+      "viewer-route": {
+        "role": "primary",
+        "displayName": "Darkroom Vermilion",
+        "canonical": "oklch(75.5% 0.151 37.9)",
+        "tonalRamp": [
+          "#270000",
+          "#4b0300",
+          "#702205",
+          "#973e22",
+          "#c35f3f",
+          "#f1805d",
+          "#ffa885",
+          "#ffe0cf"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Title block island name, uppercase; one per page."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Leg and trail names in their insets, uppercase, Chinese name following in Deep Vermilion."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Closing block heading."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Leg prose, max 62ch; optical sizing on."
+      },
+      "quote": {
+        "displayName": "Quote",
+        "purpose": "Italic first-person trail note."
+      },
+      "label": {
+        "displayName": "Lettering",
+        "purpose": "All furniture: facts, legend, plate numbers, badge, links, scale bar; uppercase, tabular figures; also the canvas map lettering (places 600 14/19px, cities 500 12px, peaks italic 500 11.5px, graticule 500 11px)."
+      },
+      "label-zh": {
+        "displayName": "Chinese names",
+        "purpose": "Every Chinese place name and title, after the English name."
+      }
+    },
+    "shadows": [
+      {
+        "name": "inset-double-rule",
+        "value": "0 0 0 3px var(--paper), 0 0 0 3.6px var(--rule), 0 18px 36px -18px rgb(40 36 20 / 0.45)",
+        "purpose": "Title block, leg and trail insets, closing block: printed double neat line plus a soft paper lift."
+      },
+      {
+        "name": "plate-lift",
+        "value": "0 0 0 1px var(--rule), 0 22px 40px -22px rgb(40 36 20 / 0.55)",
+        "purpose": "Plate frames at rest."
+      },
+      {
+        "name": "plate-lift-hover",
+        "value": "0 0 0 1px var(--rule), 0 28px 48px -20px rgb(40 36 20 / 0.6)",
+        "purpose": "Plate frame on hover."
+      },
+      {
+        "name": "phone-window",
+        "value": "0 1px 0 var(--rule), 0 14px 22px -14px rgb(40 36 20 / 0.5)",
+        "purpose": "Bottom edge of the map window on a phone."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-sheet",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The one easing curve for every transition and keyframe."
+      },
+      {
+        "name": "badge-in",
+        "value": "opacity, transform 0.5s",
+        "purpose": "Leg badge fades and drops 6px in."
+      },
+      {
+        "name": "sheet-ready",
+        "value": "opacity 0.8s",
+        "purpose": "Canvas sheet fades in once the island loads."
+      },
+      {
+        "name": "plate-lift",
+        "value": "box-shadow 0.4s",
+        "purpose": "Plate hover lift."
+      },
+      {
+        "name": "viewer-in",
+        "value": "0.45s, opacity 0 and scale 0.985 to rest",
+        "purpose": "Each plate entering the viewer."
+      },
+      {
+        "name": "disclosure",
+        "value": "transform 0.25s",
+        "purpose": "Sources chevron rotation."
+      },
+      {
+        "name": "cue-nudge",
+        "value": "2.4s infinite, 4px",
+        "purpose": "Scroll cue arrow; removed under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "900px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Title Block",
+      "kind": "card",
+      "refersTo": "title-block",
+      "description": "The sheet title block: display name, Chinese title, italic summary, ruled facts grid and transport legend.",
+      "html": "<header class=\"ds-title\"><h1><span class=\"ds-title-name\">Taiwan</span> <span class=\"ds-zh\">臺灣</span></h1><p class=\"ds-title-sum\">A month on the island, plotted as we went.</p><dl class=\"ds-facts\"><div><dt>Surveyed by</dt><dd>Alex &amp; Ting</dd></div><div><dt>Year</dt><dd>2026</dd></div></dl></header>",
+      "css": ".ds-title { background: var(--paper); color: var(--ink); border: 1px solid var(--rule); box-shadow: 0 0 0 3px var(--paper), 0 0 0 3.6px var(--rule), 0 18px 36px -18px rgb(40 36 20 / 0.45); width: 25rem; max-width: 100%; padding: 1.4rem 1.5rem 1.2rem; } .ds-title h1 { margin: 0; line-height: 0.88; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.1em 0.35em; } .ds-title-name { font-family: var(--font-label); font-weight: 600; font-size: 4.2rem; letter-spacing: 0.04em; text-transform: uppercase; } .ds-zh { font-family: var(--font-zh); font-weight: 600; letter-spacing: 0.04em; font-size: 2.2rem; color: var(--route-deep); } .ds-title-sum { font-family: var(--font-text); font-style: italic; font-size: 1.05rem; color: var(--ink-soft); margin: 0.75rem 0 1.1rem; } .ds-facts { font-family: var(--font-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; display: grid; grid-template-columns: 1fr 1fr; margin: 0; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); } .ds-facts div { padding: 0.4rem 0.6rem 0.45rem; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); } .ds-facts dt { font-size: 0.72rem; color: var(--ink-faint); } .ds-facts dd { margin: 0; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.06em; }"
+    },
+    {
+      "name": "Leg Inset",
+      "kind": "card",
+      "refersTo": "inset-card",
+      "description": "A stop on the trip: headline name with Chinese, how-we-got-there line with transport symbol, serif prose, label link.",
+      "html": "<section class=\"ds-inset\"><h2><span class=\"ds-inset-name\">Shifen</span> <span class=\"ds-zh\">十分</span></h2><p class=\"ds-how\"><svg width=\"34\" height=\"12\" viewBox=\"0 0 34 12\" aria-hidden=\"true\"><line x1=\"2\" y1=\"6\" x2=\"32\" y2=\"6\" stroke=\"#e2401c\" stroke-width=\"5\" stroke-linecap=\"round\"/><line x1=\"2\" y1=\"6\" x2=\"32\" y2=\"6\" stroke=\"#fbfbf7\" stroke-width=\"2\" stroke-dasharray=\"6 6\" stroke-dashoffset=\"-3\"/></svg><span>By train from Taipei</span><span class=\"ds-dist\">19 mi</span></p><p class=\"ds-text\">Prose in the travellers&#39; own words sits here in the serif.</p><a class=\"ds-link\" href=\"#\">Open in Google Maps</a></section>",
+      "css": ".ds-inset { background: var(--paper); color: var(--ink); border: 1px solid var(--rule); box-shadow: 0 0 0 3px var(--paper), 0 0 0 3.6px var(--rule), 0 18px 36px -18px rgb(40 36 20 / 0.45); width: 440px; max-width: 100%; padding: 1.1rem 1.4rem 1.2rem; font-family: var(--font-text); font-size: 1.0625rem; line-height: 1.55; } .ds-inset h2 { margin: 0; line-height: 0.95; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.4em; } .ds-inset-name { font-family: var(--font-label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; font-size: 3.2rem; } .ds-zh { font-family: var(--font-zh); font-weight: 600; letter-spacing: 0.04em; font-size: 1.6rem; color: var(--route-deep); } .ds-how { font-family: var(--font-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.7rem; margin: 0.8rem 0 0.2rem; font-size: 0.9rem; letter-spacing: 0.08em; } .ds-dist { margin-left: auto; font-weight: 600; } .ds-text { margin: 0.7rem 0 0; max-width: 62ch; } .ds-link { font-family: var(--font-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; display: inline-block; margin-top: 0.9rem; font-size: 0.8rem; color: var(--route-deep); text-decoration-thickness: 1px; text-underline-offset: 0.2em; } .ds-link:hover { color: var(--route); } .ds-link:focus-visible { outline: 2px solid var(--route); outline-offset: 3px; }"
+    },
+    {
+      "name": "Plate",
+      "kind": "custom",
+      "refersTo": "plate-frame",
+      "description": "A photograph tipped onto the sheet: paper mat, ink ring, registration crosses, ruled caption strip.",
+      "html": "<figure class=\"ds-plate\"><button class=\"ds-plate-frame\" aria-label=\"Open plate 5\"><span class=\"ds-tick ds-tl\"></span><span class=\"ds-tick ds-tr\"></span><span class=\"ds-tick ds-bl\"></span><span class=\"ds-tick ds-br\"></span><span class=\"ds-plate-img\"></span></button><figcaption class=\"ds-plate-cap\"><span class=\"ds-plate-num\">Plate 5</span><span>Shifen 十分</span><span class=\"ds-plate-stand\">Stand-in photo</span></figcaption></figure>",
+      "css": ".ds-plate { margin: 0; width: 320px; } .ds-plate-frame { position: relative; display: block; width: 100%; padding: 8px; border: 0; background: var(--paper); cursor: zoom-in; box-shadow: 0 0 0 1px var(--rule), 0 22px 40px -22px rgb(40 36 20 / 0.55); transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1); } .ds-plate-frame:hover { box-shadow: 0 0 0 1px var(--rule), 0 28px 48px -20px rgb(40 36 20 / 0.6); } .ds-plate-frame:focus-visible { outline: 2px solid var(--route); outline-offset: 3px; } .ds-plate-img { display: block; aspect-ratio: 3 / 2; background: linear-gradient(160deg, #cfe0c4, #93a982); } .ds-tick { position: absolute; width: 14px; height: 14px; } .ds-tick::before, .ds-tick::after { content: ''; position: absolute; background: var(--ink); } .ds-tick::before { width: 14px; height: 1px; top: 7px; } .ds-tick::after { width: 1px; height: 14px; left: 7px; } .ds-tl { top: -11px; left: -11px; } .ds-tr { top: -11px; right: -11px; } .ds-bl { bottom: -11px; left: -11px; } .ds-br { bottom: -11px; right: -11px; } .ds-plate-cap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.75rem; margin-top: 0.85rem; padding: 0.35rem 0.6rem; background: var(--paper); border: 1px solid var(--rule); font-family: var(--font-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; font-size: 0.85rem; line-height: 1.35; } .ds-plate-num { font-weight: 600; font-size: 0.8rem; color: var(--route-deep); } .ds-plate-stand { margin-left: auto; font-size: 0.72rem; color: var(--ink-faint); }"
+    },
+    {
+      "name": "Leg Badge",
+      "kind": "nav",
+      "refersTo": "where-badge",
+      "description": "Fixed where-are-we chip: leg counter, place name and Chinese name.",
+      "html": "<div class=\"ds-where\"><span class=\"ds-where-n\">02<span class=\"ds-where-of\">/8</span></span><span class=\"ds-where-place\">Shifen</span><span class=\"ds-where-zh\">十分</span></div>",
+      "css": ".ds-where { font-family: var(--font-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; display: inline-flex; align-items: baseline; gap: 0.6rem; padding: 0.35rem 0.75rem 0.4rem; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); font-size: 1rem; } .ds-where-n { font-weight: 600; color: var(--route-deep); } .ds-where-of { color: var(--ink-faint); font-weight: 500; } .ds-where-place { font-weight: 600; letter-spacing: 0.1em; } .ds-where-zh { font-family: var(--font-zh); font-weight: 600; letter-spacing: 0.04em; font-size: 0.95rem; text-transform: none; }"
+    },
+    {
+      "name": "Transport Legend",
+      "kind": "chip",
+      "refersTo": "link",
+      "description": "The four legend symbols, drawn identically to the route on the map.",
+      "html": "<ul class=\"ds-legend\"><li><svg width=\"44\" height=\"12\" viewBox=\"0 0 44 12\"><line x1=\"2\" y1=\"6\" x2=\"42\" y2=\"6\" stroke=\"#e2401c\" stroke-width=\"5\" stroke-linecap=\"round\"/><line x1=\"2\" y1=\"6\" x2=\"42\" y2=\"6\" stroke=\"#fbfbf7\" stroke-width=\"2\" stroke-dasharray=\"6 6\" stroke-dashoffset=\"-3\"/></svg>Train</li><li><svg width=\"44\" height=\"12\" viewBox=\"0 0 44 12\"><line x1=\"2\" y1=\"6\" x2=\"42\" y2=\"6\" stroke=\"#e2401c\" stroke-width=\"3.5\" stroke-dasharray=\"8 5\"/></svg>Bus</li><li><svg width=\"44\" height=\"12\" viewBox=\"0 0 44 12\"><line x1=\"2\" y1=\"6\" x2=\"42\" y2=\"6\" stroke=\"#e2401c\" stroke-width=\"4\" stroke-linecap=\"round\"/></svg>Car</li><li><svg width=\"44\" height=\"12\" viewBox=\"0 0 44 12\"><line x1=\"3\" y1=\"6\" x2=\"41\" y2=\"6\" stroke=\"#e2401c\" stroke-width=\"4.5\" stroke-linecap=\"round\" stroke-dasharray=\"0.01 8\"/></svg>On foot</li></ul>",
+      "css": ".ds-legend { font-family: var(--font-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; list-style: none; margin: 0; padding: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem 1rem; font-size: 0.85rem; color: var(--ink); background: var(--paper); width: 22rem; } .ds-legend li { display: flex; align-items: center; gap: 0.6rem; } .ds-legend svg { flex: none; overflow: visible; }"
+    },
+    {
+      "name": "Viewer Button",
+      "kind": "button",
+      "refersTo": "viewer-button",
+      "description": "Square 44px darkroom control with a drawn chevron, in the full-screen plate viewer.",
+      "html": "<div class=\"ds-dark\"><button class=\"ds-vbtn\" aria-label=\"Next plate\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M9 5l7 7-7 7\"/></svg></button><span class=\"ds-vpos\">5 / 18</span></div>",
+      "css": ".ds-dark { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.9rem 1rem; background: #171812; color: #f2f3ec; border-top: 1px solid #3a3c33; } .ds-vbtn { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #4b4d43; background: transparent; color: inherit; cursor: pointer; transition: background 0.2s; } .ds-vbtn:hover { background: #2a2b24; } .ds-vbtn:focus-visible { outline: 2px solid var(--route); outline-offset: 3px; } .ds-vbtn path { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; } .ds-vpos { font-family: var(--font-label); font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; min-width: 4.5rem; text-align: center; font-size: 0.9rem; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Survey Sheet",
+    "overview": "**Creative North Star: \"The Survey Sheet\"**\n\nThe whole page is one offset-printed topographic sheet of Taiwan. Hypsometric land tints, brown contours thickening into the Central Range, water-lined coasts, blue rivers and black-and-white railway are printed as the base. The trip is a single vermilion overprint on top, inked segment by segment as the reader scrolls. The map is rendered live on a canvas behind the story. Every piece of UI is sheet-margin furniture: a neat line with graticule ticks, a title block with a legend, a live scale bar, a locator key map, numbered plates, and a sheet note.\n\nThe system is quiet and exact, like a printed map. There are only a few inks, the corners are square, the rules are hairlines, and every label is set in condensed capitals on a paper halo. The density comes from the cartography, not the chrome. Text sits in paper insets laid onto the sheet, and photographs are plates tipped onto it with registration marks at their corners. The only place the paper world goes dark is the full-screen plate viewer, which works as a darkroom for the photographs.\n\nThe build rejects the category default of a dark vector basemap beside a stack of floating photo cards. Here the base is light and printed, and the photos sit on the map.",
+    "keyCharacteristics": [
+      "One printed sheet behind the whole page, framed by a 26px margin and a double neat line (10px on a phone).",
+      "A single vermilion overprint for everything that belongs to the trip.",
+      "Transport modes are drawn as legend symbols, the same in the legend and on the map.",
+      "Condensed uppercase lettering for all furniture, a serif for the prose, and a Song-style serif for Chinese.",
+      "Square corners everywhere, with 1px ink rules and paper insets."
+    ],
+    "rules": [
+      {
+        "name": "The One Overprint Rule",
+        "body": "Vermilion marks the trip and nothing else: our route, our places, our plate numbers, our counter, our words. Reference geography never takes it. Cities and peaks are lettered in ink and contour brown.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mirrored Inks Rule",
+        "body": "Every colour is a named ink in `palette.js` with a CSS twin in `app.css`. Add or change an ink in both places, never as a literal in a component.",
+        "section": "colors"
+      },
+      {
+        "name": "The Lettering Rule",
+        "body": "Anything that labels, counts or navigates is set in Barlow Condensed capitals, tracked wide. Prose is never set in it, and labels are never set in the serif.",
+        "section": "typography"
+      },
+      {
+        "name": "The Halo Rule",
+        "body": "Map lettering always sits on a 4.5px paper halo stroke, so contours and the route never strike through a word.",
+        "section": "typography"
+      },
+      {
+        "name": "The Bilingual Name Rule",
+        "body": "A place's Chinese name always follows its English name in Noto Serif TC 600, never in the condensed face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Neat Line Rule",
+        "body": "All content lives inside the sheet's frame. The margin band and neat line are drawn on every view, at every zoom.",
+        "section": "layout"
+      },
+      {
+        "name": "The Inset Rule",
+        "body": "Furniture is an inset printed on the sheet: paper ground, an ink neat line, a hairline double rule, and a soft downward lift. No other card treatment exists.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Square Sheet Rule",
+        "body": "No container, button, badge or caption is ever rounded. Roundness belongs only to map symbols.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Legend Symbol Rule",
+        "body": "A mode looks the same in every place it appears. New modes get a new symbol in both drawers at once.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** take every colour from the mirrored inks (`app.css` and `palette.js`), and keep vermilion for the trip (The One Overprint Rule).",
+      "**Do** set all furniture, labels, numbers and navigation in Barlow Condensed capitals at 0.12em tracking with tabular figures.",
+      "**Do** put map lettering on a 4.5px paper halo and the route on an 8px halo.",
+      "**Do** build new UI as sheet furniture: a paper inset with a 1px ink rule, the double-rule ring and the soft lift.",
+      "**Do** present photographs as numbered plates with a paper mat, registration marks and a ruled caption strip.",
+      "**Do** draw icons as stroked SVG at 1.4–1.8px with round caps, in the current text colour.",
+      "**Do** use the one ease, `cubic-bezier(0.16, 1, 0.3, 1)`, and drop looping motion under `prefers-reduced-motion`."
+    ],
+    "donts": [
+      "**Don't** round any container, button, badge or caption corner (The Square Sheet Rule).",
+      "**Don't** letter reference cities, peaks or rivers in vermilion.",
+      "**Don't** draw a transport mode differently on the map and in the legend.",
+      "**Don't** set prose in the condensed face or labels in the serif. Don't set Chinese in anything but Noto Serif TC.",
+      "**Don't** turn the page into a dark vector basemap with floating photo cards. The sheet stays light and printed, and only the plate viewer goes dark.",
+      "**Don't** use glows, coloured shadows or hard offset shadows. The only lift is the soft downward paper shadow."
+    ]
+  }
+}

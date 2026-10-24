@@ -1,0 +1,75 @@
+[
+  {
+    "file": "tea-fields.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 15:35",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0865.heic"
+  },
+  {
+    "file": "tea-farm-yard.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:00",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0866.HEIC"
+  },
+  {
+    "file": "bus-in-the-mist.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:01",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0869.HEIC",
+    "favorite": true
+  },
+  {
+    "file": "bnb-in-the-tea-hills.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:03",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0871.HEIC"
+  },
+  {
+    "file": "coffee-tasting-flight.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 12:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0875.HEIC"
+  },
+  {
+    "file": "wooden-tea-cabinet.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 14:57",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0876.HEIC"
+  },
+  {
+    "file": "tiled-bathtub.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 15:04",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0878.HEIC"
+  },
+  {
+    "file": "flower-tile-wall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 15:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0879.HEIC"
+  }
+]

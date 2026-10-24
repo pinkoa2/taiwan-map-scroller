@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Photo picker · Taiwan</title>
+    <link rel="stylesheet" href="/fonts/barlow/500.css" />
+    <link rel="stylesheet" href="/fonts/barlow/600.css" />
+    <link rel="stylesheet" href="/fonts/serif/opsz.css" />
+    <link rel="stylesheet" href="/fonts/serif/opsz-italic.css" />
+    <link rel="stylesheet" href="/fonts/zh/600.css" />
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <h1 class="lettering">Photo picker <span class="zh">臺灣</span></h1>
+      <p class="status lettering" id="status" aria-live="polite"></p>
+      <div class="actions">
+        <a class="lettering link" href="http://localhost:4317/" target="_blank" rel="noopener">Open the site</a>
+        <button class="lettering primary" id="build">Update site</button>
+      </div>
+    </header>
+
+    <div class="frame">
+      <nav class="places" aria-label="Places">
+        <ol id="places"></ol>
+      </nav>
+
+      <main id="section" tabindex="-1">
+        <p class="loading lettering">Loading the trip…</p>
+      </main>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+[
+  {
+    "file": "ting-at-a-cafe.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 11:27",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0549.HEIC"
+  },
+  {
+    "file": "thirteen-levels-ruins.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:28",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0550.HEIC",
+    "favorite": true
+  },
+  {
+    "file": "coast-road.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:33",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0553.HEIC"
+  },
+  {
+    "file": "yin-yang-sea-coast.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:33",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0552.HEIC"
+  },
+  {
+    "file": "coastal-hills.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:38",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0557.HEIC"
+  },
+  {
+    "file": "ting-on-the-road-to-the-ruins.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:42",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0559.HEIC"
+  },
+  {
+    "file": "smelter-ruins.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:42",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0558.HEIC"
+  },
+  {
+    "file": "blue-window-house.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 13:52",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0562.HEIC"
+  },
+  {
+    "file": "ting-at-the-bus-stop.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 13:59",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0563.HEIC"
+  },
+  {
+    "file": "golden-waterfall-hills.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 14:11",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0565.HEIC"
+  },
+  {
+    "file": "golden-waterfall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 14:11",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0566.HEIC"
+  }
+]

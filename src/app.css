@@ -1,0 +1,128 @@
+/* Survey Sheet: the page is one printed topographic sheet of Taiwan.
+   Colours mirror src/lib/map/palette.js. */
+
+:root {
+  --margin: #f2f3ec;
+  --paper: #fbfbf7;
+  --ink: #1d1f1a;
+  --ink-soft: #474b40;
+  --ink-faint: #5d6155;
+  --rule: #1d1f1a;
+  --sea: #d3e5ec;
+  --land: #dde7cc;
+  --contour: #93602f;
+  --route: #e2401c;
+  --route-deep: #a92c0e;
+  --wash: #f5e6dc;
+
+  --font-label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-text: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, serif;
+  --font-zh: 'Noto Serif TC', 'Songti TC', serif;
+
+  /* the sheet's neat-line margin */
+  --edge: 26px;
+  --column: min(440px, 38vw);
+  --gap: 1.5rem;
+
+  color-scheme: light;
+}
+
+@media (max-width: 899px) {
+  :root {
+    --edge: 10px;
+    --column: auto;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--margin);
+  -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--ink-soft) var(--margin);
+}
+
+body {
+  margin: 0;
+  background: var(--margin);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--route);
+  color: var(--paper);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--route-deep);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--route);
+}
+
+:focus-visible {
+  outline: 2px solid var(--route);
+  outline-offset: 3px;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.zh {
+  font-family: var(--font-zh);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Map lettering: condensed capitals, set wide. */
+.lettering {
+  font-family: var(--font-label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* An inset printed on the sheet: paper, a fine neat line and a hairline
+   double rule, lifted a little off the map. */
+.inset {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  box-shadow:
+    0 0 0 3px var(--paper),
+    0 0 0 3.6px var(--rule),
+    0 18px 36px -18px rgb(40 36 20 / 0.45);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Phone deck: settle back onto a deck after a stray scroll (App, Story). */
+html.deck-snap {
+  scroll-snap-type: y proximity;
+}

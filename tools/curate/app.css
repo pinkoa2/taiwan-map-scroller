@@ -1,0 +1,682 @@
+/* The photo picker: the site's survey-sheet inks on a working table. */
+
+:root {
+  --margin: #f2f3ec;
+  --paper: #fbfbf7;
+  --ink: #1d1f1a;
+  --ink-soft: #474b40;
+  --ink-faint: #5d6155;
+  --rule: #1d1f1a;
+  --hair: rgb(29 31 26 / 0.14);
+  --route: #e2401c;
+  --route-deep: #a92c0e;
+  --wash: #fbe9e2;
+  --font-label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-text: 'Source Serif 4 Variable', Georgia, serif;
+  --font-zh: 'Noto Serif TC', serif;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--margin);
+  scrollbar-color: var(--ink-soft) var(--margin);
+}
+
+body {
+  margin: 0;
+  background: var(--margin);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+::selection {
+  background: var(--route);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--route);
+  outline-offset: 2px;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+.lettering {
+  font-family: var(--font-label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.zh {
+  font-family: var(--font-zh);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* Top bar */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.7rem 1.4rem;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+
+.bar h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.bar h1 .zh {
+  color: var(--route-deep);
+  font-size: 1.1rem;
+  margin-left: 0.3rem;
+}
+
+.status {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+}
+
+.status.bad {
+  color: var(--route-deep);
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.link {
+  font-size: 0.85rem;
+  color: var(--route-deep);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--route);
+}
+
+.primary {
+  padding: 0.45rem 1rem 0.5rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.primary:hover {
+  background: var(--route-deep);
+  border-color: var(--route-deep);
+}
+
+.primary:disabled {
+  background: var(--ink-faint);
+  border-color: var(--ink-faint);
+  cursor: progress;
+}
+
+/* Places down the left, the chosen place's photos on the right. */
+.frame {
+  display: grid;
+  grid-template-columns: 15.5rem 1fr;
+  min-height: calc(100vh - 3.4rem);
+}
+
+.places {
+  position: sticky;
+  top: 3.4rem;
+  align-self: start;
+  max-height: calc(100vh - 3.4rem);
+  overflow-y: auto;
+  border-right: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.places ol {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0;
+}
+
+.places button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.1rem 0.6rem;
+  width: 100%;
+  padding: 0.6rem 1.1rem;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.places button:hover {
+  background: var(--wash);
+}
+
+.places [aria-current='true'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.places [aria-current='true'] .count,
+.places [aria-current='true'] .when {
+  color: #d8dacf;
+}
+
+.places .name {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.places .walk .name {
+  padding-left: 1rem;
+  font-weight: 500;
+}
+
+.places .zh {
+  font-size: 0.85rem;
+  margin-left: 0.35rem;
+}
+
+.places .count {
+  grid-row: span 2;
+  align-self: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--route-deep);
+}
+
+.places .when {
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+}
+
+.places .walk .when {
+  padding-left: 1rem;
+}
+
+.places .intro {
+  border-bottom: 1px solid var(--hair);
+  margin-bottom: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+main {
+  padding: 1.8rem 2rem 4rem;
+  min-width: 0;
+}
+
+main:focus {
+  outline: none;
+}
+
+.loading {
+  color: var(--ink-faint);
+}
+
+/* The section head: the place, its description, and the filter. */
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 30rem);
+  gap: 1rem 2.5rem;
+  align-items: start;
+  margin-bottom: 1.8rem;
+}
+
+.head h2 {
+  margin: 0;
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 2.8rem;
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.head h2 .zh {
+  font-size: 1.5rem;
+  color: var(--route-deep);
+  margin-left: 0.5rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.2rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+
+.meta strong {
+  color: var(--route-deep);
+  font-weight: 600;
+}
+
+.hint {
+  margin: 0.9rem 0 0;
+  max-width: 42ch;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.field span {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+
+textarea,
+input[type='text'] {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-bottom-color: var(--ink-faint);
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+
+textarea:focus,
+input[type='text']:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #8a8d82;
+  font-style: italic;
+}
+
+.description textarea {
+  min-height: 7.5rem;
+  font-size: 1.02rem;
+}
+
+.filter {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.filter button {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--hair);
+  background: var(--paper);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.filter button[aria-pressed='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.filter .gap {
+  flex: 1;
+}
+
+.filter .label {
+  margin-right: 0.2rem;
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+}
+
+.filter .clear {
+  margin-left: 0.8rem;
+  border: 0;
+  background: none;
+  color: var(--route-deep);
+}
+
+.filter .clear:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* The cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.4rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  box-shadow:
+    0 0 0 1px var(--hair),
+    0 8px 18px -14px rgb(40 36 20 / 0.5);
+  transition: box-shadow 0.2s;
+}
+
+.card.picked {
+  box-shadow:
+    0 0 0 2px var(--route),
+    0 12px 24px -14px rgb(169 44 14 / 0.45);
+}
+
+.photo {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #e7e9e1;
+  cursor: pointer;
+  aspect-ratio: 4 / 3;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.2s;
+}
+
+.card:not(.picked) .photo img {
+  opacity: 0.82;
+}
+
+.card:not(.picked) .photo:hover img {
+  opacity: 1;
+}
+
+/* The pick number: 1 is first on the page. */
+.badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  background: var(--route);
+  color: var(--paper);
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.3);
+}
+
+.badge.empty {
+  background: rgb(251 251 247 / 0.9);
+  color: var(--ink-faint);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.photo:hover .badge.empty,
+.photo:focus-visible .badge.empty {
+  opacity: 1;
+}
+
+.kind {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  background: rgb(29 31 26 / 0.8);
+  color: var(--paper);
+  font-size: 0.72rem;
+}
+
+.body {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.7rem 0.75rem 0.8rem;
+}
+
+.when-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* The photo's time: quiet until it's missing. */
+.when-row input[type='datetime-local'] {
+  min-width: 0;
+  padding: 0.15rem 0.3rem;
+  border: 1px solid transparent;
+  background: none;
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+}
+
+.when-row input[type='datetime-local']:hover,
+.when-row input[type='datetime-local']:focus {
+  border-color: var(--hair);
+  background: var(--paper);
+  outline: none;
+}
+
+.when-row input.missing {
+  border-color: var(--route);
+  color: var(--route-deep);
+}
+
+.body select {
+  width: 100%;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--hair);
+  background: var(--paper);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.body select:hover {
+  border-color: var(--ink-faint);
+}
+
+.move {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.move button {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid var(--hair);
+  background: var(--paper);
+  cursor: pointer;
+}
+
+.move button:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+
+.move button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.move svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.body textarea {
+  min-height: 2.6rem;
+  font-size: 0.9rem;
+}
+
+.empty-note {
+  padding: 3rem 0;
+  color: var(--ink-faint);
+}
+
+@media (max-width: 760px) {
+  .frame {
+    grid-template-columns: 1fr;
+  }
+
+  .places {
+    position: static;
+    max-height: none;
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .head {
+    grid-template-columns: 1fr;
+  }
+
+  main {
+    padding: 1.2rem 1rem 3rem;
+  }
+
+  .bar {
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+  }
+}
+
+/* The favourite star: on picked cards, top-right over the photo. */
+.card {
+  position: relative;
+}
+
+.star {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(251 251 247 / 0.9);
+  color: var(--ink-faint);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.2s,
+    color 0.2s,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.star svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.card:hover .star,
+.star:focus-visible,
+.star.on {
+  opacity: 1;
+}
+
+.star:hover {
+  color: var(--route-deep);
+  transform: scale(1.08);
+}
+
+.star.on {
+  background: var(--route);
+  color: var(--paper);
+}
+
+.star.on svg {
+  fill: currentColor;
+}
+
+.star[hidden] {
+  display: none;
+}
+
+/* The favourite's card wears a route-red ring. */
+.card.favorite .photo {
+  outline: 3px solid var(--route);
+  outline-offset: -3px;
+}
+
+/* New photos (from the latest import): a count in the places list, a tag on
+   each card, and a New filter until the place is marked seen. */
+.places .fresh {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--route-deep);
+}
+
+.places .fresh[hidden] {
+  display: none;
+}
+
+.places [aria-current='true'] .fresh {
+  color: #ffb59c;
+}
+
+.new-tag {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.12rem 0.45rem;
+  background: var(--route);
+  color: var(--paper);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.filter .seen {
+  margin-left: 0.4rem;
+}

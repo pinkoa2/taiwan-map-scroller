@@ -1,0 +1,121 @@
+[
+  {
+    "file": "view-from-jiufen.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 17:39",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0517.HEIC"
+  },
+  {
+    "file": "lantern-stairs.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 18:54",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0520.HEIC"
+  },
+  {
+    "file": "stone-stairs-at-night.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 18:55",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0522.HEIC"
+  },
+  {
+    "file": "red-lantern-alley.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:08",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0523.HEIC",
+    "favorite": true
+  },
+  {
+    "file": "lanterns-over-the-old-street.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:09",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0524.HEIC"
+  },
+  {
+    "file": "teahouse-lanterns.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:11",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0525.HEIC"
+  },
+  {
+    "file": "lantern-lit-steps.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:37",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0528.HEIC"
+  },
+  {
+    "file": "jiufen-lights-at-night.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:39",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0529.HEIC"
+  },
+  {
+    "file": "crowded-lantern-lane.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:46",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0533.HEIC"
+  },
+  {
+    "file": "ting-on-the-steps.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:47",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0536.HEIC"
+  },
+  {
+    "file": "dinner-in-jiufen.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 20:03",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0539.MOV",
+    "poster": "dinner-in-jiufen-poster.jpg"
+  },
+  {
+    "file": "taiwan-beer-over-the-lanterns.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 20:04",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0541.HEIC"
+  },
+  {
+    "file": "selfie-in-jiufen.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 20:26",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0545.HEIC"
+  }
+]

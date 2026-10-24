@@ -1,0 +1,120 @@
+[
+  {
+    "file": "bonsai-at-the-visitor-center.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 13:12",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0574.HEIC"
+  },
+  {
+    "file": "bonsai-display.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 13:14",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0575.HEIC"
+  },
+  {
+    "file": "sun-moon-lake.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 13:16",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0577.HEIC"
+  },
+  {
+    "file": "lake-under-clouds.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:18",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0582.HEIC"
+  },
+  {
+    "file": "lakeside-rock.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:22",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0583.HEIC"
+  },
+  {
+    "file": "boat-on-the-lake.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:48",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0585.HEIC"
+  },
+  {
+    "file": "alex-with-a-bike.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:50",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0587.HEIC"
+  },
+  {
+    "file": "ting-with-a-bike.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:51",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0592.HEIC"
+  },
+  {
+    "file": "selfie-by-the-lake.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:54",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0594.HEIC"
+  },
+  {
+    "file": "hillside-pier.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 16:27",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0596.HEIC"
+  },
+  {
+    "file": "lakeside-hotels.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 16:28",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0597.HEIC",
+    "favorite": true
+  },
+  {
+    "file": "paddling-at-sunset.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 16:47",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0600.HEIC"
+  },
+  {
+    "file": "ting-paddling-into-the-sunset.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 16:57",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0608.HEIC"
+  }
+]

@@ -1,0 +1,310 @@
+[
+  {
+    "file": "taoyuan-airport-arrival.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 05:45",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0380.HEIC"
+  },
+  {
+    "file": "upside-down-airport-selfie.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 05:56",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5648.JPEG"
+  },
+  {
+    "file": "landed-at-taoyuan-airport.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 06:00",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5651.JPEG"
+  },
+  {
+    "file": "first-taipei-street.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 09:36",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0386.HEIC"
+  },
+  {
+    "file": "selfie-under-taipei-101.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 09:53",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5665.JPG"
+  },
+  {
+    "file": "taipei-101.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 09:53",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0387.HEIC"
+  },
+  {
+    "file": "looking-up-taipei-101.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 09:56",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0388.HEIC"
+  },
+  {
+    "file": "view-from-taipei-101.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 10:14",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0392.HEIC"
+  },
+  {
+    "file": "hello-from-taipei-101.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 10:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0395.HEIC"
+  },
+  {
+    "file": "taipei-101-tuned-mass-damper.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 10:21",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0397.HEIC"
+  },
+  {
+    "file": "taipei-at-night.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 18:31",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0399.HEIC"
+  },
+  {
+    "file": "alex-in-sunglasses.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 20:45",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5689.JPG"
+  },
+  {
+    "file": "liberty-square-gate.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:45",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0404.HEIC",
+    "favorite": true
+  },
+  {
+    "file": "chiang-kai-shek-memorial-hall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:50",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0407.HEIC"
+  },
+  {
+    "file": "memorial-hall-from-the-lawn.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:52",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0409.HEIC"
+  },
+  {
+    "file": "liberty-square-gardens.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:56",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0411.HEIC"
+  },
+  {
+    "file": "chiang-kai-shek-statue.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:58",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0412.HEIC"
+  },
+  {
+    "file": "museum-room.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 11:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0415.HEIC"
+  },
+  {
+    "file": "national-theater-plaza.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 12:49",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0417.HEIC"
+  },
+  {
+    "file": "alex-at-the-national-concert-hall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 12:52",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5706.JPG"
+  },
+  {
+    "file": "concert-hall-and-memorial.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 12:54",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0418.HEIC"
+  },
+  {
+    "file": "red-umbrella-garden.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 14:29",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0421.HEIC"
+  },
+  {
+    "file": "neighbourhood-temple.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 15:56",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0422.HEIC"
+  },
+  {
+    "file": "ting-on-a-quiet-lane.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 16:37",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0425.HEIC"
+  },
+  {
+    "file": "walking-down-a-taipei-lane.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 16:37",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0429.MOV",
+    "poster": "walking-down-a-taipei-lane-poster.jpg"
+  },
+  {
+    "file": "river-sunset.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 16:58",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0430.HEIC"
+  },
+  {
+    "file": "ting-at-the-river-sunset.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 16:59",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0432.HEIC"
+  },
+  {
+    "file": "sun-setting-over-the-river.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 17:01",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0433.HEIC"
+  },
+  {
+    "file": "sunset-selfie-by-the-river.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 17:02",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5718.JPG"
+  },
+  {
+    "file": "beer-by-the-river.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 17:28",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0435.HEIC"
+  },
+  {
+    "file": "ting-at-a-record-bar.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 10:40",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0440.HEIC"
+  },
+  {
+    "file": "coffee-and-dessert.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 10:44",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0441.HEIC"
+  },
+  {
+    "file": "conveyor-belt-sushi.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 13:34",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0442.HEIC"
+  },
+  {
+    "file": "selfie-on-the-mrt.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 14:53",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0445.HEIC"
+  }
+]
