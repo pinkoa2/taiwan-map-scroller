@@ -10,7 +10,11 @@
 //                                       title card's ("intro")
 // Nothing else is touched. "Update site" rebuilds the preview (dist/).
 //
-// No dependencies beyond Node.
+// Photos are read from the Drive zip (photos/photos.zip, `npm run
+// photos:download`) through scripts/photo-source.js, the same as the build.
+// The grid's previews are made from it on demand and kept in .cache/previews/.
+// Files in the zip that no place lists yet go to an "Unsorted" section
+// (content/media/unsorted/photos.json), to be moved to their place.
 
 import http from 'node:http'
 import fs from 'node:fs/promises'
@@ -18,17 +22,21 @@ import { existsSync, createReadStream } from 'node:fs'
 import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import crypto from 'node:crypto'
+import sharp from 'sharp'
+import { openZip, locate, still, videoFile, videoPoster, isLivePart } from '../../scripts/photo-source.js'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(here, '../..')
 const content = path.join(root, 'content')
 const media = path.join(content, 'media')
-const thumbs = path.join(root, '.generated/public/m')
+const previews = path.join(root, '.cache/previews')
 const descFile = path.join(content, 'descriptions.json')
 const orderFile = path.join(content, 'order.json')
 const MEDIA = /\.(jpe?g|png|webp|mp4|mov|webm|m4v)$/i
 const VIDEO = /\.(mp4|mov|webm|m4v)$/i
 const PORT = Number(process.env.PORT) || 4318
+const UNSORTED = 'unsorted'
 
 const readJSON = async (file, fallback) => (existsSync(file) ? JSON.parse(await fs.readFile(file, 'utf8')) : fallback)
 const writeJSON = (file, data) => fs.writeFile(file, JSON.stringify(data, null, 2) + '\n')
@@ -45,16 +53,63 @@ async function sections() {
       out.push({ id: f, folder: f, name: leg.walk.name, zh: leg.walk.zh ?? '', when: leg.walk.when ?? '', kind: 'walk', text: leg.walk.text ?? '' })
     }
   }
+  await sortNew(out)
+  if ((await readJSON(path.join(media, UNSORTED, 'photos.json'), [])).length)
+    out.push({ id: UNSORTED, folder: UNSORTED, name: 'Unsorted', zh: '', when: 'New in the zip', kind: 'place', text: '' })
   return out
 }
 
-// A small preview for the grid: the site's 640px WebP when it's been built,
-// otherwise the file itself.
-function thumb(folder, entry) {
-  const still = entry.poster ?? entry.file
-  const base = still.replace(/\.[^.]+$/, '')
-  return existsSync(path.join(thumbs, folder, `${base}-640.webp`)) ? `/thumb/${folder}/${base}-640.webp` : `/media/${folder}/${still}`
+// Files in the zip that no place lists yet, added to Unsorted with no time,
+// marked new. Live Photos' moving parts are left out.
+async function sortNew(sections) {
+  const z = await openZip()
+  if (!z) return
+  const listed = new Set()
+  for (const f of [...sections.map((s) => s.folder).filter(Boolean), UNSORTED])
+    for (const p of await readJSON(path.join(media, f, 'photos.json'), [])) if (p.original) listed.add(p.original.toUpperCase())
+  const fresh = [...z.byName.keys()].filter((n) => !listed.has(n) && !isLivePart(n, z.byName) && /\.(hei[cf]|jpe?g|png|mp4|mov|m4v)$/i.test(n))
+  if (!fresh.length) return
+  const file = path.join(media, UNSORTED, 'photos.json')
+  const list = await readJSON(file, [])
+  for (const n of fresh.sort()) {
+    const original = path.posix.basename(z.byName.get(n).fileName)
+    list.push({ file: original.toLowerCase().replace(/_/g, '-'), caption: '', comment: '', taken: '', pick: false, show: true, original, new: true })
+  }
+  await fs.mkdir(path.dirname(file), { recursive: true })
+  await writeJSON(file, list)
 }
+
+// A small preview for the grid, made from the zip (or content/media) on
+// first use and kept in .cache/previews/. One at a time: a HEIC decodes to
+// about 100 MB of pixels.
+let queue = Promise.resolve()
+async function preview(folder, file) {
+  const entry = (await readJSON(path.join(media, folder, 'photos.json'), [])).find((p) => p.file === file)
+  const src = entry && (await locate(folder, entry))
+  if (!src) return null
+  const out = path.join(previews, crypto.createHash('sha1').update(src.key).digest('hex').slice(0, 12) + '.jpg')
+  if (existsSync(out)) return out
+  const job = queue.then(async () => {
+    if (existsSync(out)) return
+    await fs.mkdir(previews, { recursive: true })
+    if (VIDEO.test(src.name)) {
+      const video = await videoFile(src)
+      try {
+        await videoPoster(video.file, out + '.frame.jpg')
+        await sharp(out + '.frame.jpg').resize({ width: 640 }).jpeg({ quality: 78 }).toFile(out)
+        await fs.rm(out + '.frame.jpg')
+      } finally {
+        await video.done()
+      }
+    } else {
+      await (await still(src)).resize({ width: 640 }).jpeg({ quality: 78 }).toFile(out)
+    }
+  })
+  queue = job.catch(() => {})
+  await job
+  return out
+}
+const thumb = (folder, entry) => `/preview/${folder}/${encodeURIComponent(entry.file)}`
 
 // A folder's photos.json, plus any media files dropped into the folder that
 // it doesn't list yet (added with no time, marked new; fill the time in later
@@ -95,30 +150,33 @@ async function load() {
 // caption, note, time and pick. A clashing name gets -2, -3….
 async function move({ from, to, file }) {
   for (const f of [from, to]) if (!/^[a-z0-9-]+$/.test(f) || !existsSync(path.join(media, f))) throw new Error('bad place')
+  if (to === UNSORTED) throw new Error('pick a place')
   if (from === to) return
   const src = await readJSON(path.join(media, from, 'photos.json'), [])
   const i = src.findIndex((p) => p.file === file)
   if (i < 0) throw new Error(`no ${file} in ${from}`)
   const entry = src[i]
+  const dest = await readJSON(path.join(media, to, 'photos.json'), [])
   const free = (name) => {
     const ext = path.extname(name)
     const stem = name.slice(0, -ext.length)
     let n = 1
     let out = name
-    while (existsSync(path.join(media, to, out))) out = `${stem}-${++n}${ext}`
+    while (existsSync(path.join(media, to, out)) || dest.some((p) => p.file === out)) out = `${stem}-${++n}${ext}`
     return out
   }
   const newFile = free(entry.file)
-  await fs.rename(path.join(media, from, entry.file), path.join(media, to, newFile))
   const moved = { ...entry, file: newFile }
-  if (entry.poster) {
+  // Photos in the zip only change places in the JSON. An old copy in
+  // content/media (and a video's poster) moves along with it.
+  if (existsSync(path.join(media, from, entry.file))) await fs.rename(path.join(media, from, entry.file), path.join(media, to, newFile))
+  if (entry.poster && existsSync(path.join(media, from, entry.poster))) {
     const newPoster = newFile.replace(/\.[^.]+$/, '-poster.jpg')
     await fs.rename(path.join(media, from, entry.poster), path.join(media, to, newPoster))
     moved.poster = newPoster
   }
   src.splice(i, 1)
   await writeJSON(path.join(media, from, 'photos.json'), src)
-  const dest = await readJSON(path.join(media, to, 'photos.json'), [])
   dest.push(moved)
   await writeJSON(path.join(media, to, 'photos.json'), dest)
 }
@@ -233,9 +291,13 @@ http
         return send(res, 200, JSON.stringify(build), 'application/json')
       }
       if (p === '/api/build') return send(res, 200, JSON.stringify(build), 'application/json')
+      if (p.startsWith('/preview/')) {
+        const [folder, file] = p.slice(9).split('/').map(decodeURIComponent)
+        const out = /^[a-z0-9-]+$/.test(folder ?? '') && (await preview(folder, file))
+        return out ? serveFile(res, out) : send(res, 404, 'Not found')
+      }
       for (const [prefix, base] of [
         ['/media/', media],
-        ['/thumb/', thumbs],
         ...Object.entries(fonts).map(([k, v]) => [`/fonts/${k}/`, v]),
       ]) {
         if (p.startsWith(prefix)) {

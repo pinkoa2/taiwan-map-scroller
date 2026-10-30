@@ -396,7 +396,7 @@ function card(s, p) {
   time.value = toInput(p.taken)
 
   // Send it to another place: the file moves folders with its words and pick.
-  const others = state.sections.filter((o) => o.folder && o !== s)
+  const others = state.sections.filter((o) => o.folder && o !== s && o.folder !== 'unsorted')
   const moveTo = h(
     'select',
     {

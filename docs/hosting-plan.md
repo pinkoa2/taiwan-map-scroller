@@ -1,6 +1,6 @@
 # Hosting plan: photos out of the repo, site on a Linode
 
-**Status: planned, not built.** Nothing below exists yet. Today the site still deploys as described in [how-it-works.md](how-it-works.md#deploying): photos committed in `content/media/`, built by GitHub Actions, served by GitHub Pages. The command names below are proposals.
+**Status: partly built (Oct 30, 2026).** Done: the zip download, the build and picker reading the zip, picks only, the old photo copies removed, and the GitHub Actions workflow removed. GitHub Pages still serves the last version it published. Not done yet: the Linode, the service account and `deploy`. Command names not yet built are proposals.
 
 ## Why
 
@@ -115,7 +115,12 @@ This also avoids the "can't scan for viruses" page and the download quota that p
 
 **For now (Oct 30, 2026):** the zip is a single file shared as "Anyone with the link", and the link is in `.env` as `PHOTOS_ZIP_URL` (`.env` is gitignored; `.env.example` shows the name). It has no `VITE_` prefix, so Vite never puts it in the page. A script can get the file ID from the link and download it from `drive.usercontent.google.com/download?id=<id>&export=download&confirm=t`. Move to the service account before the build runs on its own.
 
-**Built so far:** `npm run photos:download` (`scripts/download-photos.js`) downloads that zip to `photos/photos.zip` (gitignored), with a progress bar (percent, size, speed, time left). It writes to `photos.zip.part` and renames it only once complete, so a stopped download never leaves a half zip in place; run it again to start over. No dependencies. Measured Oct 30, 2026: 2.81 GB at about 7.5 MB/s, about 6 minutes. Next: extract the photos from it.
+**Built so far (Oct 30, 2026):**
+
+- `npm run photos:download` (`scripts/download-photos.js`) downloads that zip to `photos/photos.zip` (gitignored), with a progress bar (percent, size, speed, time left). It writes to `photos.zip.part` and renames it only once complete, so a stopped download never leaves a half zip in place; run it again to start over. No dependencies. Measured Oct 30, 2026: 2.81 GB at about 7.5 MB/s, about 6 minutes.
+- **The build and the picker read the zip** (`scripts/photo-source.js`). Entries are matched by their existing `original` field (the file's name in the zip), so no `source` field was needed: the zip is one flat folder. Only picks are built; `?display=all` is gone. Built files are fingerprinted and cached (`.cache/photos.json`); a first build of 92 picks took about 4.5 minutes, a rebuild with nothing new about 2 seconds. The picker makes its grid previews from the zip on demand, lists unknown zip files under Unsorted, and "Move to…" only edits JSON. See [how-it-works.md](how-it-works.md#photos).
+- The old copies in `content/media/` were removed (Oct 30, 2026, the user asked); only the AllTrails screenshot, which isn't in the zip, stays. Without a zip the build now stops with an error, so **the live site stays as it was** until the build moves to the Linode. The GitHub Actions workflow (`.github/workflows/deploy.yml`) was removed the same day, since it couldn't build without the zip.
+- The zip as downloaded: 491 files in `Taiwan 2026/`: 251 HEIC, 219 MP4 (all Live Photo parts of a HEIC), 14 MOV (the real videos), 7 JPEG/PNG. 272 of 273 entries were found; the AllTrails screenshot isn't in the zip and is read from `content/media/`.
 
 **Fallbacks** if the service account is ever a problem:
 - Share the zip as "Anyone with the link" just for the build, then unshare. The link opens every original, GPS included, to anyone who has it, so don't leave it on.
@@ -138,10 +143,10 @@ A separate page should let the Linode be rebuilt from scratch:
 ## Moving over (to-do when built)
 
 1. Set up the Linode, the service account and `Taiwan site/` in Drive; point a test subdomain at the Linode.
-2. Add `photos:import` and `deploy`; switch `prepare-trip.js` to picks only, `source` paths and fingerprinted names.
-3. Map the existing entries' `original` names (e.g. `IMG_0517.HEIC`) to their paths in the zip.
-4. Remove `?display=all` from `App.svelte`; review picks in the picker.
-5. Switch DNS, then remove `.github/workflows/deploy.yml` and turn off Pages.
+2. Add `deploy`. ~~Switch `prepare-trip.js` to picks only and fingerprinted names~~ (done; `photos:import` turned out unnecessary: the picker reads the zip directly).
+3. ~~Map the existing entries to the zip~~ (done: `original` already matches).
+4. ~~Remove `?display=all` from `App.svelte`~~ (done); review picks in the picker.
+5. Switch DNS, then turn off Pages in the repo's settings. (~~Remove `.github/workflows/deploy.yml`~~: done Oct 30, 2026. Pages still serves the last published version; don't turn it off before DNS points at the Linode.)
 6. Stop committing `content/media/` photos (keep the JSON) and make the repo private. Optionally rewrite git history to drop the 158 MB already committed.
 7. Update `how-it-works.md` and `CLAUDE.md`.
 

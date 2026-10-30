@@ -23,7 +23,7 @@ npm run build           # → dist/
 
 `npm run dev` and `npm run build` first run `scripts/prepare-trip.js`, which:
 
-- resizes every photo into WebP sizes (640/960/1400/2000) with blurred placeholders
+- turns each **picked** photo into WebP sizes (640/960/1400/2000) with a blurred placeholder, and each picked video into a web copy with a poster (see Photos)
 - routes each leg by its mode: trains along OpenStreetMap rail lines, buses and cars by OSRM, flights and ferries as arcs; a hike is drawn from the OSM trail of that name
 - outlines the island from the AWS Terrain Tiles at sea level (the map is kept minimal and fast; `CLOSE_UPS` in the script and the old contour code in `scripts/terrain.js` can bring terrain back)
 - fetches cities, the trail and its features from OpenStreetMap
@@ -46,18 +46,31 @@ Everything on the page comes from `content/trip.js`; the comment at its top list
 
 ## Photos
 
-Each place has a folder, `content/media/<leg id>/` (the hike's is `mianyue-line/`), holding its photos and videos and a `photos.json` that lists them in display order:
+The photos come from a zip of the Google Drive folder (the originals), downloaded once:
 
-```json
-{ "file": "red-lantern-alley.jpg", "caption": "", "comment": "", "taken": "2026-10-15 19:02", "show": true, "original": "IMG_0523.HEIC" }
+```bash
+npm run photos:download   # → photos/photos.zip (not committed), with a progress bar
 ```
 
+The link is `PHOTOS_ZIP_URL` in `.env` (copy `.env.example`). Run it again whenever the Drive folder has new or changed photos.
+
+Each place has a folder, `content/media/<leg id>/` (the hike's is `mianyue-line/`), with a `photos.json` listing its photos in display order:
+
+```json
+{ "file": "red-lantern-alley.jpg", "caption": "", "comment": "", "taken": "2026-10-15 19:02", "pick": true, "show": true, "original": "IMG_0523.HEIC" }
+```
+
+- `original` is the file's name in the zip; that's how the build finds it. `file` is the photo's name on the site.
+- **Only `pick: true` photos are built and published.** Everything else stays on your machine.
 - `caption` shows under the photo; `comment` shows when it's opened full screen.
-- `pick: true` marks the few photos shown by default. Add `?display=all` to the page's address to see every photo.
 - `favorite: true` (one per place, on a pick) is the photo that place's deck of prints opens on.
-- `show: false` hides a photo even from `?display=all`, but keeps the file. Reorder entries to reorder the page.
-- Videos are `.mp4` with a `poster` frame; they play in the full-screen viewer.
-- Adding photos: compress first (max 2000px, metadata/GPS stripped), drop the file in the folder and add an entry to `photos.json`.
+- `show: false` hides a photo even if picked. Reorder entries to reorder the page (in a place set to custom order).
+- Videos (`.MOV` in the zip) become H.264 web copies with a poster frame; they play in the full-screen viewer.
+- All metadata, GPS included, is stripped from what's built.
+- A photo the zip doesn't have (a screenshot added by hand, like `mianyue-line/alltrails-mianyue-line.jpg`) is kept in `content/media/<place>/<file>` and read from there. Everything else lives only in the zip: the old copies were removed on Oct 30, 2026 (they're still in git history).
+- **Without the zip the build stops** with an error rather than publish a site without photos. Build on a machine that has the zip.
+
+Building is `scripts/photo-source.js` (reading the zip, iPhone HEIC via `heic-decode`, videos via `ffmpeg`) plus the photo part of `prepare-trip.js`. Each built file carries a fingerprint of its source, so a photo is converted once (about 1.5 s each, longer for a video) and only again when it changes; `.cache/photos.json` remembers the sizes. Files for photos no longer picked are removed. `ffmpeg` must be installed.
 
 ## Photo picker
 
@@ -71,7 +84,9 @@ A small local app for choosing each place's photos and writing the words:
 - Each photo card has a caption and an optional note.
 - Each place has a description box.
 
-Photos run in the order they were taken. A place can be set to its own order with the arrows on a picked photo. Each card's time can be changed, and its "Move to…" menu sends the photo to another place. Photos dropped into a place's folder later show up by themselves, ready for a time.
+It shows every photo and video in the zip, picked or not. The grid's previews are made from the zip the first time each is shown (about 1.5 s each) and kept in `.cache/previews/`, so the first look at a place is slower.
+
+Photos run in the order they were taken. A place can be set to its own order with the arrows on a picked photo. Each card's time can be changed, and its "Move to…" menu sends the photo to another place (only the JSON changes; the zip is never touched). Files in a newer zip that no place lists yet appear in an **Unsorted** section, marked New and with no time; move each to its place. (Live Photos' short `.MP4` parts are left out.)
 
 Everything saves by itself into `content/media/<place>/photos.json`, `content/order.json` and `content/descriptions.json`, which are part of the repo, so commit them as usual. "Update site" rebuilds the preview.
 
@@ -81,7 +96,7 @@ Tap the place badge in the corner for the list of stops. Every stop has its own 
 
 ## Deploying
 
-Live at https://taiwan.pinkoa2.lol/ (repo `pinkoa2/taiwan-map-scroller`). `.github/workflows/deploy.yml` builds the site and publishes `dist/` to GitHub Pages on every push to `main`; a build takes about 5 minutes, most of it resizing the photos. Pages uses "GitHub Actions" as its source, with HTTPS enforced. The `CNAME` comes from `subdomain` in `trip.js` (`taiwan.pinkoa2.lol`), which points at `pinkoa2.github.io` at Porkbun.
+Live at https://taiwan.pinkoa2.lol/ (repo `pinkoa2/taiwan-map-scroller`). **Between hosts (since Oct 30, 2026):** the GitHub Actions workflow that built and published the site on every push was removed, since it can't reach the photos zip. GitHub Pages keeps serving the last version it published, so pushing no longer changes the live site. It moves to a Linode next ([hosting-plan.md](hosting-plan.md)); until then, don't turn Pages off, or the site goes down. Pages has HTTPS enforced. The `CNAME` comes from `subdomain` in `trip.js` (`taiwan.pinkoa2.lol`), which points at `pinkoa2.github.io` at Porkbun.
 
 A move to a Linode, with the photos kept out of the repo, is planned in [hosting-plan.md](hosting-plan.md).
 

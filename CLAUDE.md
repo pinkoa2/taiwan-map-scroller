@@ -11,7 +11,8 @@ The sibling project `/home/alex/projects/iceland-postcards` is the reference for
 - `README.md`: just the live link and one line (the user asked, Oct 23, 2026). The working notes (how to run, build, edit content, add photos and deploy) moved to `docs/how-it-works.md`; keep that file current.
 - `docs/hosting-plan.md`: **planned, not built (Oct 30, 2026).** Photos out of git (Google Drive is the source of truth). A stateless build on a Linode downloads a zip from a Drive folder through a service account (never a public link), only when needed, builds picks only (`?display=all` to be removed), deletes the zip and serves the site with Caddy. The repo goes private once off Pages. Theorised with the user; build it only when asked.
 - `.env` (gitignored; `.env.example` is committed): `PHOTOS_ZIP_URL`, the photos zip's public Google Drive link (Oct 30, 2026, temporary until the service account). Never commit it or prefix it `VITE_`.
-- `npm run photos:download` (`scripts/download-photos.js`): downloads that zip to `photos/photos.zip` (gitignored) with a progress bar. The first step of the hosting plan; extracting comes next.
+- `npm run photos:download` (`scripts/download-photos.js`): downloads that zip to `photos/photos.zip` (gitignored) with a progress bar.
+- **Photos come from the zip (Oct 30, 2026, the user asked).** `scripts/photo-source.js` finds each entry by its `original` name in the zip (HEIC via `heic-decode`, since sharp can't read iPhone HEIC; videos via `ffmpeg`), or from `content/media/<place>/<file>` when the zip lacks it (only `mianyue-line/alltrails-mianyue-line.jpg` now: the other 286 copies were deleted on Oct 30, 2026 at the user's request; they're in git history). Without a zip the build throws. **The GitHub Actions workflow was removed (Oct 30, 2026, the user asked)**; GitHub Pages keeps serving its last deploy, so the live site is frozen until the Linode is up. Don't turn Pages off before then. **Only picks are built; `?display=all` was removed.** Built files are fingerprinted and cached in `.cache/photos.json`. The picker makes previews from the zip (`.cache/previews/`) and lists unknown zip files under Unsorted (`content/media/unsorted/photos.json`).
 - `.impeccable/surfaces/src-app-svelte.md`: the page's design plan (direction contract).
 - `content/trip.js`: the itinerary. Its header comment lists every field.
 - `content/media/<place>/photos.json`: each place's photos, in order, with captions and comments.
@@ -32,7 +33,7 @@ The sibling project `/home/alex/projects/iceland-postcards` is the reference for
   - `base.json`: OSM cities, peaks, the Mianyue trail and its features.
   - `sheets/*.json`: the island outline.
   - `.cache/` holds raw downloads (gitignored).
-- **`scripts/prepare-trip.js`** (with `terrain.js` and `osm.js`) builds `.generated/`: `trip.json`, `public/geo/*` and `public/m/*` (WebP photo sizes 640/960/1400/2000 at quality 74, plus the videos). It runs before `npm run dev` and `npm run build`.
+- **`scripts/prepare-trip.js`** (with `terrain.js` and `osm.js`) builds `.generated/`: `trip.json`, `public/geo/*` and `public/m/*` (WebP sizes 640/960/1400/2000 at quality 74 of the **picked** photos only, read from the zip, plus H.264 copies of picked videos). It runs before `npm run dev` and `npm run build`.
 - **`src/App.svelte`** runs the scroll story.
   - `src/lib/story.js` turns legs into steps; each step changes either the camera or the ink.
   - `src/lib/map/sheet.js` draws the canvas map, and `palette.js` holds its colours (mirrored as CSS tokens in `src/app.css`).
@@ -101,8 +102,8 @@ A small local app the user asked for (Oct 23, 2026) to choose photos and write t
 - **Click a photo to pick it**, and again to drop it; numbers show its place among the picks. "Picked only" and "Clear picks" are there too.
 - **Favourite (the user asked, Oct 23, 2026):** a star at the top-right of each picked card (shows on hover, stays lit when set). Starring one makes it the place's favourite and un-stars any other there; dropping the pick drops the star. Saved as `"favorite": true` on that entry in photos.json (only on a pick). The site's deck for that place **opens on the favourite** (`start` in App's `prints`), and the warm-up fetches from it onward. Photo order doesn't change: swiping carries on from the favourite and loops round. No favourite: the deck opens on the first photo.
 - **Each card's time is editable** (a datetime field; it's red when missing), for screenshots or anything added later. Changing it re-sorts the place.
-- **Move to another place:** each card's "Move to…" menu moves the file (and a video's poster) into that place's folder, along with its caption, note, time and pick. Name clashes get -2, -3….
-- **New files:** any photo or video dropped into a place's folder that photos.json doesn't list is added automatically when the picker loads, with no time and marked new; set the time in the picker. (Compress first: max 2000px, metadata stripped.)
+- **Move to another place:** each card's "Move to…" menu moves the entry to that place's photos.json, with its caption, note, time and pick (and the old local copy in content/media, if any). The zip is never touched. Name clashes get -2, -3….
+- **New files:** files in the zip that no place lists go to an **Unsorted** section (marked new, no time) when the picker loads; move each to its place and set its time. Live Photo `.MP4` parts are skipped. A file dropped into a place's folder by hand is still picked up too.
 - **New photos (the user asked, Oct 23, 2026, ahead of a big second import):** entries carry `"new": true` until seen.
   - The places list shows "12 new" under a place's name. A place has a **New N** filter showing just those, and each card wears a red "New" tag.
   - **Mark all seen** clears them for that place (the field is removed from photos.json).
@@ -113,7 +114,7 @@ A small local app the user asked for (Oct 23, 2026) to choose photos and write t
   - `content/media/<place>/photos.json`: picks first in pick order, then the rest by time taken; `pick`, `caption`, `comment`, `favorite`. Other fields are kept.
   - `content/descriptions.json`: `{ "<place id or walk folder>": "text" }`. prepare-trip.js prefers it over `text` in trip.js.
 - **"Update site"** runs `node scripts/prepare-trip.js && npx vite build`, so the preview (`vite preview` on :4317) shows the changes after a reload.
-- Grid thumbnails come from the built 640px WebP when present.
+- Grid previews are made from the zip on first view (about 1.5 s per HEIC) and cached in `.cache/previews/`.
 
 ## Getting around (the user picked this, Oct 23, 2026)
 
@@ -232,8 +233,8 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
   - **Dedupe:** skip exact duplicates (by hash) across devices and "(1)" copies; skip Live Photo `.MOV` companions; take JPEG over RAW.
   - **New places:** the batch includes new stops (Tainan, Kaohsiung, maybe more). Ask the user for the dates and how they travelled, add the legs to trip.js, and fetch their routes.
   - Everything goes in unpicked with `new: true`, sorted by time, for the user to review in the picker's New filter.
-  - **Size limit to keep in mind:** a published GitHub Pages site is capped at 1 GB. The built site is about 1.25 MB per photo (four WebP sizes; `dist` was 279 MB for 223 photos on Oct 23, 2026), so the cap is reached at roughly 800 photos. The user expects to stay under 800. After the import, check `du -sh dist`. If it's getting close, either build only picked photos (this breaks `?display=all`, which the user wants to keep) or skip the 2000px size for unpicked photos (keeps display=all).
-- **Picks (Oct 23, 2026):** by default the page shows only `pick: true` photos. Claude made a first pick of 53, about 3–6 per stop and 12 for the hike (the user asked for "only the absolute necessary" by default). **`?display=all`** in the URL shows every photo (222); the user wants to keep that option. `show: false` hides a photo even from display=all. The filtering is in `App.svelte`; `pick` comes through prepare-trip.js.
+  - **Size limit to keep in mind:** a published GitHub Pages site is capped at 1 GB. The built site is about 1.25 MB per photo (four WebP sizes; `dist` was 279 MB for 223 photos on Oct 23, 2026), so the cap is reached at roughly 800 photos. The user expects to stay under 800. After the import, check `du -sh dist`. Since Oct 30, 2026 only picks are built (92 picks: `dist` 130 MB), so this is far off.
+- **Picks (Oct 23, 2026):** by default the page shows only `pick: true` photos. Claude made a first pick of 53, about 3–6 per stop and 12 for the hike (the user asked for "only the absolute necessary" by default). `?display=all` used to show every photo; the user dropped it on Oct 30, 2026 (unpicked photos shouldn't be public), and prepare-trip.js now builds picks only. `show: false` hides even a pick.
 - **Captions and comments are all empty.** The user will write them in the photo picker (`npm run curate`).
 - Stand-in Wikimedia photos and `scripts/mock-photos.js` were removed.
 
@@ -255,7 +256,7 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 4. [x] Real photos imported and named, with dates, day trips, the metro mode and video playback (Oct 23, 2026).
 5. [ ] **Next:** the user uses the photo picker (`npm run curate`) to review the 53 picks, write captions and notes, and write the place descriptions. Captions were first planned as one-by-one sessions with Claude; the picker now covers that, but offer to help draft captions if asked.
 6. [x] Kaohsiung and Tainan added (Oct 30, 2026), from the second download. Their photos are all unpicked and marked new, so their decks are empty on the default page until the user picks in the photo picker.
-7. [x] **Deployed (Oct 23, 2026).** The user set up git and pushed to `pinkoa2/taiwan-map-scroller` (public; SSH remote `git@github.com:pinkoa2/taiwan-map-scroller.git`). Pages is enabled with "GitHub Actions" as its source (`.github/workflows/deploy.yml`, about 5 minutes per build) and the custom domain `taiwan.pinkoa2.lol` (Porkbun CNAME → `pinkoa2.github.io`), with HTTPS enforced. Every push to `main` redeploys. **The user does their own pushes**; commit or push only when asked.
+7. [x] **Deployed (Oct 23, 2026).** The user set up git and pushed to `pinkoa2/taiwan-map-scroller` (public; SSH remote `git@github.com:pinkoa2/taiwan-map-scroller.git`). Pages is enabled with "GitHub Actions" as its source and the custom domain `taiwan.pinkoa2.lol` (Porkbun CNAME → `pinkoa2.github.io`), with HTTPS enforced. Pushes used to redeploy through `.github/workflows/deploy.yml`; that workflow was removed on Oct 30, 2026 (no zip on GitHub), so pushes no longer change the live site. **The user does their own pushes**; commit or push only when asked.
 8. [ ] **Move hosting to a Linode** per `docs/hosting-plan.md` (not started).
 
 ## Known leftovers

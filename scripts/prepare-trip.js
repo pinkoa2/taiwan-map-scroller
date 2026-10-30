@@ -1,6 +1,6 @@
 // Turns content/ into everything the page needs at build time:
 //   .generated/trip.json      the manifest the Svelte app imports
-//   .generated/public/m/      responsive WebP photo sizes
+//   .generated/public/m/      responsive WebP sizes of the picked photos
 //   .generated/public/geo/    the island outline
 //
 // Network is only touched when something isn't cached yet. The results are
@@ -13,23 +13,28 @@
 // Usage: npm run prepare-trip (dev and build run it first)
 
 import fs from 'node:fs/promises'
-import { existsSync, statSync } from 'node:fs'
+import { existsSync } from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import { pathToFileURL, fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 import { geoTransverseMercator } from 'd3-geo'
+import { openZip, locate, still, videoFile, encodeVideo, videoPoster, VIDEO, mediaDir } from './photo-source.js'
 import { contourSheet, tileCount, simplify, encode } from './terrain.js'
 import { overpass, waysToLines, graph, nearest, shortestPath, osrm, lineKm, haversineKm, components, bridgeGaps } from './osm.js'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const contentDir = path.join(root, 'content')
-const mediaDir = path.join(contentDir, 'media')
 const geoDir = path.join(contentDir, 'geo')
 const cacheDir = path.join(root, '.cache')
 const outDir = path.join(root, '.generated')
 const pubDir = path.join(outDir, 'public')
 const trip = (await import(pathToFileURL(path.join(contentDir, 'trip.js')).href + `?t=${Date.now()}`)).default
+
+// Without the zip there's nothing to build photos from (content/media keeps
+// only files the zip doesn't have), so stop before touching anything rather
+// than publish a site without photos.
+if (!(await openZip())) throw new Error('No photos/photos.zip. Run `npm run photos:download` first.')
 
 await fs.rm(path.join(pubDir, 'geo'), { recursive: true, force: true })
 await fs.mkdir(path.join(pubDir, 'geo'), { recursive: true })
@@ -50,69 +55,99 @@ const SHEET = [119.3, 21.85, 122.05, 25.35]
 console.log('Preparing the trip')
 
 // ---------- photos ----------
+// Only picked photos are built. Each is read from the Drive zip by its
+// `original` name (scripts/photo-source.js), or from content/media when the
+// zip doesn't have it. Built files carry a short fingerprint of the source,
+// so a photo is only converted again when it changes; what each one needs
+// (size, placeholder) is remembered in .cache/photos.json.
 
 // 960 is what a phone's deck print needs (its density capped at 2×), 1400 a
 // desktop print, 2000 the full-screen viewer.
 const WIDTHS = [640, 960, 1400, 2000]
 const QUALITY = 74
-const fresh = (src, out) => existsSync(out) && statSync(out).mtimeMs >= statSync(src).mtimeMs
+const builtFile = path.join(cacheDir, 'photos.json')
+const built = await readJSON(builtFile, {})
+const written = new Set()
+let converted = 0
 
-// A still photo, or a video's poster frame, in responsive WebP sizes.
-async function image(rel) {
-  const src = path.join(mediaDir, rel)
-  const meta = await sharp(src).rotate().metadata()
+
+// A still in responsive WebP sizes, named <base>.<print>-<width>.webp.
+async function webps(img, base, print) {
+  const meta = await img.metadata()
   const turned = (meta.orientation ?? 1) >= 5
   const w = turned ? meta.height : meta.width
   const h = turned ? meta.width : meta.height
-  const base = rel.replace(/\.[^.]+$/, '')
   const widths = WIDTHS.filter((x) => x < w).concat(w <= WIDTHS.at(-1) ? [w] : []).slice(0, WIDTHS.length)
-  const srcset = []
+  const files = []
   for (const width of widths) {
-    const name = `m/${base}-${width}.webp`
-    const out = path.join(pubDir, name)
-    if (!fresh(src, out)) {
-      await fs.mkdir(path.dirname(out), { recursive: true })
-      await sharp(src).rotate().resize({ width }).webp({ quality: QUALITY }).toFile(out)
+    const name = `m/${base}.${print}-${width}.webp`
+    await fs.mkdir(path.dirname(path.join(pubDir, name)), { recursive: true })
+    await img.clone().resize({ width }).webp({ quality: QUALITY }).toFile(path.join(pubDir, name))
+    files.push([name, width])
+  }
+  const tiny = await img.clone().resize(20).blur(1.5).webp({ quality: 40 }).toBuffer()
+  return { w, h, files, placeholder: `data:image/webp;base64,${tiny.toString('base64')}` }
+}
+
+// A photo, or a video and its poster frame, built unless already there.
+async function build(folder, p, src) {
+  const base = `${folder}/${p.file.replace(/\.[^.]+$/, '')}`
+  const print = crypto.createHash('sha1').update(src.key).digest('hex').slice(0, 8)
+  const id = `${base}.${print}`
+  const have = built[id]
+  if (have && [...have.files.map(([f]) => f), have.video].filter(Boolean).every((f) => existsSync(path.join(pubDir, f)))) return have
+  converted++
+  let out
+  if (VIDEO.test(p.file)) {
+    const video = await videoFile(src)
+    try {
+      const name = `m/${id}.mp4`
+      await fs.mkdir(path.dirname(path.join(pubDir, name)), { recursive: true })
+      // A local copy is already a web copy (from the first import); one from the zip is the original.
+      if (src.local) await fs.copyFile(video.file, path.join(pubDir, name))
+      else await encodeVideo(video.file, path.join(pubDir, name))
+      // An old local copy has its poster beside it, so no ffmpeg is needed (CI).
+      const kept = src.local && p.poster && path.join(mediaDir, folder, p.poster)
+      if (kept && existsSync(kept)) out = { ...(await webps(sharp(kept).rotate(), base, print)), video: name }
+      else {
+        const poster = path.join(cacheDir, `${print}-poster.jpg`)
+        await fs.mkdir(cacheDir, { recursive: true })
+        await videoPoster(video.file, poster)
+        out = { ...(await webps(sharp(poster), base, print)), video: name }
+        await fs.rm(poster)
+      }
+    } finally {
+      await video.done()
     }
-    srcset.push(`/${name} ${width}w`)
+  } else {
+    out = await webps(await still(src), base, print)
   }
-  const tiny = await sharp(src).rotate().resize(20).blur(1.5).webp({ quality: 40 }).toBuffer()
-  return {
-    w,
-    h,
-    src: srcset.at(-1).split(' ')[0],
-    srcset: srcset.join(', '),
-    placeholder: `data:image/webp;base64,${tiny.toString('base64')}`,
-  }
+  built[id] = out
+  await writeJSON(builtFile, built)
+  return out
 }
 
 // One entry from a folder's photos.json → what the page needs.
 async function photo(folder, p) {
-  const rel = `${folder}/${p.file}`
-  if (!existsSync(path.join(mediaDir, rel))) {
-    console.warn(`  ! missing content/media/${rel}; skipped`)
+  const src = await locate(folder, p)
+  if (!src) {
+    console.warn(`  ! ${folder}/${p.file} (${p.original ?? 'no original'}) is in neither the zip nor content/media; skipped`)
     return null
   }
-  const video = /\.(mp4|mov|webm|m4v)$/i.test(p.file)
-  if (video && !p.poster) throw new Error(`Video ${rel} needs a poster image`)
-  const still = await image(video ? `${folder}/${p.poster}` : rel)
-  let videoSrc = null
-  if (video) {
-    const out = path.join(pubDir, 'm', rel)
-    if (!fresh(path.join(mediaDir, rel), out)) {
-      await fs.mkdir(path.dirname(out), { recursive: true })
-      await fs.copyFile(path.join(mediaDir, rel), out)
-    }
-    videoSrc = `/m/${rel}`
-  }
+  const b = await build(folder, p, src)
+  for (const f of [...b.files.map(([f]) => f), b.video].filter(Boolean)) written.add(f)
   return {
-    ...still,
+    w: b.w,
+    h: b.h,
+    src: '/' + b.files.at(-1)[0],
+    srcset: b.files.map(([f, w]) => `/${f} ${w}w`).join(', '),
+    placeholder: b.placeholder,
     file: p.file,
-    video: videoSrc,
+    video: b.video ? '/' + b.video : null,
     caption: p.caption || null,
     comment: p.comment || null,
     taken: p.taken ?? null,
-    pick: p.pick === true,
+    pick: true,
     // The place's favourite: its deck of prints opens on it.
     favorite: p.favorite === true,
     alt: p.alt || p.caption || p.file.replace(/\.[^.]+$/, '').replace(/-/g, ' '),
@@ -125,12 +160,12 @@ async function photo(folder, p) {
 const orders = await readJSON(path.join(contentDir, 'order.json'), {})
 const byTaken = (a, b) => (a.taken ? (b.taken ? a.taken.localeCompare(b.taken) : -1) : b.taken ? 1 : 0)
 
-// Every shown photo in a place's folder.
+// A place's picked photos (`pick: true`; `show: false` still hides one).
 async function photosIn(folder) {
   let list = await readJSON(path.join(mediaDir, folder, 'photos.json'), [])
   if (orders[folder] !== 'custom') list = [...list].sort(byTaken)
   const out = []
-  for (const p of list) if (p.show !== false) out.push(await photo(folder, p))
+  for (const p of list) if (p.pick === true && p.show !== false) out.push(await photo(folder, p))
   return out.filter(Boolean)
 }
 
@@ -476,9 +511,24 @@ for (const l of legs) for (const s of l.segments) byMode[s.mode] = (byMode[s.mod
 for (const l of legs) if (l.walk?.miles) byMode.walk = (byMode.walk ?? 0) + (unit === 'mi' ? l.walk.miles : l.walk.miles * 1.609)
 for (const k in byMode) byMode[k] = Math.round(byMode[k])
 
-const coverSrc = path.join(mediaDir, trip.cover)
-if (!existsSync(coverSrc)) throw new Error(`Missing cover photo content/media/${trip.cover}`)
-await sharp(coverSrc).rotate().resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 82 }).toFile(path.join(pubDir, 'og.jpg'))
+// The link-preview photo: `cover` is "<folder>/<file>", as listed in that folder's photos.json.
+const [coverFolder, coverName] = trip.cover.split('/')
+const coverEntry = (await readJSON(path.join(mediaDir, coverFolder, 'photos.json'), [])).find((p) => p.file === coverName) ?? { file: coverName }
+const coverSrc = await locate(coverFolder, coverEntry)
+if (!coverSrc) throw new Error(`Missing cover photo ${trip.cover}`)
+await (await still(coverSrc)).resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 82 }).toFile(path.join(pubDir, 'og.jpg'))
+
+// Built photos no longer picked (or replaced by a newer version) are removed.
+async function prune(dir) {
+  for (const d of await fs.readdir(dir, { withFileTypes: true }).catch(() => [])) {
+    const f = path.join(dir, d.name)
+    if (d.isDirectory()) await prune(f)
+    else if (!written.has(path.relative(pubDir, f).split(path.sep).join('/'))) await fs.rm(f)
+  }
+}
+await prune(path.join(pubDir, 'm'))
+for (const id of Object.keys(built)) if (!built[id].files.every(([f]) => written.has(f))) delete built[id]
+await writeJSON(builtFile, built)
 if (trip.subdomain) await fs.writeFile(path.join(pubDir, 'CNAME'), trip.subdomain + '\n')
 await fs.writeFile(
   path.join(pubDir, 'favicon.svg'),
@@ -506,4 +556,4 @@ const manifest = {
 }
 await writeJSON(path.join(outDir, 'trip.json'), manifest)
 const nPhotos = legs.reduce((a, l) => a + l.photos.length + (l.walk?.photos.length ?? 0), 0)
-console.log(`  ${legs.length} legs · ${nPhotos} photos · ${Object.entries(byMode).map(([k, v]) => `${v} ${unit} ${k}`).join(' · ')}`)
+console.log(`  ${legs.length} legs · ${nPhotos} picked photos (${converted} converted) · ${Object.entries(byMode).map(([k, v]) => `${v} ${unit} ${k}`).join(' · ')}`)

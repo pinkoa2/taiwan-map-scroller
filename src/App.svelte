@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte'
-  import allTrip from 'virtual:trip'
+  import trip from 'virtual:trip'
   import SheetMap from './lib/SheetMap.svelte'
   import Viewer from './lib/Viewer.svelte'
   import Story from './lib/Story.svelte'
@@ -13,15 +13,6 @@
   import Stops from './lib/Stops.svelte'
   import TrailStats from './lib/TrailStats.svelte'
   import { buildRoute, buildSteps, viewAt } from './lib/story.js'
-
-  // By default each place shows only its picked photos (`pick` in photos.json);
-  // ?display=all shows every one.
-  const showAll = typeof location !== 'undefined' && new URLSearchParams(location.search).get('display') === 'all'
-  const pickOf = (list) => (showAll ? list : list.filter((p) => p.pick))
-  const trip = {
-    ...allTrip,
-    legs: allTrip.legs.map((l) => ({ ...l, photos: pickOf(l.photos), walk: l.walk ? { ...l.walk, photos: pickOf(l.walk.photos) } : null })),
-  }
 
   const route = buildRoute(trip)
   const steps = buildSteps(trip)
