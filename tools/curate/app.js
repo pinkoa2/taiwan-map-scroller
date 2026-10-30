@@ -425,7 +425,18 @@ function card(s, p) {
     h(
       'button',
       { class: 'photo', onclick: toggle, 'aria-label': `${p.file}: pick or drop` },
-      h('img', { src: p.thumb, alt: p.file.replace(/\.[^.]+$/, '').replace(/-/g, ' '), loading: 'lazy', decoding: 'async' }),
+      // Previews are made from the zip one at a time on first view, so a wheel
+      // turns until each arrives (or says so if it can't be made).
+      h('span', { class: 'loading', 'aria-hidden': 'true' }),
+      h('span', { class: 'failed lettering' }, 'No preview'),
+      h('img', {
+        src: p.thumb,
+        alt: p.file.replace(/\.[^.]+$/, '').replace(/-/g, ' '),
+        loading: 'lazy',
+        decoding: 'async',
+        onload: (e) => e.target.parentElement.classList.add('loaded'),
+        onerror: (e) => e.target.parentElement.classList.add('failed'),
+      }),
       badge,
       p.video ? h('span', { class: 'kind lettering' }, 'Video') : null,
       p.new ? h('span', { class: 'new-tag lettering' }, 'New') : null,

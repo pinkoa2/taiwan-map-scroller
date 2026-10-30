@@ -1,7 +1,9 @@
 <script>
   // The title card (wide screens): Taiwan, and a line about the trip. The
   // line is written in the photo picker (Title card).
-  let { trip } = $props()
+  import Onward from './Onward.svelte'
+
+  let { trip, onward } = $props()
 </script>
 
 <header class="block inset">
@@ -11,12 +13,9 @@
   </h1>
   {#each trip.summary.split(/\n\s*\n/).filter(Boolean) as line}<p class="summary">{line}</p>{/each}
 
-  <p class="cue lettering">
-    Scroll to follow the route
-    <svg viewBox="0 0 12 18" width="12" height="18" aria-hidden="true">
-      <path d="M6 1v15M1 11l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5" />
-    </svg>
-  </p>
+  <div class="cue">
+    <Onward label="Follow the route" note="Click, or just scroll" onclick={onward} />
+  </div>
 </header>
 
 <style>
@@ -57,33 +56,7 @@
 
   .cue {
     margin: 1.2rem 0 0;
-    padding-top: 0.8rem;
+    padding-top: 0.9rem;
     border-top: 1px solid var(--rule);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    color: var(--route-deep);
-  }
-
-  .cue svg {
-    animation: nudge 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  }
-
-  @keyframes nudge {
-    0%,
-    60%,
-    100% {
-      transform: translateY(0);
-    }
-    30% {
-      transform: translateY(4px);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .cue svg {
-      animation: none;
-    }
   }
 </style>

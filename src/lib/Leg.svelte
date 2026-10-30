@@ -5,11 +5,13 @@
   import Plate from './Plate.svelte'
   import Symbol from './Symbol.svelte'
   import LanternString from './LanternString.svelte'
+  import Onward from './Onward.svelte'
   import { howWeGotThere } from './modes.js'
 
   // layout 'scatter': the photos are drawn by Scatter over the map; this leg
   // only gives them room to drop in as you scroll. 'over-map': two columns.
-  let { leg, plates, open, layout = 'over-map' } = $props()
+  // onward(): glide on to the next stop; nextAfter(step key) names it.
+  let { leg, plates, open, layout = 'over-map', onward, back, nextAfter } = $props()
   // Room to linger over the prints: a little more for a bigger pile. The
   // deck is flipped by hand, so it needs only a fixed stretch to scroll past.
   const room = (n) => (layout === 'deck' ? '110svh' : `${Math.min(n, 12) * 7 + 70}svh`)
@@ -18,6 +20,14 @@
   const paragraphs = leg.text.split(/\n\s*\n/).filter(Boolean)
   const placeName = `${leg.name}${leg.zh ? ' ' + leg.zh : ''}`
   const sizes = '(min-width: 900px) 34vw, 100vw'
+  // The card's ↓: on to its photos, or (none picked yet) the next stop.
+  const ahead = (list, key) => {
+    if (list.length) return { label: `${list.length} photo${list.length === 1 ? '' : 's'}` }
+    const next = nextAfter(key)
+    return next ? { label: next.name, zh: next.zh } : null
+  }
+  const toPhotos = ahead(leg.photos, `${leg.id}-here`)
+  const toWalkPhotos = leg.walk ? ahead(leg.walk.photos, `${leg.id}-walked`) : null
 </script>
 
 <article class="leg" id={leg.id} aria-labelledby="{leg.id}-name">
@@ -28,7 +38,9 @@
     <div class="lead"></div>
   {/if}
 
-  <section class="inset card">
+  <!-- data-stop: the page rests on this card once the route between these
+       steps has landed (this far through, see story.js viewAt). -->
+  <section class="inset card" data-stop={leg.segments.length ? `${leg.id}-travel ${leg.id}-travelled 0.96` : undefined}>
     <h2 id="{leg.id}-name">
       <span class="name">{leg.name}</span>
       {#if leg.zh}<span class="zh" lang="zh-Hant">{leg.zh}</span>{/if}
@@ -53,11 +65,16 @@
 
     {#each paragraphs as p}<p class="text">{p}</p>{/each}
 
-    <a class="lettering maps" href={leg.gmaps} target="_blank" rel="noopener">Open in Google Maps</a>
+    <div class="foot">
+      <a class="lettering maps" href={leg.gmaps} target="_blank" rel="noopener">Open in Google Maps</a>
+      {#if toPhotos}<Onward {...toPhotos} onclick={onward} onback={back} />{/if}
+    </div>
   </section>
 
   {#if leg.segments.length}
-    <div class="pause"></div>
+    <!-- Short, so the route lands while the whole card is still on screen:
+         the page rests there (glide.js). -->
+    <div class="pause landing"></div>
     <div class="mark" data-step="{leg.id}-travelled"></div>
   {/if}
   <div class="pause short"></div>
@@ -81,7 +98,7 @@
     {@const walk = leg.walk}
     <div class="pause"></div>
     <div class="mark" data-step="{leg.id}-walk"></div>
-    <section class="inset card walk" aria-labelledby="{leg.id}-walk">
+    <section class="inset card walk" aria-labelledby="{leg.id}-walk" data-stop="{leg.id}-walk {leg.id}-walked 0.81">
       <h3 id="{leg.id}-walk">
         <span class="name">{walk.name}</span>
         {#if walk.zh}<span class="zh" lang="zh-Hant">{walk.zh}</span>{/if}
@@ -96,8 +113,9 @@
           {#if walk.by}<footer class="lettering">{walk.by}</footer>{/if}
         </blockquote>
       {/if}
+      {#if toWalkPhotos}<div class="foot"><Onward {...toWalkPhotos} onclick={onward} onback={back} /></div>{/if}
     </section>
-    <div class="pause long"></div>
+    <div class="pause landing"></div>
     <div class="mark" data-step="{leg.id}-walked"></div>
     <div class="pause short"></div>
     {#if layout === 'scatter' || layout === 'deck'}
@@ -151,6 +169,10 @@
 
   .pause.long {
     height: 60svh;
+  }
+
+  .pause.landing {
+    height: 6svh;
   }
 
   /* Just under the screen's foot as the route sets off (the reading line
@@ -217,9 +239,19 @@
     max-width: 62ch;
   }
 
+  /* The card's foot: the map link, and the ↓ on to what's next. */
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem 1.2rem;
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--rule);
+  }
+
   .maps {
-    display: inline-block;
-    margin-top: 0.9rem;
     font-size: 0.8rem;
   }
 

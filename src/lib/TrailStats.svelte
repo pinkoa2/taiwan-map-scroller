@@ -1,13 +1,15 @@
 <script>
   // A hike's stats as a card pinned beside the trail while the footsteps
   // draw: the headline figures, then each mile's pace as a bar.
-  let { stats, name, wide } = $props()
+  // low (phones): the hike's page is up and the trail sits in a band at the
+  // top, so the card moves down into the open map between them.
+  let { stats, name, wide, low = false } = $props()
 
   const secs = (pace) => pace.split(':').reduce((a, n) => a * 60 + Number(n), 0)
   const slowest = Math.max(...(stats.splits ?? []).map((s) => secs(s[1])))
 </script>
 
-<figure class="stats" class:wide>
+<figure class="stats" class:wide class:low>
   <p class="title lettering">{name}</p>
   <dl class="figures">
     {#each stats.figures as [label, value]}
@@ -53,6 +55,11 @@
       0 18px 30px -14px rgb(40 36 20 / 0.55);
     pointer-events: none;
     animation: drop 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .stats.low:not(.wide) {
+    top: calc(26svh + env(safe-area-inset-top));
   }
 
   .stats.wide {
@@ -186,6 +193,7 @@
   @media (prefers-reduced-motion: reduce) {
     .stats {
       animation: none;
+      transition: none;
     }
   }
 </style>

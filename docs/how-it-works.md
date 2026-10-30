@@ -2,7 +2,7 @@
 
 Working notes for the site: running it, editing the trip, photos, the picker and deploying.
 
-Our month in Taiwan (2026) as one scrolling page, plotted on a minimal survey-sheet map of the island (a flat outline, no elevation). As you scroll, the route is inked in vermilion leg by leg and the map moves to each place, where its photos land as a deck of prints to swipe through. At Alishan the map drops to a close-up of the Mianyue Line and draws the hike on foot.
+Our month in Taiwan (2026) as one scrolling page, plotted on a minimal survey-sheet map of the island (a flat outline, no elevation). As you scroll, the route is inked in vermilion leg by leg and the map moves to each place, where its photos land as a deck of prints to swipe through. The page rests at each place's words and each deck; scroll on (or tap the ↓ button) and it glides itself to the next one, so each route draws in one smooth move (`src/lib/glide.js`). At Alishan the map drops to a close-up of the Mianyue Line and draws the hike on foot.
 
 ```
 content/

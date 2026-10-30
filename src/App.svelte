@@ -13,6 +13,7 @@
   import Stops from './lib/Stops.svelte'
   import TrailStats from './lib/TrailStats.svelte'
   import { buildRoute, buildSteps, viewAt } from './lib/story.js'
+  import { glider } from './lib/glide.js'
 
   // A place's favourite (starred in the picker) leads its photos, so its pile
   // opens on it as photo 1; the rest follow in their order (the user asked).
@@ -129,13 +130,18 @@
   })
   // The reading line: a step starts as its marker crosses it.
   const line = $derived(overMap ? h * 0.55 : h * 0.5)
-  const story = $derived(viewAt(steps, p, focus, overMap && wideLayout === 'deck' ? 0.74 : phoneDeck ? (i) => holds[i] ?? 0 : 0))
+  const hold = $derived(overMap && wideLayout === 'deck' ? 0.74 : phoneDeck ? (i) => holds[i] ?? 0 : 0)
+  const story = $derived(viewAt(steps, p, focus, hold))
   const here = $derived(story.at >= 0 ? trip.legs[story.at] : null)
 
-  // A hike's stats screenshot, shown beside the trail while its footsteps draw.
+  // A hike's stats, shown beside the trail while its footsteps draw and on
+  // beside the hike's card or page (where the page rests) until its photos
+  // land (the user asked, Oct 30, 2026).
   const trailStats = $derived.by(() => {
     const s = steps[Math.floor(p)]
-    if (!s || !s.key.endsWith('-walk') || p - Math.floor(p) < 0.04) return null
+    if (!s) return null
+    const drawing = s.key.endsWith('-walk') && p - Math.floor(p) >= 0.04
+    if (!drawing && !(s.key.endsWith('-walked') && !prints)) return null
     const walk = trip.legs[s.leg].walk
     return walk?.stats ? walk : null
   })
@@ -207,11 +213,12 @@
     return { key: s.key, list, shown: list.length, start: Math.max(list.findIndex((pr) => pr.photo.favorite), 0) }
   }
 
-  // Under a deck: the next stop scrolling on leads to (the next place, the
-  // hike, or, after the last place, where we went back to).
-  const onwardTo = $derived.by(() => {
-    if (!prints) return null
-    const i = steps.findIndex((s) => s.key === prints.key)
+  // The next stop scrolling on leads to from a step (the next place, the
+  // hike, or, after the last place, where we went back to), named on the ↓
+  // buttons under a deck and on a place's words when it has no photos.
+  function nextAfter(key) {
+    const i = steps.findIndex((s) => s.key === key)
+    if (i < 0) return null
     let back = null
     for (let j = i + 1; j < steps.length; j++) {
       const s = steps[j]
@@ -220,17 +227,12 @@
       if (s.key.endsWith('-returned')) back ??= trip.legs[s.at]
     }
     return back
-  })
-  // Skip the photos: scroll on to where the deck lifts and the map moves on.
-  function skipPhotos() {
-    const i = steps.findIndex((s) => s.key === prints?.key)
-    if (i < 0) return
-    const room = rooms[steps[i].key]
-    const top = phoneDeck ? room && room.top + room.height - h * ROOM_AT + 2 : marks[i] + 0.76 * (marks[i + 1] - marks[i]) - line
-    if (top == null) return
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches
-    scrollTo({ top, behavior: still ? 'instant' : 'smooth' })
   }
+  const onwardTo = $derived(prints ? nextAfter(prints.key) : null)
+  // The ↓ buttons (and skipping the photos): glide on to the next stop.
+  let glide = null
+  const onward = () => glide?.next()
+  const back = () => glide?.prev()
 
   // Moving through photos full screen moves the deck along with it, so
   // closing the viewer leaves the photo you ended on at the top of the pile.
@@ -249,6 +251,60 @@
 
   // Step positions in the document, measured from their marker elements.
   let marks = []
+  // Where the page rests (glide.js): the title card, each place's words and
+  // each deck, and the close, as scroll positions.
+  let stops = []
+  const markOf = (key) => marks[steps.findIndex((s) => s.key === key)]
+  function measureStops(y) {
+    const list = [{ top: 0, bottom: 0 }]
+    for (const el of document.querySelectorAll('[data-stop]')) {
+      const r = el.getBoundingClientRect()
+      const top = r.top + y
+      const bottom = r.bottom + y
+      // Wide cards: rest once the route has landed (data-stop names the
+      // steps it draws between and how far through it lands), keeping the
+      // whole card on screen.
+      const [ka, kb, landed] = el.dataset.stop.split(' ')
+      const a = markOf(ka)
+      const b = markOf(kb)
+      if (a != null && b != null) {
+        const lo = bottom - h + 24
+        const hi = top - h * 0.06
+        const want = a + +landed * (b - a) - line
+        const at = lo > hi ? hi : Math.min(Math.max(want, lo), hi)
+        list.push({ top: at, bottom: at })
+        continue
+      }
+      // A page of words: its foot near the screen's, with the map above;
+      // if it's taller than the screen, free to read from its top to its foot.
+      const from = top - h * 0.08
+      const to = bottom - h + 16
+      list.push(to > from ? { top: from, bottom: to } : { top: to, bottom: to })
+    }
+    // Each deck, once it has landed.
+    steps.forEach((s, i) => {
+      if (!s.centre || !photosAt(s).length) return
+      if (phoneDeck) {
+        const room = rooms[s.key]
+        // skip: where the deck has lifted away (glide.js hops there on leaving).
+        if (room) list.push({ top: room.top + h * 0.4, bottom: room.top + h * 0.4, snug: true, skip: room.top + room.height - h * ROOM_AT + 2 })
+      } else if (overMap && wideLayout === 'deck' && marks[i + 1] != null) {
+        // A little way in, and with the card above it gone off the top.
+        let at = marks[i] + 0.22 * (marks[i + 1] - marks[i]) - line
+        for (const card of document.querySelectorAll('[data-stop]')) {
+          const r = card.getBoundingClientRect()
+          if (r.bottom + y <= marks[i]) at = Math.max(at, r.bottom + y + 40)
+        }
+        list.push({ top: at, bottom: at, skip: marks[i] + 0.73 * (marks[i + 1] - marks[i]) - line })
+      }
+    })
+    const last = document.documentElement.scrollHeight - h
+    list.push({ top: last, bottom: last })
+    stops = list
+      .map((s) => ({ ...s, top: Math.max(0, Math.min(s.top, last)), bottom: Math.max(0, Math.min(s.bottom, last)) }))
+      .sort((a, b) => a.top - b.top)
+      .filter((s, k, all) => k === 0 || s.top - all[k - 1].top > 8)
+  }
   // Phone deck: each place's room (document top and height, by step key),
   // and how far through its step the camera holds still for it.
   let rooms = $state({})
@@ -274,18 +330,37 @@
       const end = r.top + r.height - h * ROOM_AT + line
       return Math.min(Math.max((end - marks[i]) / (marks[i + 1] - marks[i]), 0), 0.9)
     })
+    measureStops(y)
     onScroll()
   }
 
   function onScroll() {
     sy = window.scrollY
-    const at = window.scrollY + line
+    p = stepAt(window.scrollY)
+  }
+
+  // How far through the story a scroll position is.
+  function stepAt(y) {
+    const at = y + line
     let i = 0
     while (i < marks.length - 1 && marks[i + 1] <= at) i++
     const next = marks[i + 1]
-    p = next == null ? i : i + Math.min(Math.max((at - marks[i]) / (next - marks[i]), 0), 1)
     // The first step runs from the top of the page to the first route.
-    if (i === 0) p = Math.min(Math.max(window.scrollY / Math.max(next - line, 1), 0), 1)
+    if (i === 0) return Math.min(Math.max(y / Math.max(next - line, 1), 0), 1)
+    return next == null ? i : i + Math.min(Math.max((at - marks[i]) / (next - marks[i]), 0), 1)
+  }
+
+  // Whether the map moves (a route drawing, the camera flying) between two
+  // scroll positions: the glide takes its time there and hurries elsewhere.
+  function mapMoves(a, b) {
+    const u = viewAt(steps, stepAt(a), focus, hold)
+    const v = viewAt(steps, stepAt(b), focus, hold)
+    return (
+      Math.abs(u.ink - v.ink) > 1e-4 ||
+      Math.abs(u.view.mpp - v.view.mpp) / u.view.mpp > 1e-4 ||
+      Math.hypot(u.view.cx - v.view.cx, u.view.cy - v.view.cy) / u.view.mpp > 0.05 ||
+      Math.hypot(u.view.fx - v.view.fx, u.view.fy - v.view.fy) > 0.05
+    )
   }
 
   // Jump to a stop: scroll so its first step has just begun. Each stop has
@@ -296,6 +371,7 @@
     const el = keys.map((k) => document.querySelector(`[data-step="${k}"]`)).find(Boolean)
     if (!el) return
     scrollTo({ top: el.getBoundingClientRect().top + scrollY - line + 4, behavior: 'instant' })
+    glide?.rest()
     history.replaceState(null, '', `#${stop.id}`)
   }
 
@@ -349,6 +425,7 @@
     window.addEventListener('resize', resize)
     window.addEventListener('scroll', scroll, { passive: true })
     measure()
+    glide = glider(() => stops, mapMoves)
     // A refresh starts over from the top (the user asked: where you left off
     // isn't kept), so the browser's scroll memory is off, and a reload drops
     // the stop the address picked up while scrolling. Opening a stop's link
@@ -358,6 +435,7 @@
     if (reload) {
       history.replaceState(null, '', location.pathname + location.search)
       scrollTo(0, 0)
+      glide.rest()
     }
     // Opened from a stop's link: go there once the page has laid out.
     const start = reload ? null : stopFromHash()
@@ -365,6 +443,7 @@
     return () => {
       document.removeEventListener('gesturestart', noZoom)
       document.removeEventListener('gesturechange', noZoom)
+      glide.destroy()
       ro.disconnect()
       window.removeEventListener('resize', resize)
       window.removeEventListener('scroll', scroll)
@@ -375,7 +454,7 @@
 <SheetMap {trip} {route} {story} {focus} {layout} />
 
 {#if trailStats}
-  <TrailStats stats={trailStats.stats} name={trailStats.name} {wide} />
+  <TrailStats stats={trailStats.stats} name={trailStats.name} {wide} low={steps[Math.floor(p)]?.key.endsWith('-walked')} />
 {/if}
 
 <!-- Where we are on the sheet; tap it for the list of stops. -->
@@ -385,17 +464,17 @@
   <!-- Over-map layout: the map fills the page, photos float over it. -->
   <main>
     <section class="intro" aria-label="About this map">
-      <TitleBlock {trip} />
+      <TitleBlock {trip} {onward} />
     </section>
     {#each trip.legs as leg, i}
-      <Leg {leg} plates={plateStart[i]} layout={wideLayout} open={(n) => (viewer = n - 1)} />
+      <Leg {leg} plates={plateStart[i]} layout={wideLayout} open={(n) => (viewer = n - 1)} {onward} {back} {nextAfter} />
     {/each}
     <Closing {trip} />
   </main>
   {#if prints}
     {#key prints.key}
       {#if wideLayout === 'deck'}
-        <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} onward={skipPhotos} open={(n) => (viewer = n - 1)} />
+        <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} {onward} {back} open={(n) => (viewer = n - 1)} />
       {:else}
       <Scatter prints={prints.list} shown={prints.shown} {w} {h} {edge} seed={prints.key} {hint} open={(n) => (viewer = n - 1)} />
       {/if}
@@ -403,10 +482,10 @@
   {/if}
 {:else}
   <!-- Map moments alternate with paper pages of photos. -->
-  <Story {trip} {plates} {plateStart} {hint} film={!wide && phoneLayout === 'prints'} deck={phoneDeck} open={(n) => (viewer = n - 1)} />
+  <Story {trip} {plates} {plateStart} {hint} film={!wide && phoneLayout === 'prints'} deck={phoneDeck} open={(n) => (viewer = n - 1)} {onward} {back} {nextAfter} step={steps[Math.floor(p)]?.key} />
   {#if prints}
     {#key prints.key}
-      <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} onward={skipPhotos} open={(n) => (viewer = n - 1)} />
+      <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} {onward} {back} open={(n) => (viewer = n - 1)} />
     {/key}
   {/if}
 {/if}

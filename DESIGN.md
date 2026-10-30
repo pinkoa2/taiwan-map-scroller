@@ -140,7 +140,7 @@ These are the inks of an offset-printed survey sheet: a pale paper ground, carto
 
 ### Primary
 - **Overprint Vermilion** (route): the trip's own ink. It draws the route line in every transport symbol, the pen nib where the ink is still running, the current place mark, the locator's view box, the selection highlight, the focus ring, and link hover. On the sheet it always sits on a paper halo.
-- **Deep Vermilion** (route-deep): the text-weight form of the overprint, used where vermilion has to read as type on paper. It covers plate numbers, the leg counter, Chinese place names in headings, the scroll cue, quote attributions, the "So far" total, links, past place-mark outlines, and the trail name on the large-scale sheet.
+- **Deep Vermilion** (route-deep): the text-weight form of the overprint, used where vermilion has to read as type on paper. It covers plate numbers, the leg counter, Chinese place names in headings, the ↓ onward buttons' arrow (Onward.svelte), quote attributions, the "So far" total, links, past place-mark outlines, and the trail name on the large-scale sheet.
 
 ### Secondary
 - **Survey Sea** (sea): the open water and the canvas ground. It also fills the locator.

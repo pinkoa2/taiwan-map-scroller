@@ -7,12 +7,13 @@
   // first comes the last. Scrolling simply carries on past. The deck lands as a whole on
   // reaching the place and lifts away before the next one.
   import Squiggle from './Squiggle.svelte'
+  import Onward from './Onward.svelte'
   import { deckArea, printSize, printSizes } from './deck.js'
 
   // at: the print on top; flip(k) puts print k on top (App remembers it per place).
   // hint: 'swipe' (how to flip), 'open' (tap to open) or null.
   // next: the stop scrolling on takes you to ({ name, zh }), and onward() skips there.
-  let { prints, at, flip, w, h, edge, open, wide = true, active = true, hint = null, next = null, onward } = $props()
+  let { prints, at, flip, w, h, edge, open, wide = true, active = true, hint = null, next = null, onward, back = null } = $props()
 
   const still = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -264,13 +265,9 @@
     </nav>
   {/if}
 
-  <!-- Skip the photos: a round ↓ in the controls' style, with the stop that
-       scrolling on leads to, in its own row under them. -->
+  <!-- Skip the photos: the ↓ on to the next stop, in its own row under the controls. -->
   {#if next}
-    <button class="onward" style:left="{area.cx}px" style:top="{area.bottom + 102}px" onclick={onward} aria-label="Skip the photos, on to {next.name}">
-      <span class="down" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 5v13M6 12.5l6 6 6-6" /></svg></span>
-      <span class="to lettering">{next.name}{#if next.zh}<span class="zh" lang="zh-Hant">{next.zh}</span>{/if}</span>
-    </button>
+    <Onward label={next.name} zh={next.zh} at={[area.cx, area.bottom + 102]} onclick={onward} onback={back} aria="Skip the photos, on to {next.name}" />
   {/if}
 </div>
 
@@ -498,99 +495,6 @@
 
   .tick:hover::before {
     opacity: 1;
-  }
-
-  /* Skip the photos: the ↓ button and the next stop's name. It lands with
-     the deck (the user asked); the arrow bobs now and then to catch the eye. */
-  .onward {
-    position: absolute;
-    z-index: 150;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 6px 0 0;
-    border: 0;
-    background: none;
-    color: var(--ink);
-    cursor: pointer;
-    transform: translate(-50%, -50%);
-    pointer-events: auto;
-  }
-
-  .down {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--rule);
-    border-radius: 50%;
-    background: var(--paper);
-    color: var(--route-deep);
-    box-shadow: 0 6px 14px -8px rgb(40 36 20 / 0.5);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .down svg {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    animation: bob 2.6s cubic-bezier(0.45, 0, 0.55, 1) 2s infinite;
-  }
-
-  /* Two small dips, then a rest. */
-  @keyframes bob {
-    0%,
-    40%,
-    100% {
-      transform: translateY(0);
-    }
-    10%,
-    30% {
-      transform: translateY(3px);
-    }
-    20% {
-      transform: translateY(0);
-    }
-  }
-
-  .to {
-    display: flex;
-    align-items: baseline;
-    gap: 0.45em;
-    font-size: 0.8rem;
-    letter-spacing: 0.14em;
-    text-shadow:
-      0 0 3px var(--paper),
-      0 0 3px var(--paper),
-      0 0 6px var(--paper);
-  }
-
-  .to .zh {
-    letter-spacing: 0.04em;
-    color: var(--route-deep);
-  }
-
-  .onward:hover .down {
-    transform: scale(1.06);
-  }
-
-  .onward:hover .to {
-    color: var(--route-deep);
-  }
-
-  .onward:focus-visible {
-    outline: 2px solid var(--route);
-    outline-offset: 4px;
-    border-radius: 22px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .down svg {
-      animation: none;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {

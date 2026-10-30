@@ -411,6 +411,54 @@ input::placeholder {
   transition: opacity 0.2s;
 }
 
+/* Until its preview arrives: a turning wheel in the empty frame. */
+.card .photo:not(.loaded) img {
+  opacity: 0;
+}
+
+.photo .loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 3px solid rgb(29 31 26 / 0.14);
+  border-top-color: var(--route);
+  border-radius: 50%;
+  animation: turn 0.8s linear infinite;
+}
+
+.photo.loaded .loading,
+.photo.failed .loading {
+  display: none;
+}
+
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.photo .failed {
+  display: none;
+  position: absolute;
+  inset: 0;
+  place-items: center;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+.photo.failed .failed {
+  display: grid;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo .loading {
+    animation-duration: 2.4s;
+  }
+}
+
 .card:not(.picked) .photo img {
   opacity: 0.82;
 }

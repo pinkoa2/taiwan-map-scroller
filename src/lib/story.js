@@ -75,7 +75,15 @@ export function viewAt(steps, p, focusFor, hold = 0) {
   const fa = focusFor(a)
   const fb = focusFor(b)
   const held = typeof hold === 'function' ? hold(i) : hold
-  const camT = a.centre && held ? ease(clamp01((t - held) / (1 - held))) : ease(clamp01((t - 0.12) / 0.76))
+  // Same ground, new frame (a hike's footsteps, then its photos): the steps
+  // finish first, then the frame shifts, so the page can rest on the drawn
+  // trail (glide.js) before it moves aside for the photos.
+  const shift = a.camera === b.camera && fa !== fb
+  const camT = a.centre && held
+    ? ease(clamp01((t - held) / (1 - held)))
+    : shift
+      ? ease(clamp01((t - 0.82) / 0.18))
+      : ease(clamp01((t - 0.12) / 0.76))
   const focus = {
     x: fa.x + (fb.x - fa.x) * camT,
     y: fa.y + (fb.y - fa.y) * camT,
@@ -94,7 +102,7 @@ export function viewAt(steps, p, focusFor, hold = 0) {
     const z = interpolateZoom(za, zb)(camT)
     cam = [z[0], z[1], z[2] / fa.w]
   }
-  const inkT = a.ink === b.ink ? 0 : ease(clamp01((t - 0.08) / 0.84))
+  const inkT = a.ink === b.ink ? 0 : shift ? ease(clamp01((t - 0.06) / 0.74)) : ease(clamp01((t - 0.08) / 0.84))
   return {
     view: { cx: cam[0], cy: cam[1], mpp: cam[2], fx, fy },
     ink: a.ink + (b.ink - a.ink) * inkT,

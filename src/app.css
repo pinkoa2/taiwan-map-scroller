@@ -125,7 +125,8 @@ button {
   white-space: nowrap;
 }
 
-/* Phone deck: settle back onto a deck after a stray scroll (App, Story). */
-html.deck-snap {
+/* Phone deck: settle back onto a deck after a stray scroll (App, Story),
+   but not while the page glides itself on to the next stop (glide.js). */
+html.deck-snap:not(.gliding) {
   scroll-snap-type: y proximity;
 }

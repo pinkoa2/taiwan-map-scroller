@@ -8,12 +8,15 @@
   import PrintStack from './PrintStack.svelte'
   import Symbol from './Symbol.svelte'
   import LanternString from './LanternString.svelte'
+  import Onward from './Onward.svelte'
   import { howWeGotThere } from './modes.js'
 
   // film: photos as a stack of prints after each page (phones) instead of a mosaic in it.
   // deck: after each page, open map where a deck of prints (Deck.svelte, drawn
   // by App) flips as you scroll; this only leaves the room for it.
-  let { trip, plates, plateStart, open, film = false, deck = false, hint = false } = $props()
+  // onward(): glide on to the next stop; nextAfter(step key) names it.
+  // step: the key of the step the map is on.
+  let { trip, plates, plateStart, open, film = false, deck = false, hint = false, onward, back, nextAfter, step = '' } = $props()
   // A stretch to scroll past the deck (it's flipped by hand), then one for it
   // to lift and the map to move on before the next route. The room is long
   // enough that a stray scroll mid-swipe doesn't carry the deck away, and a
@@ -23,6 +26,12 @@
   const firstWithPhotos = trip.legs.findIndex((l) => l.photos.length)
 
   const zhName = (l) => `${l.name}${l.zh ? ' ' + l.zh : ''}`
+  // A page's ↓: on to its photos, or (none picked yet) the next stop.
+  const ahead = (list, key) => {
+    if (list.length) return { label: `${list.length} photo${list.length === 1 ? '' : 's'}` }
+    const next = nextAfter(key)
+    return next ? { label: next.name, zh: next.zh } : null
+  }
   let pageEls = $state({})
 </script>
 
@@ -35,12 +44,9 @@
       {#if trip.titleZh}<span class="zh" lang="zh-Hant">{trip.titleZh}</span>{/if}
     </h1>
     {#each trip.summary.split(/\n\s*\n/).filter(Boolean) as line}<p class="summary">{line}</p>{/each}
-    <p class="cue lettering">
-      Scroll to follow the route
-      <svg viewBox="0 0 12 18" width="12" height="18" aria-hidden="true"
-        ><path d="M6 1v15M1 11l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5" /></svg
-      >
-    </p>
+    <div class="cue">
+      <Onward label="Follow the route" note="Tap, or just scroll" onclick={onward} />
+    </div>
   </div>
 </section>
 
@@ -60,7 +66,8 @@
   </section>
 
   <!-- Paper: the place itself, its words and photos, over the map. -->
-  <article class="page" class:night={leg.hang === 'lanterns'} aria-labelledby="m-{leg.id}" bind:this={pageEls[leg.id]}>
+  <!-- data-stop: the page rests here, the words on screen with the place above. -->
+  <article class="page" class:night={leg.hang === 'lanterns'} aria-labelledby="m-{leg.id}" bind:this={pageEls[leg.id]} data-stop="">
     {#if leg.hang === 'lanterns' && pageEls[leg.id]}<LanternString container={pageEls[leg.id]} mode="backdrop" />{/if}
     <h2 id="m-{leg.id}">
       <span class="name">{leg.name}</span>
@@ -78,7 +85,10 @@
       <p class="stay lettering">{#if leg.when}<span>{leg.when}</span>{/if}{#if leg.stay}<span>{leg.stay}</span>{/if}</p>
     {/if}
     {#each leg.text.split(/\n\s*\n/).filter(Boolean) as p}<p class="text">{p}</p>{/each}
-    <a class="lettering maps" href={leg.gmaps} target="_blank" rel="noopener">Open in Google Maps</a>
+    <div class="foot">
+      <a class="lettering maps" href={leg.gmaps} target="_blank" rel="noopener">Open in Google Maps</a>
+      {#if deck && ahead(leg.photos, `${leg.id}-here`)}<Onward {...ahead(leg.photos, `${leg.id}-here`)} onclick={onward} onback={back} />{/if}
+    </div>
     {#if leg.photos.length}
       {#if !film && !deck}{@render photoList(leg.photos, plateStart[i], zhName(leg))}{/if}
     {/if}
@@ -95,7 +105,8 @@
     <!-- Open map again: the hike, drawn on its own close-up. -->
     <section class="map-run" aria-label="The {walk.name} hike">
       <div class="mark" data-step="{leg.id}-walk"></div>
-      <div class="caption inset">
+      <!-- Only while the footsteps draw: the hike's page says the same once it's up. -->
+      <div class="caption inset" class:gone={step !== `${leg.id}-walk`}>
         <p class="count lettering">On foot</p>
         <p class="to">
           <span class="lettering place">{walk.name}</span>
@@ -111,7 +122,7 @@
       <div class="mark" data-step="{leg.id}-walked"></div>
       <div class="gap"></div>
     </section>
-    <article class="page" aria-labelledby="m-{leg.id}-walk">
+    <article class="page" aria-labelledby="m-{leg.id}-walk" data-stop="">
       <h2 id="m-{leg.id}-walk">
         <span class="name">{walk.name}</span>
         {#if walk.zh}<span class="zh" lang="zh-Hant">{walk.zh}</span>{/if}
@@ -127,6 +138,9 @@
           <p>{walk.text}</p>
           {#if walk.by}<footer class="lettering">{walk.by}</footer>{/if}
         </blockquote>
+      {/if}
+      {#if deck && ahead(walk.photos, `${leg.id}-walked`)}
+        <div class="foot"><Onward {...ahead(walk.photos, `${leg.id}-walked`)} onclick={onward} onback={back} /></div>
       {/if}
       {#if !film && !deck}{@render photoList(walk.photos, plateStart[i] + leg.photos.length, walk.name)}{/if}
     </article>
@@ -252,6 +266,15 @@
     padding: 0.7rem 0.9rem 0.75rem;
   }
 
+  .caption {
+    transition: opacity 0.3s;
+  }
+
+  .caption.gone {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   .intro .caption,
   .end .caption {
     position: static;
@@ -353,27 +376,9 @@
   }
 
   .cue {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin: 0.8rem 0 0;
-    font-size: 0.8rem;
-    color: var(--route-deep);
-  }
-
-  .cue svg {
-    animation: nudge 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  }
-
-  @keyframes nudge {
-    0%,
-    60%,
-    100% {
-      transform: translateY(0);
-    }
-    30% {
-      transform: translateY(4px);
-    }
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--rule);
   }
 
   .how {
@@ -408,9 +413,17 @@
     margin: 0.8rem 0 0;
   }
 
+  /* The page's foot: the map link, and the ↓ on to what's next. */
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem 1rem;
+    margin-top: 1rem;
+  }
+
   .maps {
-    display: inline-block;
-    margin-top: 0.7rem;
     font-size: 0.78rem;
   }
 
@@ -531,12 +544,6 @@
 
     .cell.lead {
       aspect-ratio: 16 / 9;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .cue svg {
-      animation: none;
     }
   }
 </style>
