@@ -9,7 +9,8 @@
     "dev": "node scripts/prepare-trip.js && vite",
     "build": "node scripts/prepare-trip.js && vite build",
     "preview": "vite preview",
-    "curate": "node tools/curate/server.js"
+    "curate": "node tools/curate/server.js",
+    "photos:download": "node scripts/download-photos.js"
   },
   "devDependencies": {
     "@fontsource-variable/source-serif-4": "^5.3.1",

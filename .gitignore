@@ -7,3 +7,9 @@ dist
 .impeccable/hook.cache.json
 *.local
 .DS_Store
+
+# Local secrets and links (see .env.example)
+.env
+
+# Downloaded photos zip (npm run photos:download)
+/photos/
