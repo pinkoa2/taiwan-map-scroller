@@ -43,6 +43,9 @@
 html {
   background: var(--margin);
   -webkit-text-size-adjust: 100%;
+  /* The page never zooms (the user asked: a stray double tap left it zoomed
+     in and out of place). Only the photo viewer zooms, with its own pinch. */
+  touch-action: manipulation;
   scrollbar-color: var(--ink-soft) var(--margin);
 }
 

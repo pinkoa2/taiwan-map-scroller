@@ -11,7 +11,8 @@
 
   // at: the print on top; flip(k) puts print k on top (App remembers it per place).
   // hint: 'swipe' (how to flip), 'open' (tap to open) or null.
-  let { prints, at, flip, w, h, edge, open, wide = true, active = true, hint = null } = $props()
+  // next: the stop scrolling on takes you to ({ name, zh }), and onward() skips there.
+  let { prints, at, flip, w, h, edge, open, wide = true, active = true, hint = null, next = null, onward } = $props()
 
   const still = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -49,6 +50,22 @@
     if (k === at) return
     flipped = true
     flip(k)
+  }
+
+  // The swipe hint, without words: the top print slides aside by itself to
+  // show the one beneath, then settles back. Once as the deck lands, and once
+  // more if it's left alone; never after the first flip.
+  $effect(() => {
+    if (shownHint !== 'swipe' || still || n < 2) return
+    const timers = [950, 6500].map((t) => setTimeout(nudge, t))
+    return () => timers.forEach(clearTimeout)
+  })
+  function nudge() {
+    if (flipped || dragging || start) return
+    drag = -Math.min(96, sized[at].pw * 0.22)
+    setTimeout(() => {
+      if (!dragging) drag = 0
+    }, 420)
   }
 
   // Dragging the top print: it follows the finger or mouse sideways, and past
@@ -147,17 +164,13 @@
     }
   }
 
-  // Where the hint goes. Swipe: just above the top print, the sweep showing
-  // the gesture. Open: above the top print's top-left corner, swooping onto
-  // it (a box about 220 × 112 px with its tip ~105 px in and ~108 px down).
+  // Where the "open" hint goes: above the top print's top-left corner,
+  // swooping onto it (a box about 220 × 112 px with its tip ~105 px in and
+  // ~108 px down). The swipe hint is the nudge above, not a drawing.
   const hintAt = $derived.by(() => {
     const s = sized[at]
-    if (!s || !shownHint) return null
+    if (!s || shownHint !== 'open') return null
     const printTop = area.cy - s.ph / 2
-    if (shownHint === 'swipe') {
-      if (flipped || n < 2) return null
-      return { kind: 'swipe', left: area.cx - 110, top: Math.max(printTop - 76, edge + 6) }
-    }
     const cornerX = area.cx - s.pw / 2 + 22
     return { kind: 'open', left: Math.max(cornerX - 105, 4), top: Math.max(printTop + 16 - 110, edge + 8) }
   })
@@ -184,11 +197,7 @@
 <div class="deck" aria-label="Photos" in:drop|global out:lift|global {@attach holdSideways}>
   {#if hintAt}
     <div class="hint" style:left="{hintAt.left}px" style:top="{hintAt.top}px">
-      {#if hintAt.kind === 'swipe'}
-        <Squiggle text={wide ? 'Drag for more photos' : 'Swipe for more photos'} toward="swipe" />
-      {:else}
-        <Squiggle text={wide ? 'Click a photo to open it' : 'Tap a photo to open it'} toward="right" />
-      {/if}
+      <Squiggle text={wide ? 'Click a photo to open it' : 'Tap a photo to open it'} toward="right" />
     </div>
   {/if}
 
@@ -253,6 +262,15 @@
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" /></svg>
       </button>
     </nav>
+  {/if}
+
+  <!-- Skip the photos: a round ↓ in the controls' style, with the stop that
+       scrolling on leads to, in its own row under them. -->
+  {#if next}
+    <button class="onward" style:left="{area.cx}px" style:top="{area.bottom + 102}px" onclick={onward} aria-label="Skip the photos, on to {next.name}">
+      <span class="down" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 5v13M6 12.5l6 6 6-6" /></svg></span>
+      <span class="to lettering">{next.name}{#if next.zh}<span class="zh" lang="zh-Hant">{next.zh}</span>{/if}</span>
+    </button>
   {/if}
 </div>
 
@@ -480,6 +498,99 @@
 
   .tick:hover::before {
     opacity: 1;
+  }
+
+  /* Skip the photos: the ↓ button and the next stop's name. It lands with
+     the deck (the user asked); the arrow bobs now and then to catch the eye. */
+  .onward {
+    position: absolute;
+    z-index: 150;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 6px 0 0;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+  }
+
+  .down {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--route-deep);
+    box-shadow: 0 6px 14px -8px rgb(40 36 20 / 0.5);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .down svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: bob 2.6s cubic-bezier(0.45, 0, 0.55, 1) 2s infinite;
+  }
+
+  /* Two small dips, then a rest. */
+  @keyframes bob {
+    0%,
+    40%,
+    100% {
+      transform: translateY(0);
+    }
+    10%,
+    30% {
+      transform: translateY(3px);
+    }
+    20% {
+      transform: translateY(0);
+    }
+  }
+
+  .to {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45em;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-shadow:
+      0 0 3px var(--paper),
+      0 0 3px var(--paper),
+      0 0 6px var(--paper);
+  }
+
+  .to .zh {
+    letter-spacing: 0.04em;
+    color: var(--route-deep);
+  }
+
+  .onward:hover .down {
+    transform: scale(1.06);
+  }
+
+  .onward:hover .to {
+    color: var(--route-deep);
+  }
+
+  .onward:focus-visible {
+    outline: 2px solid var(--route);
+    outline-offset: 4px;
+    border-radius: 22px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .down svg {
+      animation: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -3,6 +3,7 @@
   // the close-up sheets, and redraws whenever the story's state changes.
   import { onMount } from 'svelte'
   import { SheetRenderer, buildSheet } from './map/sheet.js'
+  import { vehiclesReady } from './map/vehicles.js'
 
   let { trip, route, story, focus, layout } = $props()
 
@@ -97,6 +98,8 @@
       renderer.changed()
       ready = true
       queue()
+      // The vehicle doodles are images: redraw once they're decoded.
+      vehiclesReady.then(() => queue())
       // Map lettering is drawn on canvas, so redraw once the faces arrive.
       document.fonts?.ready.then(() => {
         renderer.changed()

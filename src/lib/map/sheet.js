@@ -5,6 +5,7 @@
 
 import { geoTransverseMercator } from 'd3-geo'
 import { colours } from './palette.js'
+import { stampVehicle } from './vehicles.js'
 
 const projection = geoTransverseMercator().rotate([-121, 0]).scale(6378137).translate([0, 0])
 
@@ -173,12 +174,14 @@ function drawFootprints(ctx, line, f, toScreen, beside = false) {
   }
 }
 
-// The vehicle riding the route, as an emoji (the user's choice). Side views
-// drawn facing left on most platforms, so they're flipped when heading right.
+// The vehicle riding the route: a red doodle (vehicles.js), or an emoji for
+// a mode without one (ferry). Emoji side views face left on most platforms,
+// so they're flipped when heading right.
 const VEHICLE_EMOJI = { train: '🚃', metro: '🚈', bus: '🚌', car: '🚗', ferry: '⛴️', flight: '✈️' }
 const EMOJI_FONT = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif'
 
 function drawVehicle(ctx, mode, x, y, left, angle = 0) {
+  if (stampVehicle(ctx, mode, x, y, left, angle)) return
   const emoji = VEHICLE_EMOJI[mode]
   if (!emoji) return
   ctx.save()

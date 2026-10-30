@@ -3,17 +3,19 @@
 
 // The deck's ground. Wide: the right half of the sheet, clear of the badge
 // above (the place sits in the left half). Phone: the middle of the screen,
-// under the place's band at the top. The controls sit under it.
+// under the place's band at the top. The controls sit under it, and under
+// them the next stop, clear of the browser's own bar at the foot of a phone
+// (Safari's floats over the page).
 export function deckArea(w, h, edge, wide) {
   if (!wide) {
     const top = h * 0.21
-    const bottom = h * 0.88 - 34
+    const bottom = h * 0.8 - 34
     return { left: 14, right: w - 14, top, bottom, cx: w / 2, cy: (top + bottom) / 2 }
   }
   const left = Math.max(w * 0.47, w / 2 - 40)
   const right = w - edge - 56
   const top = edge + 74
-  const bottom = h - edge - 104
+  const bottom = h - edge - 150
   return { left, right, top, bottom, cx: (left + right) / 2, cy: (top + bottom) / 2 }
 }
 

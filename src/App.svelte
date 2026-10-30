@@ -14,6 +14,14 @@
   import TrailStats from './lib/TrailStats.svelte'
   import { buildRoute, buildSteps, viewAt } from './lib/story.js'
 
+  // A place's favourite (starred in the picker) leads its photos, so its pile
+  // opens on it as photo 1; the rest follow in their order (the user asked).
+  const favouriteFirst = (list) => [...list.filter((p) => p.favorite), ...list.filter((p) => !p.favorite)]
+  for (const leg of trip.legs) {
+    leg.photos = favouriteFirst(leg.photos)
+    if (leg.walk) leg.walk.photos = favouriteFirst(leg.walk.photos)
+  }
+
   const route = buildRoute(trip)
   const steps = buildSteps(trip)
 
@@ -199,6 +207,31 @@
     return { key: s.key, list, shown: list.length, start: Math.max(list.findIndex((pr) => pr.photo.favorite), 0) }
   }
 
+  // Under a deck: the next stop scrolling on leads to (the next place, the
+  // hike, or, after the last place, where we went back to).
+  const onwardTo = $derived.by(() => {
+    if (!prints) return null
+    const i = steps.findIndex((s) => s.key === prints.key)
+    let back = null
+    for (let j = i + 1; j < steps.length; j++) {
+      const s = steps[j]
+      if (s.key.endsWith('-walk')) return trip.legs[s.leg].walk
+      if (s.key.endsWith('-travel')) return trip.legs[s.card.leg]
+      if (s.key.endsWith('-returned')) back ??= trip.legs[s.at]
+    }
+    return back
+  })
+  // Skip the photos: scroll on to where the deck lifts and the map moves on.
+  function skipPhotos() {
+    const i = steps.findIndex((s) => s.key === prints?.key)
+    if (i < 0) return
+    const room = rooms[steps[i].key]
+    const top = phoneDeck ? room && room.top + room.height - h * ROOM_AT + 2 : marks[i] + 0.76 * (marks[i + 1] - marks[i]) - line
+    if (top == null) return
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches
+    scrollTo({ top, behavior: still ? 'instant' : 'smooth' })
+  }
+
   // Moving through photos full screen moves the deck along with it, so
   // closing the viewer leaves the photo you ended on at the top of the pile.
   $effect(() => {
@@ -308,13 +341,30 @@
     }
     const ro = new ResizeObserver(() => measure())
     ro.observe(document.body)
+    // iPhone Safari ignores the viewport's no-zoom, so its pinch gesture is
+    // stopped here. The photo viewer zooms from raw touches, so it still works.
+    const noZoom = (e) => e.preventDefault()
+    document.addEventListener('gesturestart', noZoom)
+    document.addEventListener('gesturechange', noZoom)
     window.addEventListener('resize', resize)
     window.addEventListener('scroll', scroll, { passive: true })
     measure()
+    // A refresh starts over from the top (the user asked: where you left off
+    // isn't kept), so the browser's scroll memory is off, and a reload drops
+    // the stop the address picked up while scrolling. Opening a stop's link
+    // fresh (#jiufen) still goes straight there.
+    history.scrollRestoration = 'manual'
+    const reload = performance.getEntriesByType?.('navigation')[0]?.type === 'reload'
+    if (reload) {
+      history.replaceState(null, '', location.pathname + location.search)
+      scrollTo(0, 0)
+    }
     // Opened from a stop's link: go there once the page has laid out.
-    const start = stopFromHash()
+    const start = reload ? null : stopFromHash()
     if (start) requestAnimationFrame(() => requestAnimationFrame(() => jump(start)))
     return () => {
+      document.removeEventListener('gesturestart', noZoom)
+      document.removeEventListener('gesturechange', noZoom)
       ro.disconnect()
       window.removeEventListener('resize', resize)
       window.removeEventListener('scroll', scroll)
@@ -345,7 +395,7 @@
   {#if prints}
     {#key prints.key}
       {#if wideLayout === 'deck'}
-        <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} open={(n) => (viewer = n - 1)} />
+        <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} onward={skipPhotos} open={(n) => (viewer = n - 1)} />
       {:else}
       <Scatter prints={prints.list} shown={prints.shown} {w} {h} {edge} seed={prints.key} {hint} open={(n) => (viewer = n - 1)} />
       {/if}
@@ -356,7 +406,7 @@
   <Story {trip} {plates} {plateStart} {hint} film={!wide && phoneLayout === 'prints'} deck={phoneDeck} open={(n) => (viewer = n - 1)} />
   {#if prints}
     {#key prints.key}
-      <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} open={(n) => (viewer = n - 1)} />
+      <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} onward={skipPhotos} open={(n) => (viewer = n - 1)} />
     {/key}
   {/if}
 {/if}
