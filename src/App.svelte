@@ -131,7 +131,7 @@
   // The reading line: a step starts as its marker crosses it.
   const line = $derived(overMap ? h * 0.55 : h * 0.5)
   const story = $derived(viewAt(steps, p, focus, overMap && wideLayout === 'deck' ? 0.74 : phoneDeck ? (i) => holds[i] ?? 0 : 0))
-  const here = $derived(story.leg >= 0 ? trip.legs[story.leg] : null)
+  const here = $derived(story.at >= 0 ? trip.legs[story.at] : null)
 
   // A hike's stats screenshot, shown beside the trail while its footsteps draw.
   const trailStats = $derived.by(() => {
@@ -291,7 +291,7 @@
     if (!s || typeof history === 'undefined') return
     // The stop a step belongs to is in its key ('jiufen-travel' → jiufen), so a
     // route that's still drawing already counts as the place it heads for.
-    const legId = s.key.replace(/-(travel|travelled|here|walk|walked)$/, '')
+    const legId = s.key.replace(/-(travel|travelled|here|walk|walked|return|returned)$/, '')
     const leg = trip.legs.find((l) => l.id === legId)
     if (!leg) return
     const id = /-walke?d?$/.test(s.key) ? leg.walk.folder : leg.id

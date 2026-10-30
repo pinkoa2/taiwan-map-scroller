@@ -13,12 +13,14 @@ export function buildRoute(trip) {
   trip.legs.forEach((leg, i) => {
     leg.segments.forEach((s) => lines.push({ leg: i, mode: s.mode, line: buildLine(s.line, ROUTE_Q) }))
     if (leg.walk) lines.push({ leg: i, mode: 'walk', walk: true, track: leg.walk.track, line: buildLine(leg.walk.line, ROUTE_Q) })
+    leg.returns?.segments.forEach((s) => lines.push({ leg: i, mode: s.mode, line: buildLine(s.line, ROUTE_Q) }))
   })
   return lines
 }
 
 // Steps carry: key (DOM marker), camera box, ink (number of route lines fully
-// drawn), leg (index of the place we're at, -1 before Taipei).
+// drawn), leg (how far through the trip, -1 before Taipei), and at (the place
+// we're at, when it isn't `leg`: back at the base after a day trip).
 export function buildSteps(trip) {
   const steps = []
   let ink = 0
@@ -38,6 +40,13 @@ export function buildSteps(trip) {
       steps.push({ key: `${leg.id}-walk`, camera: leg.walk.camera, ink, leg: i, card: { type: 'walk', leg: i } })
       ink += 1
       steps.push({ key: `${leg.id}-walked`, camera: leg.walk.camera, ink, leg: i, centre: true, card: { type: 'walk', leg: i } })
+    }
+    // Back to where we were staying, so the route never breaks.
+    if (leg.returns) {
+      const camera = leg.returns.camera
+      steps.push({ key: `${leg.id}-return`, camera, ink, leg: i, card: { type: 'leg', leg: i } })
+      ink += leg.returns.segments.length
+      steps.push({ key: `${leg.id}-returned`, camera, ink, leg: i, at: leg.returns.toIndex, card: { type: 'leg', leg: i } })
     }
   })
   steps.push({ key: 'end', camera: trip.island, ink, leg: trip.legs.length - 1, end: true, card: { type: 'end' } })
@@ -91,10 +100,13 @@ export function viewAt(steps, p, focusFor, hold = 0) {
     ink: a.ink + (b.ink - a.ink) * inkT,
     // The place we're at flips to the next one once its route lands.
     leg: t > 0.92 ? b.leg : a.leg,
+    at: t > 0.92 ? b.at ?? b.leg : a.at ?? a.leg,
     // The closing map: every stop drawn alike, none singled out.
     end: !!(t > 0.5 ? b.end : a.end),
     // Between leaving one place and reaching the next.
     travel: a.key.endsWith('-travel') && t <= 0.92 ? b.leg : null,
+    // On the way back from a day trip: [from, to] place indexes.
+    back: a.key.endsWith('-return') && t <= 0.92 ? [a.leg, b.at] : null,
     step: t > 0.5 ? j : i,
   }
 }

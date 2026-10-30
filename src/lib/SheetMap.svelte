@@ -16,12 +16,12 @@
   const trail = walkLeg ? { name: walkLeg.walk.name, zh: walkLeg.walk.zh, marks: walkLeg.walk.marks ?? [] } : null
 
   function scene() {
-    const { ink, leg } = story
+    const { ink, leg, at } = story
     const segments = route.map((r, k) => ({ line: r.line, mode: r.mode, track: r.track, f: Math.min(Math.max(ink - k, 0), 1) }))
     const walkIndex = route.findIndex((r) => r.walk)
     return {
       segments,
-      places: places.map((p, i) => ({ ...p, state: story.end ? 'past' : i === leg ? 'here' : i < leg ? 'past' : 'ahead' })),
+      places: places.map((p, i) => ({ ...p, state: story.end ? 'past' : i === at ? 'here' : i <= leg ? 'past' : 'ahead' })),
       cities: trip.cities,
       peaks: [],
       trail: trail && walkIndex >= 0 ? { ...trail, line: route[walkIndex].line, f: segments[walkIndex].f } : null,
@@ -73,7 +73,7 @@
 
   $effect(() => {
     // Track every input the drawing reads.
-    void story.view.cx, story.view.cy, story.view.mpp, story.ink, story.leg, story.end, layout.w, layout.h, focus
+    void story.view.cx, story.view.cy, story.view.mpp, story.ink, story.leg, story.at, story.end, layout.w, layout.h, focus
     queue()
   })
 

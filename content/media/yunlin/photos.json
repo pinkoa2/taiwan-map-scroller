@@ -27,15 +27,6 @@
     "original": "IMG_0614.HEIC"
   },
   {
-    "file": "temple-roof-carvings.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-19 09:41",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0615.HEIC"
-  },
-  {
     "file": "rice-fields.jpg",
     "caption": "",
     "comment": "",
@@ -46,6 +37,33 @@
     "favorite": true
   },
   {
+    "file": "wooden-tea-cabinet.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 14:57",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0876.HEIC"
+  },
+  {
+    "file": "tiled-bathtub.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 15:04",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0878.HEIC"
+  },
+  {
+    "file": "temple-roof-carvings.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-19 09:41",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0615.HEIC"
+  },
+  {
     "file": "rice-field-under-the-sun.jpg",
     "caption": "",
     "comment": "",
@@ -53,5 +71,24 @@
     "pick": false,
     "show": true,
     "original": "IMG_0618.HEIC"
+  },
+  {
+    "file": "flower-tile-wall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 15:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0879.HEIC"
+  },
+  {
+    "file": "coffee-and-a-kobo.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-24 13:36",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0884.HEIC",
+    "new": true
   }
 ]

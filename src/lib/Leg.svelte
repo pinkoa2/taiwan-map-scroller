@@ -23,6 +23,9 @@
 <article class="leg" id={leg.id} aria-labelledby="{leg.id}-name">
   {#if leg.segments.length}
     <div class="mark" data-step="{leg.id}-travel"></div>
+    <!-- The card comes up from the foot of the screen only once the route
+         sets off, not while we're still at the last place. -->
+    <div class="lead"></div>
   {/if}
 
   <section class="inset card">
@@ -103,6 +106,13 @@
       {@render columns(walk.photos, plates + leg.photos.length, walk.name)}
     {/if}
   {/if}
+  {#if leg.returns}
+    <!-- Back to where we were staying: the route draws over open map. -->
+    <div class="pause"></div>
+    <div class="mark" data-step="{leg.id}-return"></div>
+    <div class="pause long"></div>
+    <div class="mark" data-step="{leg.id}-returned"></div>
+  {/if}
   <div class="pause"></div>
 </article>
 
@@ -141,6 +151,12 @@
 
   .pause.long {
     height: 60svh;
+  }
+
+  /* Just under the screen's foot as the route sets off (the reading line
+     is at 55% of the screen). */
+  .lead {
+    height: 46svh;
   }
 
   .card {

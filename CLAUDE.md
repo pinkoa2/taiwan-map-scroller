@@ -9,13 +9,16 @@ The sibling project `/home/alex/projects/iceland-postcards` is the reference for
 - `PRODUCT.md`: who it's for, what it must do, constraints.
 - `DESIGN.md`: the design system ("Survey Sheet"), with tokens, components and rules. Keep it true to the code.
 - `README.md`: just the live link and one line (the user asked, Oct 23, 2026). The working notes (how to run, build, edit content, add photos and deploy) moved to `docs/how-it-works.md`; keep that file current.
+- `docs/hosting-plan.md`: **planned, not built (Oct 30, 2026).** Photos out of git (Google Drive is the source of truth). A stateless build on a Linode downloads a zip from a Drive folder through a service account (never a public link), only when needed, builds picks only (`?display=all` to be removed), deletes the zip and serves the site with Caddy. The repo goes private once off Pages. Theorised with the user; build it only when asked.
+- `.env` (gitignored; `.env.example` is committed): `PHOTOS_ZIP_URL`, the photos zip's public Google Drive link (Oct 30, 2026, temporary until the service account). Never commit it or prefix it `VITE_`.
+- `npm run photos:download` (`scripts/download-photos.js`): downloads that zip to `photos/photos.zip` (gitignored) with a progress bar. The first step of the hosting plan; extracting comes next.
 - `.impeccable/surfaces/src-app-svelte.md`: the page's design plan (direction contract).
 - `content/trip.js`: the itinerary. Its header comment lists every field.
 - `content/media/<place>/photos.json`: each place's photos, in order, with captions and comments.
 
 ## Layout of the repo
 
-- **`content/trip.js`**: legs in order. Fields: `id`, `name`, `zh`, `at` [lat, lng], `when` (dates), `by` (transport segments, `{ mode, to, toName, from, fromName }`), `dayTrip`, `arrive`, `text`, `view` (zoom width in km), `hang: 'lanterns'`, `walk` (a hike with its own `folder`, `osmName`, `track`, `miles`, `hours`, `text`, `by`). Also `cover` (the link-preview photo) and `continues` (the "To be continued" line; set to null when the trip is over).
+- **`content/trip.js`**: legs in order. Fields: `id`, `name`, `zh`, `at` [lat, lng], `when` (dates), `by` (transport segments, `{ mode, to, toName, from, fromName }`), `dayTrip`, `returnTo`, `arrive`, `text`, `view` (zoom width in km), `hang: 'lanterns'`, `walk` (a hike with its own `folder`, `osmName`, `track`, `outAndBack`, `miles`, `hours`, `text`, `by`). Also `cover` (the link-preview photo) and `continues` (the "To be continued" line; set to null when the trip is over).
 - **`content/media/<place>/`**: the photos and videos for each leg (folder = the leg's `id`; the hike uses `walk.folder` = `mianyue-line`). Each folder's `photos.json` lists the files in display order (chronological to start with). Each entry has:
   - `file`: the descriptive filename.
   - `caption`: a short line under the photo.
@@ -50,7 +53,9 @@ The sibling project `/home/alex/projects/iceland-postcards` is the reference for
   - The deck opens on the place's **favourite** if one is starred in the picker (see Photo picker), else on the first photo.
   - App keeps the print on top per place (`flips`), so coming back to a place shows where you left off (until reload).
   - The place sits in the left half of the sheet (`focus` middle box at 0.25w); the deck sits in the right half.
-  - One big print on top (the photo as large as fits, max 660px wide; paper mount, foot with caption or place name and a "3 / 12" count). The next two peek out beneath, turned ±2.7°, with blank feet. Only prints near the top one load their image.
+  - One big print on top (the photo as large as fits, max 660px wide; paper mount, foot with caption or place name and a "3 / 12" count). The next two peek out beneath with blank feet. Only prints near the top one load their image.
+  - **Neater pile (the user asked, Oct 30, 2026):** turns are small (±0.5° per print, ±1° for the two beneath, offset 4–13px), and a print beneath is shrunk to tuck in behind the top one, so a wide photo under a tall one no longer sticks out on both sides (`fit` in `place()`).
+  - **Print style: polaroid.** The user tried a disposable-camera print on Oct 30, 2026 (thin glossy border, orange date stamp in the corner), kept the polaroid and had the disposable option removed from the code.
   - The deck is up from 4% to 72% of the place's step, landing as a whole and lifting away, as the scatter did. Each place gets a fixed `110svh` of scroll (`room` in Leg.svelte). The camera **holds** on the place until 74% of the step (`hold` in `viewAt`).
   - **Hints (squiggles):** first a "swipe" squiggle above the deck: a sideways sweep with "Drag for more photos" (desktop) or "Swipe for more photos" (phone). It goes after the first flip and never returns (`localStorage` `taiwan-swipe-hint-seen`). After that, the next place shows the old "Click/Tap a photo to open it" squiggle by the top print's corner, until a photo is opened (`taiwan-photo-hint-seen`). `Squiggle.svelte` has `toward="swipe"` for the sweep.
 - **Desktop `wide: 'scatter'` (the previous default):** `Leg.svelte` plus `Scatter.svelte`.
@@ -113,7 +118,7 @@ A small local app the user asked for (Oct 23, 2026) to choose photos and write t
 ## Getting around (the user picked this, Oct 23, 2026)
 
 - **Stop list:** the place badge (`Stops.svelte`) is a button that opens a list of every stop with its number, Chinese name and dates. The Mianyue Line is listed under Alishan, and the current stop is highlighted. Choosing one jumps straight there, landing where that stop's first step begins. Escape or a tap outside closes it.
-  - Desktop: the full badge ("06/10 Taipei → Yunlin 雲林"), top-right.
+  - Desktop: the full badge ("06/08 Taipei → Yunlin 雲林"), top-right.
   - Phone: just "03/10 ⌄", top-right, so it doesn't cover the left-aligned page headings. The key map moved to the top-left with the scale under it.
 - **Shareable links:** each stop has its own address: `#taipei`, `#tamsui`, …, `#mianyue-line` (the walk's `folder`). The address updates as you scroll, so copying it shares where you are; a stop counts as soon as its route starts drawing. Opening a link jumps there on load.
 
@@ -148,7 +153,7 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 - **Structure:** chapters by place or leg, not one per day.
 - **Stack:** same as Iceland. Svelte 5 + Vite, fully static, no backend, no map API keys. Deployed to GitHub Pages at https://taiwan.pinkoa2.lol/ (`subdomain` in trip.js).
 - **Audience:** Alex and Ting keep it as a keepsake. Friends and family open a shared link, mostly on phones.
-- **Keepsake, no live tracker:** only completed legs show. Tainan and Kaohsiung get added once done.
+- **Keepsake, no live tracker:** only completed legs show. Kaohsiung and Tainan were added on Oct 30, 2026, once Tainan was done.
 - **Units:** miles in trip.js, but **no distances are shown anywhere** (the user asked).
 - **Visual direction: Survey Sheet**, the map as a printed survey sheet (`.impeccable/surfaces/`, seed 232636eb). It was picked over Night Market Lights and a Tear-off Day Calendar.
 - **Minimal map:** the first build had full terrain (elevation tints, contours, rivers, rail, close-up sheets). The user found it laggy and asked for "much simpler, lower quality, no elevation, just a minimal Taiwan map". The map is now a flat land tint plus the coastline, route, places, a few cities, the locator, the frame ticks and the scale bar.
@@ -162,10 +167,21 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 - Each transport mode draws differently: train and metro as hatched rail, bus dashed, car solid, walking as footprints, flight dashed and arced.
 - An emoji vehicle rides the head of the route while a leg draws: 🚃 train, 🚈 metro (the user picked light rail over 🚇), 🚌 bus, 🚗 car, ✈️ flight. The user asked for emoji instead of drawn badges. Vehicles flip to face their direction, and the plane rotates along its path.
 - **Opening:** the island starts with no place marked. A ✈️ flies in from just off-screen to the east ("from the US"; `from: [24.4, 123.95]` on the Taipei leg), and Taipei's marker and label appear only once it lands (intro step `leg: -1` in story.js).
-- **Day trips** (`dayTrip: true`): the route draws out to the place, and the next leg leaves from the place before it. Tamsui is a day trip from Taipei, Sun Moon Lake from Yunlin.
+- **One continuous route, no teleporting (the user asked, Oct 30, 2026, after trying it both ways):** wherever we went out and came back, the way back is drawn too.
+  - **Day trips** (`dayTrip: true`): the route draws out to the place; after its photos (and its hike), the vehicle rides back to the base, and the next leg leaves from there. The base is the last leg that isn't a day trip, so day trips in a row (Sun Moon Lake, then Alishan) share it. Day trips: Tamsui (from Taipei), Sun Moon Lake and Alishan (from Yunlin; Alishan was three days but counts, the user asked), Tainan (from Kaohsiung; the user is back in Kaohsiung on Oct 30).
+  - **`returnTo: '<leg id>'`**: we went back to that place after this leg; drawn the same way. Shuinandong has `returnTo: 'taipei'`.
+  - **`back`** (segments like `by`): how we went back. Without it the way out is retraced. Shuinandong: bus to Ruifang, then train (the tickets in the photos). Alishan: car via Chiayi city. Tainan: retraced by car (assumed; the user said car for the way there).
+  - **How it's built:** prepare-trip.js gives such a leg `returns: { to, toIndex, segments, camera }` (`baseOf` and `returnOf`). story.js adds `<id>-return` and `<id>-returned` steps after the place (marks in Leg.svelte and Story.svelte, over open map, no card). Steps carry `at` (the place we're at) besides `leg` (how far through the trip), so after the way back the base is the highlighted place and the badge reads it, while places already visited stay drawn. While riding back the badge reads "08/10 Alishan → Yunlin" (`story.back`).
+  - **Desktop card timing (the user reported, Oct 30, 2026: the next title card showed up before we'd left):** a leg's card is in the page flow, so it used to scroll into view about half a screen before its route set off, which showed while the trip back was drawing. A 46svh `.lead` spacer after the `-travel` mark in Leg.svelte now brings the card up from the foot of the screen as the route starts. Phones were fine (the page comes after the route there).
+  - **History:** day trips first drew one way and the next leg left from the base ("teleport"). Claude then tried drawing the way back as the start of the next leg; the user dropped it ("we did not spend the night in Tamsui"), then asked for it back as a continuous scroll. It now belongs to the day trip itself.
+- **No return sections:** a return visit gets no leg of its own; its photos go in the first visit's folder (the user's call, Oct 30, 2026: "those are Yunlin photos").
+  - Yunlin: the second leg (`yunlin-again`, Oct 22) was removed and its 8 photos merged in. Its favourite star was dropped (Yunlin's rice fields stays the favourite). Its description, "Took our time coming back to Yunlin. Visited a mosaic museum", was removed; the user may fold it into Yunlin's.
+  - Taipei: the second leg (`taipei-again`, Oct 16–17) was removed and its 4 photos (2 picked) merged in. Its favourite (Ximending at night) was dropped; Liberty Square gate stays. Its description, "Back in Taipei for a single night. Ate some street food and went shopping for cute EasyCard", was removed; the user may fold it into Taipei's.
+  - Kaohsiung: the Oct 30 return is in Kaohsiung's dates and folder.
 - **Mianyue Line:**
   - A close-up of the trail, drawn as a deliberately childlike railway track (one line with short ties; the user asked for super minimal).
   - Red footprints walk beside the track, starting from the Shizifendao end.
+  - **Out and back** (`walk.outAndBack: true`, the user said it was "a go and come back kind of trail", Oct 30, 2026): the footprints walk to the far end and back the same way. Footprints keep to the walker's side, so the way back runs along the other side of the track.
   - Bridge numbers were removed at the user's request; only the trail name and Shizifendao 十字分道 are labelled.
 - **Jiufen:** photos hang on strings of cute red lanterns, the user's idea (`hang: 'lanterns'`).
   - The lanterns sway and carry lucky characters (福 喜 樂 春 安 吉 壽 和).
@@ -176,18 +192,17 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 
 | Leg | Dates | How we got there |
 |---|---|---|
-| Taipei 臺北 | Oct 12–14 | ✈️ landed at Taoyuan (Oct 12, ~05:45) |
+| Taipei 臺北 | Oct 12–14, 16–17 | ✈️ landed at Taoyuan (Oct 12, ~05:45); the Oct 16–17 return's photos are merged in here |
 | Tamsui 淡水 | Oct 14 | metro, day trip from Taipei |
 | Shifen 十分 | Oct 15 | train (via Ruifang, Pingxi) |
 | Jiufen 九份 | Oct 15 (night) | train |
-| Shuinandong 水湳洞 | Oct 16 | bus |
-| Taipei 臺北 | Oct 16–17 | bus + train via Ruifang (tickets in the photos) |
-| Yunlin 雲林 (Dounan) | Oct 17–19 | train |
+| Shuinandong 水湳洞 | Oct 16 | bus; then back to Taipei by bus + train via Ruifang (tickets in the photos), not drawn |
+| Yunlin 雲林 (Dounan) | Oct 17–19, 22–24 | train (the Oct 22 return's photos are merged in here) |
 | Sun Moon Lake 日月潭 | Oct 18 | car, day trip from Yunlin |
-| Alishan 阿里山 | Oct 20–22 | car; via Chiayi and Fenqihu on the way up, tea hills (Shizhuo area) on the way down. All folded into Alishan |
+| Alishan 阿里山 | Oct 20–22 | car, treated as a day trip from Yunlin; via Chiayi and Fenqihu on the way up, tea hills (Shizhuo area) on the way down. All folded into Alishan |
 | ↳ Mianyue Line 眠月線 | Oct 21 | on foot: Zhushan sunrise, then about 10 mi / 6 h, a little dangerous, the highlight for Alex |
-| Yunlin 雲林 | Oct 22 | car, via Chiayi city |
-| *Still to come* | | Tainan, Kaohsiung |
+| Kaohsiung 高雄 | Oct 25–27, 30 | car from Yunlin. Includes Fo Guang Shan and the pineapple fields (Oct 26) and Lotus Pond (Oct 27), folded in (the user's call). Pin from the hotel-window photo's GPS (inferred) |
+| Tainan 臺南 | Oct 28–30 | car; treated as a day trip from Kaohsiung (back there by Oct 30). Includes Anping (Oct 30) |
 
 - Yunlin's pin is at Dounan (the user confirmed). "Oct 17" for Yunlin is inferred (no photos that day). Tamsui photos are the Oct 14 afternoon.
 - Train legs follow OSM rail between the nearest stations. Bus and car legs use OSRM. Metro is a straight line.
@@ -205,6 +220,11 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 - **Tools:**
   - HEIC needed `pillow-heif` (ImageMagick on this machine can't read iPhone HEIC); it was installed in a throwaway venv in the session scratchpad.
   - The import scripts (scan, convert, copy) also lived in the scratchpad and aren't in the repo. For new photos, ask for a folder and repeat: read EXIF time/GPS → assign to a leg → convert → descriptive name → append to that leg's `photos.json`.
+- **Second download (Oct 30, 2026):** `~/Downloads/Taiwan 2026-Google.zip` (2.8 GB, 491 files, one folder, one phone: IMG_0380–0971). 215 photos and 7 videos were already imported; 219 MP4/MOV were Live Photo companions (skipped). New: 43 photos and 7 videos, all `new: true`, unpicked:
+  - 7 hike videos (Oct 21 morning) → `mianyue-line`. They're long (18s–1m51s), so they were encoded smaller than the first ones: max 960px, CRF 28 capped at 1.2 Mbps (47 MB together). The first try at CRF 27/1280px was 158 MB.
+  - The AllTrails splits screenshot → `mianyue-line/alltrails-splits.jpg`; a café photo (Oct 24) → `yunlin`; 20 → `kaohsiung`; 21 → `tainan`.
+  - The conversion scripts are in the session scratchpad (`tools/scan.py`, `convert.py`), not in the repo. `dist` is 366 MB after this.
+  - Ting's photos and the camera's may still come; the plan below still applies.
 - **Second import (planned, Oct 23, 2026):** many more photos from Alex and Ting, from both iPhones and a camera.
   - The user will make one folder with a subfolder per device (e.g. `alex-iphone/`, `ting-iphone/`, `camera/`), exporting unmodified originals.
   - **No photographer credit** on the site (the user's answer), so don't record or show who took a photo.
@@ -234,8 +254,9 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
    - Photo layout went back and forth; now the mosaic by default, with a `photoLayout` switch to over-map. Jiufen lanterns are in the page background.
 4. [x] Real photos imported and named, with dates, day trips, the metro mode and video playback (Oct 23, 2026).
 5. [ ] **Next:** the user uses the photo picker (`npm run curate`) to review the 53 picks, write captions and notes, and write the place descriptions. Captions were first planned as one-by-one sessions with Claude; the picker now covers that, but offer to help draft captions if asked.
-6. [ ] Tainan and Kaohsiung once done.
+6. [x] Kaohsiung and Tainan added (Oct 30, 2026), from the second download. Their photos are all unpicked and marked new, so their decks are empty on the default page until the user picks in the photo picker.
 7. [x] **Deployed (Oct 23, 2026).** The user set up git and pushed to `pinkoa2/taiwan-map-scroller` (public; SSH remote `git@github.com:pinkoa2/taiwan-map-scroller.git`). Pages is enabled with "GitHub Actions" as its source (`.github/workflows/deploy.yml`, about 5 minutes per build) and the custom domain `taiwan.pinkoa2.lol` (Porkbun CNAME → `pinkoa2.github.io`), with HTTPS enforced. Every push to `main` redeploys. **The user does their own pushes**; commit or push only when asked.
+8. [ ] **Move hosting to a Linode** per `docs/hosting-plan.md` (not started).
 
 ## Known leftovers
 
@@ -249,5 +270,6 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 - Plan and check in before big design changes, and show options (AskUserQuestion with previews works well).
 - Never invent places, dates or claims. Use what the user said or what photo metadata shows, and say when something is inferred.
 - The user mostly views on a phone. Check both phone (390px) and desktop widths with screenshots (puppeteer-core with `/usr/bin/google-chrome` lives in the scratchpad).
-- To show the user: `npx vite preview --host --port 4317` (run detached), at the LAN URL http://192.168.1.114:4317/.
+- To show the user: `npx vite preview --host --port 4317` (run detached), or `npm run dev -- --host --port 5173` for live edits. Phones on the wifi use the LAN address (`hostname -I`; it was 192.168.1.105 on Oct 30, 2026, earlier .114).
+- If `prepare-trip.js` is re-run while `npm run dev` is up, restart the dev server: the script deletes and recreates `.generated/public/geo`, and Vite then serves the page instead of the map file, so the map comes up blank.
 - The user wants everything documented here. Keep this file current after every change.

@@ -40,8 +40,15 @@
       <svg class="wide-only" viewBox="0 0 18 10" width="18" height="10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
       <span class="place wide-only">{to.name}</span>
       {#if to.zh}<span class="zh wide-only">{to.zh}</span>{/if}
+    {:else if story.back}
+      {@const [from, to] = story.back.map((k) => trip.legs[k])}
+      <span class="n">{String(story.back[0] + 1).padStart(2, '0')}<span class="of">/{trip.legs.length}</span></span>
+      <span class="place faint wide-only">{from.name}</span>
+      <svg class="wide-only" viewBox="0 0 18 10" width="18" height="10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+      <span class="place wide-only">{to.name}</span>
+      {#if to.zh}<span class="zh wide-only">{to.zh}</span>{/if}
     {:else if here}
-      <span class="n">{String(story.leg + 1).padStart(2, '0')}<span class="of">/{trip.legs.length}</span></span>
+      <span class="n">{String(story.at + 1).padStart(2, '0')}<span class="of">/{trip.legs.length}</span></span>
       <span class="place wide-only">{here.name}</span>
       {#if here.zh}<span class="zh wide-only">{here.zh}</span>{/if}
     {:else}
@@ -53,7 +60,7 @@
   {#if open}
     <ol id="stop-list" class="list">
       {#each stops as stop}
-        <li class:walk={stop.walk} class:current={!stop.walk && stop.leg === story.leg}>
+        <li class:walk={stop.walk} class:current={!stop.walk && stop.leg === story.at}>
           <button onclick={() => choose(stop)}>
             <span class="lettering n">{stop.n ? String(stop.n).padStart(2, '0') : '↳'}</span>
             <span class="lettering name">{stop.name}</span>

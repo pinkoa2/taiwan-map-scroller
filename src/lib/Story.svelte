@@ -137,6 +137,16 @@
       <PrintStack photos={walk.photos} first={plateStart[i] + leg.photos.length} place={walk.name} {open} />
     {/if}
   {/if}
+  {#if leg.returns}
+    <!-- Back to where we were staying: the route draws over open map. -->
+    <section class="map-run" aria-label="Back to {leg.returns.to}">
+      <div class="mark" data-step="{leg.id}-return"></div>
+      <div class="gap"></div>
+      <div class="gap long"></div>
+      <div class="mark" data-step="{leg.id}-returned"></div>
+      <div class="gap"></div>
+    </section>
+  {/if}
 {/each}
 
 <!-- A place's photos: the first one large, the rest in a tight grid. -->

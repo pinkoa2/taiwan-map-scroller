@@ -15,13 +15,15 @@
 
   const still = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  // A small turn per print, so the pile reads as handled, not stacked by machine.
-  const TURNS = [-1.4, 0.9, -0.6, 1.5, -1.1, 0.5, 1.2, -0.9]
-  // Where the prints under the top one sit, by depth.
+  // A slight turn per print, so the pile reads as handled, not stacked by
+  // machine, yet stays a neat pile (the user asked for neater).
+  const TURNS = [-0.5, 0.35, -0.2, 0.55, -0.4, 0.2, 0.45, -0.3]
+  // Where the prints under the top one sit, by depth: squared up beneath it,
+  // their edges just showing.
   const UNDER = [
     { x: 0, y: 0, r: 0 },
-    { x: 16, y: 10, r: 2.8 },
-    { x: -14, y: 16, r: -2.6 },
+    { x: 5, y: 7, r: 1.1 },
+    { x: -4, y: 13, r: -0.9 },
   ]
 
   const n = $derived(prints.length)
@@ -134,8 +136,12 @@
     if (d === n - 1 && n > 2) return { transform: `translate(calc(-50% - ${sized[i].pw * 0.85 + 40}px), calc(-50% + 30px)) rotate(${turn - 14}deg)`, opacity: 0, z: n + 1 }
     if (d === 0 && drag) return { transform: `translate(calc(-50% + ${drag}px), -50%) rotate(${turn + drag * 0.03}deg)`, opacity: 1, z: n }
     const u = UNDER[Math.min(d, 2)]
+    // A print beneath is shrunk to tuck in behind the one on top, so a wide
+    // photo under a tall one doesn't stick out past it on both sides.
+    const top = sized[at]
+    const fit = d === 0 || !top ? 1 : Math.min(1, (top.pw + 8) / sized[i].pw, (top.ph + 10) / sized[i].ph)
     return {
-      transform: `translate(calc(-50% + ${u.x}px), calc(-50% + ${u.y}px)) rotate(${turn + u.r}deg)`,
+      transform: `translate(calc(-50% + ${u.x}px), calc(-50% + ${u.y}px)) rotate(${turn + u.r}deg) scale(${fit})`,
       opacity: d > 2 ? 0 : 1,
       z: n - d,
     }

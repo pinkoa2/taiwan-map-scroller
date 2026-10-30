@@ -161,5 +161,50 @@
     "pick": false,
     "show": true,
     "original": "IMG_0872.HEIC"
+  },
+  {
+    "file": "tea-fields.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 15:35",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0865.heic"
+  },
+  {
+    "file": "tea-farm-yard.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:00",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0866.HEIC"
+  },
+  {
+    "file": "bus-in-the-mist.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:01",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0869.HEIC"
+  },
+  {
+    "file": "bnb-in-the-tea-hills.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:03",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0871.HEIC"
+  },
+  {
+    "file": "coffee-tasting-flight.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 12:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0875.HEIC"
   }
 ]

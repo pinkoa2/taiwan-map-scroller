@@ -29,6 +29,8 @@ npm run build           # → dist/
 - fetches cities, the trail and its features from OpenStreetMap
 - writes the link-preview image (`og.jpg`), the `CNAME` and the page title
 
+If you re-run `node scripts/prepare-trip.js` on its own while the dev server is up, restart the dev server afterwards, or the map comes up blank (the script recreates `.generated/public/geo`, and Vite loses track of it).
+
 Anything fetched is cached in `content/geo/` so later builds (and CI) don't touch the network. Raw downloads sit in `.cache/` (not committed). To refetch something, delete its entry: a route in `routes.json`, a sheet in `sheets/`, or a key in `base.json`.
 
 ## Editing the content
@@ -36,6 +38,7 @@ Anything fetched is cached in `content/geo/` so later builds (and CI) don't touc
 Everything on the page comes from `content/trip.js`; the comment at its top lists every field.
 
 - **A new leg:** add it to `legs` in order, with `at: [lat, lng]` (right-click in Google Maps to copy) and `by: [{ mode: 'train' }]`. Modes: `train`, `bus`, `car`, `walk`, `flight`, `ferry`. Split a journey with a midpoint: `by: [{ mode: 'bus', to: [lat, lng], toName: 'Ruifang' }, { mode: 'train' }]`.
+- **Going out and coming back:** `dayTrip: true` draws the way back to the base after the place's photos, and the next leg leaves from there. `returnTo: 'taipei'` does the same for a leg we went back to a particular place from. `back: [...]` (like `by`) says how we went back; without it the way out is retraced. A return visit doesn't get a leg of its own: its photos go in the first visit's folder.
 - **Dates:** add `when: 'Oct 3–6'` to a leg; it shows on the leg's inset.
 - **How close the map zooms:** `view: 16` is the width of the view in km.
 - **A hike:** `walk: { name, zh, osmName, miles, hours, text, by, photos }`, where `osmName` is the trail's name in OpenStreetMap.
@@ -79,5 +82,7 @@ Tap the place badge in the corner for the list of stops. Every stop has its own 
 ## Deploying
 
 Live at https://taiwan.pinkoa2.lol/ (repo `pinkoa2/taiwan-map-scroller`). `.github/workflows/deploy.yml` builds the site and publishes `dist/` to GitHub Pages on every push to `main`; a build takes about 5 minutes, most of it resizing the photos. Pages uses "GitHub Actions" as its source, with HTTPS enforced. The `CNAME` comes from `subdomain` in `trip.js` (`taiwan.pinkoa2.lol`), which points at `pinkoa2.github.io` at Porkbun.
+
+A move to a Linode, with the photos kept out of the repo, is planned in [hosting-plan.md](hosting-plan.md).
 
 Map data © OpenStreetMap contributors (ODbL); terrain from the AWS Terrain Tiles.

@@ -11,11 +11,19 @@
 //                the last segment always ends at this leg's `at`.
 //   arrive       for the first leg only: a word for how the trip began
 //   when         the dates, free text ('Oct 12–14')
-//   dayTrip      true for a day out: the next leg leaves from the place before it
+//   dayTrip      true for a trip out and back to a base (a day out, or longer):
+//                after its photos the route draws back to the base, and the
+//                next leg leaves from there
+//   returnTo     a leg id: after this leg we went back there; drawn the same way.
+//                A return visit gets no leg of its own; its photos go in the
+//                first visit's folder.
+//   back         how we went back (dayTrip or returnTo), as segments like `by`;
+//                without it, the way out is retraced
 //   text         a short write-up; blank lines start a new paragraph
 //   view         how many km wide the map is when it zooms in here (default 16)
 //   walk         a hike drawn on its own close-up (see Alishan); track: true
 //                draws it as an old railway track under the footprints;
+//                outAndBack: true walks it to the far end and back again;
 //                stats: { source, figures: [[label, value]], splits: [[mile, pace, ft]] }
 //                shown as a card beside the trail while it draws
 //   hang         'lanterns' strings the place's photos together with red lanterns
@@ -56,7 +64,7 @@ export default {
       name: 'Taipei',
       zh: '臺北',
       at: [25.0479, 121.517],
-      when: 'Oct 12–14',
+      when: 'Oct 12–14, 16–17',
       arrive: 'Landed',
       // The flight in: a plane coming in off the map from the east.
       by: [{ mode: 'flight', from: [24.4, 123.95], fromName: 'the US' }],
@@ -100,18 +108,11 @@ export default {
       when: 'Oct 16',
       by: [{ mode: 'bus' }],
       view: 10,
+      // Then back to Taipei for the night (those photos are in Taipei's): bus
+      // then train, changing at Ruifang (the train tickets say Ruifang → Taipei).
+      returnTo: 'taipei',
+      back: [{ mode: 'bus', to: [25.109, 121.8066], toName: 'Ruifang' }, { mode: 'train' }],
       text: 'By bus to Shuinandong.',
-    },
-    {
-      id: 'taipei-again',
-      name: 'Taipei',
-      zh: '臺北',
-      at: [25.0479, 121.517],
-      when: 'Oct 16',
-      // Bus then train, changing at Ruifang (the train tickets say Ruifang → Taipei).
-      by: [{ mode: 'bus', to: [25.109, 121.8066], toName: 'Ruifang' }, { mode: 'train' }],
-      view: 22,
-      text: 'Back to Taipei for the night.',
     },
     {
       id: 'yunlin',
@@ -119,8 +120,10 @@ export default {
       zh: '雲林',
       // Dounan, where we stayed.
       at: [23.6741, 120.4768],
-      // The 17th is when we went down (no photos that day); photos are from the 19th.
-      when: 'Oct 17–19',
+      // The 17th is when we went down (no photos that day); photos are from the
+      // 19th. Back again from the 22nd after Alishan (photos on the 22nd and
+      // 24th); those photos are here too.
+      when: 'Oct 17–19, 22–24',
       by: [{ mode: 'train' }],
       view: 30,
       text: 'South by train to Yunlin.',
@@ -144,6 +147,10 @@ export default {
       at: [23.51, 120.8043],
       when: 'Oct 20–22',
       by: [{ mode: 'car' }],
+      // Not a day out, but we came back to Yunlin after, so it's treated as
+      // one. Back down by car via Chiayi city.
+      dayTrip: true,
+      back: [{ mode: 'car', to: [23.4795, 120.4497], toName: 'Chiayi' }, { mode: 'car' }],
       view: 24,
       text: 'Up into the mountains by car to Alishan.',
       walk: {
@@ -156,6 +163,8 @@ export default {
         osmName: '眠月線',
         // An old railway line: drawn as a track under the footprints.
         track: true,
+        // Out to the far end and back the same way.
+        outAndBack: true,
         // Shown beside the trail while the footsteps draw, as a card. Copied
         // from the AllTrails recording (content/media/mianyue-line/alltrails-mianyue-line.jpg).
         stats: {
@@ -190,14 +199,29 @@ export default {
       },
     },
     {
-      id: 'yunlin-again',
-      name: 'Yunlin',
-      zh: '雲林',
-      at: [23.6741, 120.4768],
-      when: 'Oct 22',
+      id: 'kaohsiung',
+      name: 'Kaohsiung',
+      zh: '高雄',
+      // Where we stayed: from the view out of the window on the 25th (inferred).
+      at: [22.6737, 120.3083],
+      // Back again on the 30th after Tainan.
+      when: 'Oct 25–27, 30',
       by: [{ mode: 'car' }],
-      view: 30,
-      text: 'Back down to Yunlin.',
+      // Wide enough to take in Fo Guang Shan, out to the east.
+      view: 34,
+      text: 'By car to Kaohsiung.',
+    },
+    {
+      id: 'tainan',
+      name: 'Tainan',
+      zh: '臺南',
+      at: [22.9915, 120.2045],
+      when: 'Oct 28–30',
+      by: [{ mode: 'car' }],
+      // Back to Kaohsiung after (the way back is assumed to be by car too).
+      dayTrip: true,
+      view: 18,
+      text: 'By car to Tainan.',
     },
   ],
 

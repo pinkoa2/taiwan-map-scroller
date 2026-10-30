@@ -315,30 +315,73 @@ const unit = trip.units === 'km' ? 'km' : 'mi'
 const toUnit = (km) => (unit === 'mi' ? km * 0.621371 : km)
 const Q_ROUTE = 5
 
+// The place a leg's trip leaves from: the leg before it, skipping back over
+// day trips (Sun Moon Lake, then Alishan, both leave from Yunlin), or the
+// place a leg went back to (`returnTo`).
+function baseOf(i) {
+  if (i === 0) return null
+  let b = i - 1
+  while (b > 0 && trip.legs[b].dayTrip) b--
+  return returnOf(b) ?? trip.legs[b]
+}
+// Where we went back to after a leg: a day trip's base, or its `returnTo`.
+function returnOf(i) {
+  const leg = trip.legs[i]
+  if (leg.returnTo) {
+    const to = trip.legs.find((l) => l.id === leg.returnTo)
+    if (!to) throw new Error(`${leg.id}: returnTo '${leg.returnTo}' is not a leg id`)
+    return to
+  }
+  return leg.dayTrip ? baseOf(i) : null
+}
+
+// A run of segments from one place to another, as `by` lists them.
+async function segmentsFor(by, from, at) {
+  const out = []
+  for (const seg of by) {
+    const to = seg.to ? ll(seg.to) : at
+    const r = await route(seg.mode, from, to)
+    out.push({
+      mode: seg.mode,
+      toName: seg.to ? seg.toName ?? null : null,
+      km: r.km,
+      dist: +toUnit(r.km).toFixed(1),
+      line: encode(r.coords.map(P), Q_ROUTE),
+      _pts: r.coords.map(P),
+    })
+    from = to
+  }
+  return out
+}
+
 const legs = []
 for (const [i, leg] of trip.legs.entries()) {
   const at = ll(leg.at)
   // Where this leg set out from: the leg before it, or, after a day trip,
   // the place the day trip left from. The first leg can arrive from off the
   // map (`from` on its first segment).
-  const base = i > 0 ? (trip.legs[i - 1].dayTrip && i > 1 ? trip.legs[i - 2] : trip.legs[i - 1]) : null
+  const base = baseOf(i)
   const prev = base ? ll(base.at) : leg.by?.[0]?.from ? ll(leg.by[0].from) : null
-  const segments = []
-  if (prev) {
-    let from = prev
-    const by = leg.by?.length ? leg.by : [{ mode: 'car' }]
-    for (const seg of by) {
-      const to = seg.to ? ll(seg.to) : at
-      const r = await route(seg.mode, from, to)
-      segments.push({
-        mode: seg.mode,
-        toName: seg.to ? seg.toName ?? null : null,
-        km: r.km,
-        dist: +toUnit(r.km).toFixed(1),
-        line: encode(r.coords.map(P), Q_ROUTE),
-        _pts: r.coords.map(P),
-      })
-      from = to
+  const segments = prev ? await segmentsFor(leg.by?.length ? leg.by : [{ mode: 'car' }], prev, at) : []
+
+  // The way back, drawn after the place's photos so the route never breaks:
+  // `back` if given, else the way out, retraced.
+  let returns = null
+  const home = returnOf(i)
+  if (home) {
+    const back = leg.back?.length
+      ? await segmentsFor(leg.back, at, ll(home.at))
+      : [...segments].reverse().map((s, k) => {
+          const pts = [...s._pts].reverse()
+          // Retraced, each segment reaches where its outbound one set off from.
+          const toName = k < segments.length - 1 ? segments[segments.length - 2 - k].toName : null
+          return { ...s, toName, line: encode(pts, Q_ROUTE), _pts: pts }
+        })
+    returns = {
+      to: home.name,
+      toIndex: trip.legs.indexOf(home),
+      segments: back.map(({ _pts, ...s }) => s),
+      camera: boxOf(back.flatMap((s) => s._pts), 0.45, 9000),
     }
   }
 
@@ -347,6 +390,9 @@ for (const [i, leg] of trip.legs.entries()) {
     let coords = await trail(leg.walk.osmName, at)
     // Walk it from the end nearer the place we set out from.
     if (haversineKm(coords.at(-1), at) < haversineKm(coords[0], at)) coords = [...coords].reverse()
+    // An out-and-back trail: to the far end and back the same way. Footprints
+    // keep to the walker's side, so the way back runs on the track's other side.
+    if (leg.walk.outAndBack) coords = [...coords, ...[...coords].reverse().slice(1)]
     const pts = coords.map(P)
     walk = {
       name: leg.walk.name,
@@ -387,6 +433,7 @@ for (const [i, leg] of trip.legs.entries()) {
     travelCamera: routePts.length ? boxOf(routePts, 0.45, 9000) : null,
     camera: around(at, leg.view ?? 16),
     walk,
+    returns,
     photos: await photosIn(leg.folder ?? leg.id),
     gmaps: `https://www.google.com/maps/search/?api=1&query=${leg.at[0]},${leg.at[1]}`,
   })
