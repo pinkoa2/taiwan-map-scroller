@@ -98,6 +98,6 @@ Tap the place badge in the corner for the list of stops. Every stop has its own 
 
 Live at https://taiwan.pinkoa2.lol/ (repo `pinkoa2/taiwan-map-scroller`). **Between hosts (since Oct 30, 2026):** the GitHub Actions workflow that built and published the site on every push was removed, since it can't reach the photos zip. GitHub Pages keeps serving the last version it published, so pushing no longer changes the live site. It moves to a Linode next ([hosting-plan.md](hosting-plan.md)); until then, don't turn Pages off, or the site goes down. Pages has HTTPS enforced. The `CNAME` comes from `subdomain` in `trip.js` (`taiwan.pinkoa2.lol`), which points at `pinkoa2.github.io` at Porkbun.
 
-A move to a Linode, with the photos kept out of the repo, is planned in [hosting-plan.md](hosting-plan.md).
+A move to a Linode, with the photos kept out of the repo, is planned in [hosting-plan.md](hosting-plan.md). The build already runs in Docker (`docker compose run --rm --build build` → `site/current/`), so the server needs only Docker: see [docker.md](docker.md).
 
 Map data © OpenStreetMap contributors (ODbL); terrain from the AWS Terrain Tiles.

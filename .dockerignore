@@ -1,0 +1,13 @@
+# Not needed in the image: built or downloaded things (they live in volumes),
+# local secrets, git and the design tooling's scratch files.
+node_modules
+dist
+.generated
+.cache
+photos
+site
+.env
+.git
+.impeccable
+*.local
+.DS_Store

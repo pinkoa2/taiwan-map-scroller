@@ -1,0 +1,33 @@
+# The site's build, ready to run on a server with only Docker (docs/docker.md):
+#
+#   mkdir -p site && docker compose run --rm --build build
+#
+# The finished site lands in ./site/current (or SITE_DIR/current).
+
+services:
+  build:
+    build: .
+    # The image's unprivileged user (uid 1000). Under rootless Docker or
+    # Podman, set BUILD_USER=0: there the container's root is you.
+    user: ${BUILD_USER:-node}
+    env_file:
+      # PHOTOS_ZIP_URL, the photos zip's Drive link (.env.example).
+      - path: .env
+        required: false
+    environment:
+      REFRESH_PHOTOS: ${REFRESH_PHOTOS:-0}
+      DELETE_ZIP: ${DELETE_ZIP:-0}
+    volumes:
+      # The downloaded zip, kept between builds unless DELETE_ZIP=1.
+      - photos:/app/photos
+      # Converted photos and their fingerprints, so a rebuild only converts
+      # what's new (a first build of ~90 picks takes a few minutes).
+      - cache:/app/.cache
+      - generated:/app/.generated
+      # Where the site goes; the web server serves SITE_DIR/current.
+      - ${SITE_DIR:-./site}:/out
+
+volumes:
+  photos:
+  cache:
+  generated:

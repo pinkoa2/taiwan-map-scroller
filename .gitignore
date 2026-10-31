@@ -13,3 +13,6 @@ dist
 
 # Downloaded photos zip (npm run photos:download)
 /photos/
+
+# Built site from the Docker build (docker-compose.yml)
+/site/
