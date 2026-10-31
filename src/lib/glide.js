@@ -1,22 +1,25 @@
 // Glide: the page rests at a few places (the title card, each place's words,
-// each deck of photos, the close), and moves itself between them. Once you
-// scroll on from one, it carries you to the next at an easy pace, so a route
+// each deck of photos, the close), and moves itself between them, so a route
 // draws as one smooth move instead of a long drag (the user asked, Oct 30,
-// 2026: a first-time reader didn't like scrolling and scrolling). It works
-// both ways (the user asked): scroll back up and it glides back to the stop
-// before, and scrolling the other way mid-glide turns it around.
+// 2026: a first-time reader didn't like scrolling and scrolling).
+//
+// Scrolling works like the ↓ ↑ buttons (the user asked): one scroll gesture
+// (a wheel flick, a trackpad swipe, a swipe on a phone, an arrow or page key)
+// moves exactly one stop, on or back, and the page never scrolls freely in
+// between. While it glides, nothing moves it: gestures, keys and the buttons
+// all wait until it lands.
 
-// stops(): [{ top, bottom, snug, skip }] in page order. Between top and bottom
-// the page scrolls freely (a page of words taller than the screen); snug stops
-// (a phone deck) need a firmer scroll to leave, so a stray one mid-swipe
-// doesn't carry the deck off. skip (a deck): where the deck has lifted away.
-// Leaving a deck forward hops straight there, so the route sets off at once
-// instead of after a stretch of the deck sitting still (the user found the
-// skip button so slow to get going it seemed not to work).
-// moves(a, b): whether the map animates between two scroll positions. The
-// glide keeps the easy pace there and hurries through the rest (cards and
-// pages sliding away; the user asked, Oct 30, 2026).
-export function glider(stops, moves = () => true) {
+// stops(): [{ top, bottom, skip }] in page order. Between top and bottom the
+// page scrolls freely (a page of words taller than the screen). skip (a deck):
+// where the deck has lifted away; leaving a deck forward hops straight there,
+// so the route sets off at once instead of after a stretch of the deck sitting
+// still (the user found the skip button so slow to get going it seemed not to
+// work).
+// moves(a, b): whether the map animates between two scroll positions (or a
+// speed of its own there, in px per ms). The glide keeps the easy pace there
+// and hurries through the rest (cards and pages sliding away).
+// enabled(): false while something else owns the gestures (the photo viewer).
+export function glider(stops, moves = () => true, enabled = () => true) {
   const html = document.documentElement
   const still = matchMedia('(prefers-reduced-motion: reduce)')
   // Screen heights per second while the map moves (the user found 1.1 too
@@ -25,21 +28,40 @@ export function glider(stops, moves = () => true) {
   const PACE = 0.6
   const HURRY = 3.5
   const SHORTEST = 500
-  const LONGEST = 9000
+  const LONGEST = 14000
 
-  let anchor = scrollY
   // The glide under way: { k, dir (1 down, -1 up), raf }.
   let run = null
-  let idle = 0
-  // Wheel events still coming from the gesture that started a glide (a
-  // trackpad's coast) are swallowed until the wheel goes quiet.
-  let swallow = false
-  let lastWheel = 0
-  // A touch that began while gliding is held until the finger lifts.
-  let touchY = 0
-  let held = false
+  // Just after landing, gestures still wait a moment (a flick's tail).
+  let restUntil = 0
+  const REST = 400
 
-  const ease = (t) => 0.5 - Math.cos(Math.PI * t) / 2
+  // A wheel gesture: one stop per gesture. A trackpad keeps sending dying
+  // events after the swipe (its coast); those belong to the same gesture.
+  // A new one starts after a pause, or when the wheel picks up again (a
+  // second swipe while the first still coasts), or once a gesture has gone
+  // on long after the glide it set off has landed (scrolling on and on to
+  // leave a deck).
+  const QUIET = 250
+  const LONG = 1200
+  const WHEEL_STEP = 24
+  let lastWheel = -Infinity
+  let lastDelta = 0
+  let acc = 0
+  let firedAt = null
+  let landedAt = -Infinity
+
+  // A touch gesture: claimed as up-and-down or sideways on its first move
+  // (sideways is the deck's, to flip prints; the same rule as Deck.svelte),
+  // and it moves a stop once it has gone far enough.
+  const SIDEWAYS = 0.7
+  const TOUCH_STEP = 50
+  let touch = null
+
+  // Sets off at once at its average speed (a tap on ↓ must show at once; the
+  // user wasn't sure a click had taken) and slows gently into the stop:
+  // half sine in-out, half ease-out.
+  const ease = (t) => 0.5 * (0.5 - Math.cos(Math.PI * t) / 2) + 0.5 * (1 - (1 - t) ** 2)
 
   function stopAt(y) {
     return stops().find((s) => y >= s.top - 2 && y <= s.bottom + 2)
@@ -58,25 +80,40 @@ export function glider(stops, moves = () => true) {
   // of a long page of words, where you'd left it).
   const landing = (s, dir) => (dir > 0 ? s.top : s.bottom)
 
+  // Inside a long page of words with more of it that way: scroll it as usual.
+  function reading(dir) {
+    const s = stopAt(scrollY)
+    if (!s || s.bottom - s.top < 4) return false
+    return dir > 0 ? scrollY < s.bottom - 1 : scrollY > s.top + 1
+  }
+
+  const ready = () => !run && performance.now() >= restUntil
+
+  // One stop on (1) or back (-1). The buttons sit on a stop, so one a few
+  // pixels off (the page settling after a jump) still counts as here.
+  function step(dir) {
+    if (!ready()) return
+    go(dir > 0 ? nextIndex(scrollY + 40) : prevIndex(scrollY - 40), dir)
+  }
+
   function go(k, dir) {
     const list = stops()
     if (k < 0 || !list[k]) return
     end()
     if (dir > 0) {
-      const here = stops().findLast((s) => s.skip != null && s.top <= scrollY + 4 && s.skip > scrollY)
+      const here = list.findLast((s) => s.skip != null && s.top <= scrollY + 40 && s.skip > scrollY)
       if (here && here.skip < landing(list[k], dir)) scrollTo({ top: here.skip, behavior: 'instant' })
     }
     const from = scrollY
     if (still.matches) {
       scrollTo({ top: landing(list[k], dir), behavior: 'instant' })
-      anchor = scrollY
+      restUntil = performance.now() + REST
       return
     }
     const plan = timing(from, landing(list[k], dir))
     const duration = Math.min(Math.max(plan.total, SHORTEST), LONGEST)
     const t0 = performance.now()
     html.classList.add('gliding')
-    swallow = true
     run = { k, dir, raf: 0 }
     const frame = (now) => {
       if (!run) return
@@ -89,7 +126,8 @@ export function glider(stops, moves = () => true) {
       if (t < 1) run.raf = requestAnimationFrame(frame)
       else {
         end()
-        anchor = target
+        landedAt = performance.now()
+        restUntil = landedAt + REST
       }
     }
     run.raf = requestAnimationFrame(frame)
@@ -107,7 +145,8 @@ export function glider(stops, moves = () => true) {
     const fast = (HURRY * innerHeight) / 1000
     const raw = Array.from({ length: n }, (_, i) => {
       const a = from + i * d
-      return moves(Math.min(a, a + d), Math.max(a, a + d)) ? slow : fast
+      const m = moves(Math.min(a, a + d), Math.max(a, a + d))
+      return typeof m === 'number' ? m : m ? slow : fast
     })
     const w = Math.max(Math.round((innerHeight * 0.25) / STEP), 1)
     const sums = [0]
@@ -143,93 +182,82 @@ export function glider(stops, moves = () => true) {
     cancelAnimationFrame(run.raf)
     run = null
     html.classList.remove('gliding')
-    anchor = scrollY
-  }
-
-  // Scrolled the other way mid-glide: head back the way it came.
-  function turn() {
-    if (!run) return
-    const dir = -run.dir
-    const y = scrollY
-    const k = dir > 0 ? nextIndex(y) : prevIndex(y)
-    if (k >= 0) go(k, dir)
-    else end()
-  }
-
-  function onScroll() {
-    if (run) return
-    const y = scrollY
-    clearTimeout(idle)
-    idle = setTimeout(() => {
-      if (!run) anchor = scrollY
-    }, 180)
-    if (still.matches) return
-    // Free inside a stop that's a stretch (a long page of words).
-    const s = stopAt(anchor)
-    if (s && s.bottom > s.top && y >= s.top && y <= s.bottom) {
-      anchor = y
-      return
-    }
-    const dir = y > anchor ? 1 : -1
-    const from = s ? landing(s, -dir) : anchor
-    const needed = s?.snug ? innerHeight * 0.15 : Math.max(36, innerHeight * 0.05)
-    if ((y - from) * dir <= needed) return
-    // On to the stop after (or before) where we were, or past it if a flick
-    // already got there.
-    if (dir > 0) {
-      let k = nextIndex(anchor)
-      if (k >= 0 && stops()[k].top < y) k = nextIndex(y)
-      if (k >= 0) go(k, 1)
-    } else {
-      let k = prevIndex(anchor)
-      if (k >= 0 && stops()[k].bottom > y) k = prevIndex(y)
-      if (k >= 0) go(k, -1)
-    }
   }
 
   function onWheel(e) {
-    const fresh = e.timeStamp - lastWheel > 160
-    lastWheel = e.timeStamp
-    if (run) {
-      e.preventDefault()
-      if (Math.abs(e.deltaY) > 2 && Math.sign(e.deltaY) !== run.dir) turn()
-      return
+    if (!enabled() || e.ctrlKey) return
+    // Sideways (a trackpad swipe across the deck) is left alone.
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return
+    const dir = Math.sign(e.deltaY)
+    if (!dir) return
+    const now = performance.now()
+    const delta = Math.abs(e.deltaY)
+    const fresh =
+      now - lastWheel > QUIET ||
+      delta > lastDelta * 1.5 + 4 ||
+      Math.sign(acc) === -dir ||
+      (firedAt != null && !run && landedAt > firedAt && now - landedAt > LONG)
+    lastWheel = now
+    lastDelta = delta
+    if (fresh) {
+      acc = 0
+      firedAt = null
     }
-    if (swallow && !fresh) e.preventDefault()
-    else swallow = false
+    if (!run && firedAt == null && reading(dir)) return
+    e.preventDefault()
+    if (firedAt != null) return
+    acc += e.deltaY
+    if (Math.abs(acc) >= WHEEL_STEP && ready()) {
+      firedAt = now
+      step(dir)
+    }
   }
 
   function onTouchStart(e) {
-    touchY = e.touches[0]?.clientY ?? 0
-    held = !!run
+    if (e.touches.length !== 1) {
+      touch = null
+      return
+    }
+    const t = e.touches[0]
+    // A touch that begins mid-glide never moves a stop.
+    touch = { x: t.clientX, y: t.clientY, way: null, done: !ready() }
   }
 
   function onTouchMove(e) {
-    if (!held) return
-    const y = e.touches[0]?.clientY ?? touchY
-    // A finger moving up scrolls the page down, and the other way round.
-    const dir = y < touchY ? 1 : -1
-    if (run && Math.abs(y - touchY) > 14 && dir !== run.dir) {
-      turn()
-      touchY = y
+    if (!touch || !enabled() || e.touches.length !== 1) return
+    const t = e.touches[0]
+    const dx = t.clientX - touch.x
+    const dy = t.clientY - touch.y
+    if (touch.way == null) {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return
+      touch.way = Math.abs(dx) >= Math.abs(dy) * SIDEWAYS ? 'side' : 'up'
+      // A finger moving up scrolls the page down.
+      touch.reading = !run && reading(dy < 0 ? 1 : -1)
     }
+    if (touch.way !== 'up' || touch.reading) return
     if (e.cancelable) e.preventDefault()
+    if (!touch.done && Math.abs(dy) >= TOUCH_STEP && ready()) {
+      touch.done = true
+      step(dy < 0 ? 1 : -1)
+    }
   }
 
   function onTouchEnd() {
-    held = false
+    touch = null
   }
 
   function onKey(e) {
-    if (!run) return
-    const up = ['ArrowUp', 'PageUp', 'Home'].includes(e.key)
-    const down = ['ArrowDown', 'PageDown', 'End', ' '].includes(e.key)
-    if (!up && !down) return
+    if (!enabled() || e.defaultPrevented || e.altKey || e.metaKey || e.ctrlKey) return
+    if (e.target instanceof HTMLElement && e.target.closest('input, textarea, select, button, a, dialog')) {
+      if (e.key === ' ') return
+    }
+    const dir = { ArrowDown: 1, PageDown: 1, ArrowUp: -1, PageUp: -1, ' ': e.shiftKey ? -1 : 1 }[e.key]
+    if (!dir) return
+    if (!run && reading(dir)) return
     e.preventDefault()
-    if ((up ? -1 : 1) !== run.dir) turn()
+    if (!e.repeat) step(dir)
   }
 
-  addEventListener('scroll', onScroll, { passive: true })
   addEventListener('wheel', onWheel, { passive: false })
   addEventListener('touchstart', onTouchStart, { passive: true })
   addEventListener('touchmove', onTouchMove, { passive: false })
@@ -238,22 +266,19 @@ export function glider(stops, moves = () => true) {
   addEventListener('keydown', onKey)
 
   return {
-    // On to the next stop (the ↓ buttons), or back to the one before (↑).
+    // The ↓ ↑ buttons.
     next() {
-      go(nextIndex(scrollY), 1)
+      step(1)
     },
     prev() {
-      go(prevIndex(scrollY), -1)
+      step(-1)
     },
     // The page was moved on purpose (a jump to a stop): rest where it is.
     rest() {
       end()
-      anchor = scrollY
     },
     destroy() {
       end()
-      clearTimeout(idle)
-      removeEventListener('scroll', onScroll)
       removeEventListener('wheel', onWheel)
       removeEventListener('touchstart', onTouchStart)
       removeEventListener('touchmove', onTouchMove)

@@ -13,7 +13,8 @@
   // at: the print on top; flip(k) puts print k on top (App remembers it per place).
   // hint: 'swipe' (how to flip), 'open' (tap to open) or null.
   // next: the stop scrolling on takes you to ({ name, zh }), and onward() skips there.
-  let { prints, at, flip, w, h, edge, open, wide = true, active = true, hint = null, next = null, onward, back = null } = $props()
+  // place: the deck's step key, naming the ↓ button it's dealt from.
+  let { prints, at, flip, w, h, edge, open, wide = true, active = true, hint = null, next = null, onward, back = null, place: dealFrom = '' } = $props()
 
   const still = typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -176,17 +177,45 @@
     return { kind: 'open', left: Math.max(cornerX - 105, 4), top: Math.max(printTop + 16 - 110, edge + 8) }
   })
 
-  // The whole deck lands from just above, and lifts away the same way.
-  function drop() {
+  // Dealt from the card (the user picked it, Oct 30, 2026): as the deck
+  // lands, the top three prints fly out of the place's "↓ 14 photos" button,
+  // small at first, bottom one first and the top one last so it lands on
+  // top, each lifted (a deeper shadow) in flight and turning as it settles.
+  // The button has usually just gone off the top on a phone, so they come
+  // down from there; with no button to be found, from just above the pile.
+  const DEAL_MS = 640
+  const DEAL_GAP = 110
+  const origin = (() => {
+    const el = dealFrom && document.querySelector(`[data-deal="${dealFrom}"] .down`)
+    const r = el?.getBoundingClientRect()
+    if (!r) return null
+    return { x: Math.min(Math.max(r.left + r.width / 2, -60), w + 60), y: Math.min(Math.max(r.top + r.height / 2, -90), h + 90) }
+  })()
+  function deal(node, { i }) {
+    const d = depth(i)
+    if (d > 2 || still) return { duration: 0 }
+    const dx = (origin?.x ?? area.cx) - area.cx
+    const dy = (origin?.y ?? area.cy - 40) - area.cy
+    const final = node.style.transform
+    const spin = (i % 2 ? 1 : -1) * 9
     return {
-      duration: still ? 0 : 560,
+      delay: (2 - d) * DEAL_GAP,
+      duration: DEAL_MS,
       easing: (t) => 1 - Math.pow(1 - t, 3),
-      css: (t, u) => `opacity: ${Math.min(1, t * 1.8)}; transform: translateY(${-u * 26}px) scale(${1 + u * 0.04})`,
+      css: (t, u) =>
+        `opacity: ${Math.min(1, t * 4)};` +
+        `transform: translate(${dx * u}px, ${dy * u}px) ${final} rotate(${spin * u}deg) scale(${1 - 0.72 * u});` +
+        `filter: drop-shadow(0 ${30 * Math.sin(Math.PI * t)}px ${24 * Math.sin(Math.PI * t)}px rgb(40 36 20 / ${0.3 * Math.sin(Math.PI * t)}))`,
     }
   }
+  // The controls and the ↓ under them come in as the prints land.
+  function settle() {
+    return { delay: still ? 0 : DEAL_GAP, duration: still ? 0 : 320, css: (t) => `opacity: ${t}` }
+  }
+  // Quick, so skipping on clears the photos at once.
   function lift() {
     return {
-      duration: still ? 0 : 360,
+      duration: still ? 0 : 220,
       easing: (t) => t * t,
       css: (t, u) => `opacity: ${t}; transform: translateY(${-u * 18}px) scale(${1 + u * 0.03})`,
     }
@@ -195,7 +224,7 @@
 
 <svelte:window onkeydown={key} />
 
-<div class="deck" aria-label="Photos" in:drop|global out:lift|global {@attach holdSideways}>
+<div class="deck" aria-label="Photos" out:lift|global {@attach holdSideways}>
   {#if hintAt}
     <div class="hint" style:left="{hintAt.left}px" style:top="{hintAt.top}px">
       <Squiggle text={wide ? 'Click a photo to open it' : 'Tap a photo to open it'} toward="right" />
@@ -225,6 +254,7 @@
       onclick={() => click(print)}
       ondragstart={(e) => e.preventDefault()}
       aria-label={print.photo.video ? `Play video` : `Open photo full screen`}
+      in:deal|global={{ i }}
     >
       <img
         src={near ? print.photo.src : undefined}
@@ -250,7 +280,7 @@
 
   <!-- Back, one tick per photo (the lit one is on top), forward. -->
   {#if n > 1}
-    <nav class="controls" style:left="{area.cx}px" style:top="{area.bottom + 50}px" aria-label="Photos at this stop">
+    <nav class="controls" in:settle|global style:left="{area.cx}px" style:top="{area.bottom + 50}px" aria-label="Photos at this stop">
       <button class="arrow" onclick={() => go(at - 1)} aria-label="Previous photo">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" /></svg>
       </button>
@@ -267,7 +297,9 @@
 
   <!-- Skip the photos: the ↓ on to the next stop, in its own row under the controls. -->
   {#if next}
+    <div class="onward-in" in:settle|global>
     <Onward label={next.name} zh={next.zh} at={[area.cx, area.bottom + 102]} onclick={onward} onback={back} aria="Skip the photos, on to {next.name}" />
+    </div>
   {/if}
 </div>
 
@@ -276,6 +308,13 @@
     position: fixed;
     inset: 0;
     z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Holds the ↓ under the deck (placed absolutely within it) while it fades in. */
+  .onward-in {
+    position: absolute;
+    inset: 0;
     pointer-events: none;
   }
 

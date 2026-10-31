@@ -242,13 +242,6 @@
     if (k >= 0 && flips[prints.key] !== k) flips[prints.key] = k
   })
 
-  // Phone deck: the page snaps gently back onto a deck after a small scroll
-  // (the snap points are in Story's deck rooms; proximity, so a real scroll
-  // still carries on past).
-  $effect(() => {
-    document.documentElement.classList.toggle('deck-snap', phoneDeck)
-  })
-
   // Step positions in the document, measured from their marker elements.
   let marks = []
   // Where the page rests (glide.js): the title card, each place's words and
@@ -261,6 +254,8 @@
       const r = el.getBoundingClientRect()
       const top = r.top + y
       const bottom = r.bottom + y
+      // The place it's the card for (the stop list jumps there).
+      const place = el.dataset.place
       // Wide cards: rest once the route has landed (data-stop names the
       // steps it draws between and how far through it lands), keeping the
       // whole card on screen.
@@ -272,14 +267,14 @@
         const hi = top - h * 0.06
         const want = a + +landed * (b - a) - line
         const at = lo > hi ? hi : Math.min(Math.max(want, lo), hi)
-        list.push({ top: at, bottom: at })
+        list.push({ top: at, bottom: at, place })
         continue
       }
       // A page of words: its foot near the screen's, with the map above;
       // if it's taller than the screen, free to read from its top to its foot.
       const from = top - h * 0.08
       const to = bottom - h + 16
-      list.push(to > from ? { top: from, bottom: to } : { top: to, bottom: to })
+      list.push(to > from ? { top: from, bottom: to, place } : { top: to, bottom: to, place })
     }
     // Each deck, once it has landed.
     steps.forEach((s, i) => {
@@ -287,7 +282,7 @@
       if (phoneDeck) {
         const room = rooms[s.key]
         // skip: where the deck has lifted away (glide.js hops there on leaving).
-        if (room) list.push({ top: room.top + h * 0.4, bottom: room.top + h * 0.4, snug: true, skip: room.top + room.height - h * ROOM_AT + 2 })
+        if (room) list.push({ top: room.top + h * 0.4, bottom: room.top + h * 0.4, skip: room.top + room.height - h * ROOM_AT + 2 })
       } else if (overMap && wideLayout === 'deck' && marks[i + 1] != null) {
         // A little way in, and with the card above it gone off the top.
         let at = marks[i] + 0.22 * (marks[i + 1] - marks[i]) - line
@@ -352,25 +347,41 @@
 
   // Whether the map moves (a route drawing, the camera flying) between two
   // scroll positions: the glide takes its time there and hurries elsewhere.
+  // A hike's footsteps get their own pace (px per ms), so they take about
+  // WALK_MS however little room the page gives them (the user found them
+  // too fast).
+  const WALK_MS = 5500
+  // The glide's easy pace is 0.6 screens a second (PACE in glide.js).
   function mapMoves(a, b) {
-    const u = viewAt(steps, stepAt(a), focus, hold)
+    const pa = stepAt(a)
+    const u = viewAt(steps, pa, focus, hold)
     const v = viewAt(steps, stepAt(b), focus, hold)
-    return (
+    const i = Math.floor(pa)
+    if (steps[i]?.key.endsWith('-walk') && Math.abs(u.ink - v.ink) > 1e-4 && marks[i + 1] != null) {
+      return ((marks[i + 1] - marks[i]) * 0.74) / WALK_MS
+    }
+    const moving =
       Math.abs(u.ink - v.ink) > 1e-4 ||
       Math.abs(u.view.mpp - v.view.mpp) / u.view.mpp > 1e-4 ||
       Math.hypot(u.view.cx - v.view.cx, u.view.cy - v.view.cy) / u.view.mpp > 0.05 ||
       Math.hypot(u.view.fx - v.view.fx, u.view.fy - v.view.fy) > 0.05
-    )
+    if (!moving) return false
+    // The easy pace, but never so quick that a move squeezed into a short
+    // stretch of page (the camera flying from the route to the place, between
+    // a card and its photos) is over in a blink (the user found it too fast).
+    const span = marks[i + 1] != null ? (marks[i + 1] - marks[i]) * 0.76 : Infinity
+    return Math.min((0.6 * h) / 1000, span / MOVE_MS)
   }
+  const MOVE_MS = 1800
 
-  // Jump to a stop: scroll so its first step has just begun. Each stop has
-  // its own link (#jiufen, #mianyue-line) to share or bookmark.
+  // Jump to a stop: straight to its card (or page), route drawn, where the
+  // page rests there (the user asked). Each stop has its own link (#jiufen,
+  // #mianyue-line) to share or bookmark.
   function jump(stop) {
-    const leg = trip.legs[stop.leg]
-    const keys = stop.walk ? [`${leg.id}-walk`] : [`${leg.id}-travel`, `${leg.id}-here`]
-    const el = keys.map((k) => document.querySelector(`[data-step="${k}"]`)).find(Boolean)
-    if (!el) return
-    scrollTo({ top: el.getBoundingClientRect().top + scrollY - line + 4, behavior: 'instant' })
+    measure()
+    const at = stops.find((s) => s.place === stop.id)
+    if (!at) return
+    scrollTo({ top: at.top, behavior: 'instant' })
     glide?.rest()
     history.replaceState(null, '', `#${stop.id}`)
   }
@@ -425,7 +436,7 @@
     window.addEventListener('resize', resize)
     window.addEventListener('scroll', scroll, { passive: true })
     measure()
-    glide = glider(() => stops, mapMoves)
+    glide = glider(() => stops, mapMoves, () => viewer == null)
     // A refresh starts over from the top (the user asked: where you left off
     // isn't kept), so the browser's scroll memory is off, and a reload drops
     // the stop the address picked up while scrolling. Opening a stop's link
@@ -439,7 +450,8 @@
     }
     // Opened from a stop's link: go there once the page has laid out.
     const start = reload ? null : stopFromHash()
-    if (start) requestAnimationFrame(() => requestAnimationFrame(() => jump(start)))
+    // Once the fonts are in, so the cards have their final height.
+    if (start) document.fonts.ready.then(() => requestAnimationFrame(() => jump(start)))
     return () => {
       document.removeEventListener('gesturestart', noZoom)
       document.removeEventListener('gesturechange', noZoom)
@@ -474,7 +486,7 @@
   {#if prints}
     {#key prints.key}
       {#if wideLayout === 'deck'}
-        <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} {onward} {back} open={(n) => (viewer = n - 1)} />
+        <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} {onward} {back} place={prints.key} open={(n) => (viewer = n - 1)} />
       {:else}
       <Scatter prints={prints.list} shown={prints.shown} {w} {h} {edge} seed={prints.key} {hint} open={(n) => (viewer = n - 1)} />
       {/if}
@@ -485,7 +497,7 @@
   <Story {trip} {plates} {plateStart} {hint} film={!wide && phoneLayout === 'prints'} deck={phoneDeck} open={(n) => (viewer = n - 1)} {onward} {back} {nextAfter} step={steps[Math.floor(p)]?.key} />
   {#if prints}
     {#key prints.key}
-      <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} {onward} {back} open={(n) => (viewer = n - 1)} />
+      <Deck prints={prints.list} at={flips[prints.key] ?? prints.start} flip={(k) => flipTo(prints.key, k)} {w} {h} {edge} {wide} active={viewer == null} hint={deckHint} next={onwardTo} {onward} {back} place={prints.key} open={(n) => (viewer = n - 1)} />
     {/key}
   {/if}
 {/if}

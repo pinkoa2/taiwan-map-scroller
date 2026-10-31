@@ -6,10 +6,12 @@
   // at: [x, y] to centre it there (over the map), else it sits in the flow.
   // onback: a smaller round ↑ before it, back to the stop before (the user
   // asked for one to match).
-  let { label, zh = null, note = null, at = null, onclick, onback = null, aria = null } = $props()
+  // deal: the step key of the deck this ↓ leads to; the deck's prints are
+  // dealt out of this button as it lands (Deck.svelte).
+  let { label, zh = null, note = null, at = null, onclick, onback = null, aria = null, deal = null } = $props()
 </script>
 
-<div class="row" class:placed={at} style:left={at ? `${at[0]}px` : null} style:top={at ? `${at[1]}px` : null}>
+<div class="row" class:placed={at} data-deal={deal} style:left={at ? `${at[0]}px` : null} style:top={at ? `${at[1]}px` : null}>
   {#if onback}
     <button class="up" onclick={onback} aria-label="Back to the stop before" title="Back">
       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 19V6M6 11.5l6-6 6 6" /></svg>
@@ -162,6 +164,20 @@
 
   .onward:hover .down {
     transform: scale(1.06);
+  }
+
+  /* Pressed: the button sinks under the finger, so a tap is felt at once. */
+  .onward:active .down {
+    transform: scale(0.9);
+    background: var(--margin);
+    box-shadow: 0 2px 5px -3px rgb(40 36 20 / 0.5);
+    transition-duration: 0.08s;
+  }
+
+  .up:active {
+    transform: scale(0.9);
+    background: var(--margin);
+    transition-duration: 0.08s;
   }
 
   .onward:hover .what {

@@ -40,7 +40,7 @@
 
   <!-- data-stop: the page rests on this card once the route between these
        steps has landed (this far through, see story.js viewAt). -->
-  <section class="inset card" data-stop={leg.segments.length ? `${leg.id}-travel ${leg.id}-travelled 0.96` : undefined}>
+  <section class="inset card" data-stop={leg.segments.length ? `${leg.id}-travel ${leg.id}-travelled 0.96` : undefined} data-place={leg.id}>
     <h2 id="{leg.id}-name">
       <span class="name">{leg.name}</span>
       {#if leg.zh}<span class="zh" lang="zh-Hant">{leg.zh}</span>{/if}
@@ -67,7 +67,7 @@
 
     <div class="foot">
       <a class="lettering maps" href={leg.gmaps} target="_blank" rel="noopener">Open in Google Maps</a>
-      {#if toPhotos}<Onward {...toPhotos} onclick={onward} onback={back} />{/if}
+      {#if toPhotos}<Onward {...toPhotos} onclick={onward} onback={back} deal={leg.photos.length ? `${leg.id}-here` : null} />{/if}
     </div>
   </section>
 
@@ -77,7 +77,9 @@
     <div class="pause landing"></div>
     <div class="mark" data-step="{leg.id}-travelled"></div>
   {/if}
-  <div class="pause short"></div>
+  <!-- Room for the map to fly from the route to the place, so the scroll
+       that sets a glide off doesn't play half of it at once. -->
+  <div class="pause flight"></div>
   <div class="mark" data-step="{leg.id}-here"></div>
 
   {#if leg.photos.length && leg.hang === 'lanterns'}
@@ -98,7 +100,7 @@
     {@const walk = leg.walk}
     <div class="pause"></div>
     <div class="mark" data-step="{leg.id}-walk"></div>
-    <section class="inset card walk" aria-labelledby="{leg.id}-walk" data-stop="{leg.id}-walk {leg.id}-walked 0.81">
+    <section class="inset card walk" aria-labelledby="{leg.id}-walk" data-stop="{leg.id}-walk {leg.id}-walked 0.81" data-place={leg.walk.folder ?? `${leg.id}-walk`}>
       <h3 id="{leg.id}-walk">
         <span class="name">{walk.name}</span>
         {#if walk.zh}<span class="zh" lang="zh-Hant">{walk.zh}</span>{/if}
@@ -113,7 +115,7 @@
           {#if walk.by}<footer class="lettering">{walk.by}</footer>{/if}
         </blockquote>
       {/if}
-      {#if toWalkPhotos}<div class="foot"><Onward {...toWalkPhotos} onclick={onward} onback={back} /></div>{/if}
+      {#if toWalkPhotos}<div class="foot"><Onward {...toWalkPhotos} onclick={onward} onback={back} deal={leg.walk.photos.length ? `${leg.id}-walked` : null} /></div>{/if}
     </section>
     <div class="pause landing"></div>
     <div class="mark" data-step="{leg.id}-walked"></div>
@@ -169,6 +171,10 @@
 
   .pause.long {
     height: 60svh;
+  }
+
+  .pause.flight {
+    height: 44svh;
   }
 
   .pause.landing {
