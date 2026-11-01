@@ -128,7 +128,7 @@ This also avoids the "can't scan for viruses" page and the download quota that p
 
 ## Server
 
-**The build is dockerized (Oct 31, 2026):** `Dockerfile`, `docker-compose.yml` and `docker/build.sh`; see [docker.md](docker.md). On the Linode, the "Node, libvips, ffmpeg, unzip" setup below becomes just Docker, and one build is `git pull && docker compose run --rm --build build`, which swaps the site into `site/current/` for Caddy. The zip stays in a Docker volume between builds unless `DELETE_ZIP=1` (the stateless option, at the cost of a 6-minute download each build); the checksum check in "One build" isn't built yet.
+**The server is set up (Oct 31, 2026); see [server.md](server.md)** for how it's actually configured. **The build is dockerized (Oct 31, 2026):** `Dockerfile`, `docker-compose.yml` and `docker/build.sh`; see [docker.md](docker.md). On the Linode, the "Node, libvips, ffmpeg, unzip" setup below becomes just Docker, and one build is `git pull && docker compose run --rm --build build`, which swaps the site into `site/current/` for Caddy. The zip stays in a Docker volume between builds unless `DELETE_ZIP=1` (the stateless option, at the cost of a 6-minute download each build); the checksum check in "One build" isn't built yet.
 
 A $5 plan (1 shared CPU, 1 GB RAM, 25 GB disk, 1 TB transfer a month) is enough. The temporary folder needs room for the zips plus the extracted picks during a build, and the live site with picks only is a few hundred MB. A first build with videos is slow; later ones only convert what's new.
 

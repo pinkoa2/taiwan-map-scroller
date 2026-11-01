@@ -15,13 +15,16 @@ scripts/         prepare-trip.js, the build-time map and photo step
 
 ## Run it
 
+Everything runs in Docker; the laptop needs nothing else installed. See [docker.md](docker.md) for the details.
+
 ```bash
-npm install
-npm run dev -- --host   # dev server, with a LAN URL for phones
-npm run build           # → dist/
+docker compose up dev              # live dev server → http://localhost:5173 (phones: http://<laptop's address>:5173)
+docker compose up curate preview   # photo picker → http://localhost:4318, built site → http://localhost:4317
 ```
 
-`npm run dev` and `npm run build` first run `scripts/prepare-trip.js`, which:
+Add `--build` the first time and after a dependency changes. Ctrl+C stops them.
+
+The dev server and every build first run `scripts/prepare-trip.js`, which:
 
 - turns each **picked** photo into WebP sizes (640/960/1400/2000) with a blurred placeholder, and each picked video into a web copy with a poster (see Photos)
 - routes each leg by its mode: trains along OpenStreetMap rail lines, buses and cars by OSRM, flights and ferries as arcs; a hike is drawn from the OSM trail of that name
@@ -29,7 +32,7 @@ npm run build           # → dist/
 - fetches cities, the trail and its features from OpenStreetMap
 - writes the link-preview image (`og.jpg`), the `CNAME` and the page title
 
-If you re-run `node scripts/prepare-trip.js` on its own while the dev server is up, restart the dev server afterwards, or the map comes up blank (the script recreates `.generated/public/geo`, and Vite loses track of it).
+If the picker's "Update site" (which re-runs the script) runs while the dev server is up, restart the dev server afterwards, or the map comes up blank (the script recreates `.generated/public/geo`, and Vite loses track of it).
 
 Anything fetched is cached in `content/geo/` so later builds (and CI) don't touch the network. Raw downloads sit in `.cache/` (not committed). To refetch something, delete its entry: a route in `routes.json`, a sheet in `sheets/`, or a key in `base.json`.
 
@@ -49,7 +52,7 @@ Everything on the page comes from `content/trip.js`; the comment at its top list
 The photos come from a zip of the Google Drive folder (the originals), downloaded once:
 
 ```bash
-npm run photos:download   # → photos/photos.zip (not committed), with a progress bar
+docker compose run --rm dev npm run photos:download   # → photos/photos.zip (not committed), with a progress bar
 ```
 
 The link is `PHOTOS_ZIP_URL` in `.env` (copy `.env.example`). Run it again whenever the Drive folder has new or changed photos.
@@ -75,10 +78,10 @@ Building is `scripts/photo-source.js` (reading the zip, iPhone HEIC via `heic-de
 ## Photo picker
 
 ```bash
-npm run curate   # → http://localhost:4318
+docker compose up curate preview   # picker → http://localhost:4318, built site → http://localhost:4317
 ```
 
-A small local app for choosing each place's photos and writing the words:
+It only ever runs on the laptop, and only on the laptop itself (not offered to the rest of the wifi: it has no password). A small local app for choosing each place's photos and writing the words:
 - Click photos to pick them; the order you click is the order on the site.
 - Click the star on a picked photo to make it the place's favourite: the site opens that place's photos on it.
 - Each photo card has a caption and an optional note.
@@ -88,7 +91,7 @@ It shows every photo and video in the zip, picked or not. The grid's previews ar
 
 Photos run in the order they were taken. A place can be set to its own order with the arrows on a picked photo. Each card's time can be changed, and its "Move to…" menu sends the photo to another place (only the JSON changes; the zip is never touched). Files in a newer zip that no place lists yet appear in an **Unsorted** section, marked New and with no time; move each to its place. (Live Photos' short `.MP4` parts are left out.)
 
-Everything saves by itself into `content/media/<place>/photos.json`, `content/order.json` and `content/descriptions.json`, which are part of the repo, so commit them as usual. "Update site" rebuilds the preview.
+Everything saves by itself into `content/media/<place>/photos.json`, `content/order.json` and `content/descriptions.json`, which are part of the repo, so commit them as usual. "Update site" rebuilds `dist/`, and the preview (http://localhost:4317) shows it on a reload.
 
 ## Getting around
 
@@ -98,6 +101,6 @@ Tap the place badge in the corner for the list of stops. Every stop has its own 
 
 Live at https://taiwan.pinkoa2.lol/ (repo `pinkoa2/taiwan-map-scroller`). **Between hosts (since Oct 30, 2026):** the GitHub Actions workflow that built and published the site on every push was removed, since it can't reach the photos zip. GitHub Pages keeps serving the last version it published, so pushing no longer changes the live site. It moves to a Linode next ([hosting-plan.md](hosting-plan.md)); until then, don't turn Pages off, or the site goes down. Pages has HTTPS enforced. The `CNAME` comes from `subdomain` in `trip.js` (`taiwan.pinkoa2.lol`), which points at `pinkoa2.github.io` at Porkbun.
 
-A move to a Linode, with the photos kept out of the repo, is planned in [hosting-plan.md](hosting-plan.md). The build already runs in Docker (`docker compose run --rm --build build` → `site/current/`), so the server needs only Docker: see [docker.md](docker.md).
+A move to a Linode, with the photos kept out of the repo, is planned in [hosting-plan.md](hosting-plan.md). The build already runs in Docker (`docker compose run --rm --build build` → `site/current/`), so the server needs only Docker: see [docker.md](docker.md). How the Linode itself is set up (Caddy, `/srv/taiwan`, the firewall, updating the site): [server.md](server.md).
 
 Map data © OpenStreetMap contributors (ODbL); terrain from the AWS Terrain Tiles.

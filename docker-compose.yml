@@ -1,10 +1,31 @@
-# The site's build, ready to run on a server with only Docker (docs/docker.md):
+# Everything runs in Docker (docs/docker.md): the build on the server, and
+# the dev server, photo picker and preview on the laptop.
 #
-#   mkdir -p site && docker compose run --rm --build build
+#   Server:  mkdir -p site && docker compose run --rm --build build
+#   Laptop:  docker compose up dev                → http://localhost:5173
+#            docker compose up curate preview     → http://localhost:4318 (picker)
+#                                                    http://localhost:4317 (built site)
 #
-# The finished site lands in ./site/current (or SITE_DIR/current).
+# The laptop services are in the "local" profile, so a bare `docker compose
+# up` never starts them; naming them starts them. The picker only ever runs
+# on the laptop.
+# Under rootless Docker or Podman (the laptop), put BUILD_USER=0 in .env:
+# there the container's root is you, and its uid 1000 can't write your files.
+
+# The laptop services share the image, with the repo itself mounted in, so
+# edits, picks and captions land straight in your working copy. The image's
+# node_modules is kept (the anonymous volume), not your folder's.
+x-workspace: &workspace
+  build: .
+  profiles: [local]
+  user: ${BUILD_USER:-node}
+  entrypoint: []
+  volumes:
+    - .:/app
+    - /app/node_modules
 
 services:
+  # The server's build: download the zip if needed, build, swap the site in.
   build:
     build: .
     # The image's unprivileged user (uid 1000). Under rootless Docker or
@@ -26,6 +47,38 @@ services:
       - generated:/app/.generated
       # Where the site goes; the web server serves SITE_DIR/current.
       - ${SITE_DIR:-./site}:/out
+
+  # Live-reloading dev server (laptop). Reachable from phones on the wifi too
+  # (http://<laptop's address>:5173; `hostname -I` shows it).
+  dev:
+    <<: *workspace
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+    ports:
+      - "5173:5173"
+
+  # The photo picker (laptop). "Update site" builds dist/, which preview serves.
+  # Only on the laptop itself (127.0.0.1): it has no password, so it isn't
+  # offered to the rest of the wifi. Drop the 127.0.0.1: to use it from
+  # another device.
+  curate:
+    <<: *workspace
+    command: ["node", "tools/curate/server.js"]
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "127.0.0.1:4318:4318"
+
+  # The built site (dist/), served by Caddy as on the server, re-read on every
+  # request so "Update site" shows on a reload.
+  preview:
+    image: caddy:2
+    profiles: [local]
+    command: ["caddy", "file-server", "--root", "/srv", "--listen", ":4317"]
+    volumes:
+      - ./dist:/srv:ro
+    ports:
+      - "4317:4317"
 
 volumes:
   photos:
