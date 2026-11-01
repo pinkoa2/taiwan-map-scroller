@@ -144,11 +144,11 @@ A separate page should let the Linode be rebuilt from scratch:
 
 ## Moving over (to-do when built)
 
-1. Set up the Linode, the service account and `Taiwan site/` in Drive; point a test subdomain at the Linode.
+1. ~~Set up the Linode~~ (done Oct 31, 2026; [server.md](server.md)). Still to do: the service account and `Taiwan site/` in Drive.
 2. Add `deploy`. ~~Switch `prepare-trip.js` to picks only and fingerprinted names~~ (done; `photos:import` turned out unnecessary: the picker reads the zip directly).
 3. ~~Map the existing entries to the zip~~ (done: `original` already matches).
 4. ~~Remove `?display=all` from `App.svelte`~~ (done); review picks in the picker.
-5. Switch DNS, then turn off Pages in the repo's settings. (~~Remove `.github/workflows/deploy.yml`~~: done Oct 30, 2026. Pages still serves the last published version; don't turn it off before DNS points at the Linode.)
+5. ~~Switch DNS~~ (done Nov 1, 2026: the site is served from the Linode), then turn off Pages in the repo's settings. (~~Remove `.github/workflows/deploy.yml`~~: done Oct 30, 2026. Pages still serves the last published version; don't turn it off before DNS points at the Linode.)
 6. Stop committing `content/media/` photos (keep the JSON) and make the repo private. Optionally rewrite git history to drop the 158 MB already committed.
 7. Update `how-it-works.md` and `CLAUDE.md`.
 
