@@ -127,14 +127,46 @@ async function build(folder, p, src) {
   return out
 }
 
+// Progress through the picks (converting them is the slow, quiet part of a
+// first build; the user asked for a status bar): one line that updates in
+// place, with the photo being worked on. When the output isn't a terminal
+// (a log file), one line per photo converted instead.
+const progress = { done: 0, total: 0, start: Date.now() }
+for (const leg of trip.legs) {
+  for (const folder of [leg.folder ?? leg.id, leg.walk && (leg.walk.folder ?? `${leg.id}-walk`)].filter(Boolean)) {
+    const list = await readJSON(path.join(contentDir, 'media', folder, 'photos.json'), [])
+    progress.total += list.filter((p) => p.pick === true && p.show !== false).length
+  }
+}
+function showProgress(name) {
+  const { done, total, start } = progress
+  const secs = Math.round((Date.now() - start) / 1000)
+  const time = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`
+  if (!process.stdout.isTTY) {
+    if (name && converted) console.log(`  ${done + 1}/${total}  ${name}`)
+    return
+  }
+  const width = 24
+  const filled = Math.round((done / Math.max(total, 1)) * width)
+  const bar = '█'.repeat(filled) + '░'.repeat(width - filled)
+  const line = `  Photos ${bar} ${done}/${total} · ${converted} converted · ${time}${name ? ` · ${name}` : ''}`
+  process.stdout.write('\r\x1b[K' + line.slice(0, (process.stdout.columns || 100) - 1))
+  if (!name && done === total) process.stdout.write('\n')
+}
+
 // One entry from a folder's photos.json → what the page needs.
 async function photo(folder, p) {
   const src = await locate(folder, p)
   if (!src) {
     console.warn(`  ! ${folder}/${p.file} (${p.original ?? 'no original'}) is in neither the zip nor content/media; skipped`)
+    progress.done++
+    showProgress()
     return null
   }
+  showProgress(`${folder}/${p.file}`)
   const b = await build(folder, p, src)
+  progress.done++
+  showProgress()
   for (const f of [...b.files.map(([f]) => f), b.video].filter(Boolean)) written.add(f)
   return {
     w: b.w,

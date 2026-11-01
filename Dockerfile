@@ -9,19 +9,20 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends ffmpeg ca-certificates \
   && rm -rf /var/lib/apt/lists/*
 
+# The whole app belongs to the unprivileged user that runs the build: Vite,
+# for one, writes a temporary file next to its config, so the build needs to
+# write anywhere in /app, not just the folders it fills. The volumes mounted
+# on photos/, .cache/ and .generated/ (docker-compose.yml) start out with
+# these owners too.
 WORKDIR /app
+RUN chown node:node /app
+USER node
 
 # Dependencies first, so a change to the content doesn't reinstall them.
-COPY package.json package-lock.json ./
+COPY --chown=node:node package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund
 
-COPY . .
+COPY --chown=node:node . .
+RUN mkdir -p photos .cache .generated dist && chmod +x docker/build.sh
 
-# The folders the build writes to, owned by the unprivileged user so the
-# volumes mounted on them (docker-compose.yml) start out writable.
-RUN mkdir -p photos .cache .generated dist \
-  && chown -R node:node photos .cache .generated dist \
-  && chmod +x docker/build.sh
-
-USER node
 ENTRYPOINT ["docker/build.sh"]
