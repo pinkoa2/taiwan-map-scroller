@@ -8,15 +8,16 @@
 // (Safari's floats over the page).
 export function deckArea(w, h, edge, wide) {
   if (!wide) {
-    const top = h * 0.21
-    const bottom = h * 0.8 - 34
-    return { left: 14, right: w - 14, top, bottom, cx: w / 2, cy: (top + bottom) / 2 }
+    // The controls sit 44 and 92px under it (desktop 50 and 102).
+    const top = h * 0.17
+    const bottom = h * 0.82 - 34
+    return { left: 14, right: w - 14, top, bottom, cx: w / 2, cy: (top + bottom) / 2, controls: bottom + 44, skip: bottom + 92 }
   }
   const left = Math.max(w * 0.47, w / 2 - 40)
   const right = w - edge - 56
   const top = edge + 74
   const bottom = h - edge - 150
-  return { left, right, top, bottom, cx: (left + right) / 2, cy: (top + bottom) / 2 }
+  return { left, right, top, bottom, cx: (left + right) / 2, cy: (top + bottom) / 2, controls: bottom + 50, skip: bottom + 102 }
 }
 
 // A print's size: the photo as large as fits, plus its paper mount (10px

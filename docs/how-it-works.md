@@ -47,6 +47,7 @@ Everything on the page comes from `content/trip.js`; the comment at its top list
 - **A hike:** `walk: { name, zh, osmName, miles, hours, text, by, photos }`, where `osmName` is the trail's name in OpenStreetMap.
 - **A loop by road:** a segment with `via: [[lat, lng], …]` goes by road through those points; ending where it starts (a loop, last in `by`), the map zooms in on it while it draws, and it's left out of the retraced way back. See Xiaoliuqiu in `content/trip.js`.
 - **When the trip is finished:** set `continues: null`.
+- **The way home:** `home` in `content/trip.js` lists the hops after the last place (`{ to: '<leg id>' | [lat, lng], toName, by }`), drawn on over open map before the closing map, with no cards or photos.
 - **Full album link:** `album` in `content/trip.js` is the Google Photos album, linked from the closing card and the foot of the stop list. Set it to `null` to hide it.
 
 ## Photos

@@ -275,7 +275,7 @@
 
   <!-- Back, one tick per photo (the lit one is on top), forward. -->
   {#if n > 1}
-    <nav class="controls" in:settle|global style:left="{area.cx}px" style:top="{area.bottom + 50}px" aria-label="Photos at this stop">
+    <nav class="controls" in:settle|global style:left="{area.cx}px" style:top="{area.controls}px" aria-label="Photos at this stop">
       <button class="arrow" onclick={() => go(at - 1)} aria-label="Previous photo">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" /></svg>
       </button>
@@ -293,7 +293,7 @@
   <!-- Skip the photos: the ↓ on to the next stop, in its own row under the controls. -->
   {#if next}
     <div class="onward-in" in:settle|global>
-    <Onward label={next.name} zh={next.zh} at={[area.cx, area.bottom + 102]} onclick={onward} onback={back} aria="Skip the photos, on to {next.name}" />
+    <Onward label={next.name} zh={next.zh} at={[area.cx, area.skip]} onclick={onward} onback={back} aria="Skip the photos, on to {next.name}" />
     </div>
   {/if}
 </div>

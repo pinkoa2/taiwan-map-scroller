@@ -170,6 +170,18 @@
   {/if}
 {/each}
 
+{#if trip.home?.length}
+  <!-- The way home: the route draws on over open map, stop by stop. -->
+  <section class="map-run" aria-label="The way home">
+    {#each trip.home as hop, k}
+      <div class="mark" data-step="home-{k}"></div>
+      <div class="gap long"></div>
+      <div class="mark" data-step="home-{k}-done"></div>
+      <div class="gap"></div>
+    {/each}
+  </section>
+{/if}
+
 <!-- A place's photos: the first one large, the rest in a tight grid. -->
 {#snippet photoList(list, first, place)}
   {#if list.length}

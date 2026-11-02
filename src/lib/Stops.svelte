@@ -12,6 +12,9 @@
     ...(l.walk ? [{ id: l.walk.folder ?? `${l.id}-walk`, n: null, name: l.walk.name, zh: l.walk.zh, when: l.walk.when, leg: i, walk: true }] : []),
   ])
 
+  // On the title card: before the plane has landed, and not yet at the close.
+  const atStart = $derived(story.leg < 0)
+
   function choose(stop) {
     open = false
     jump(stop)
@@ -41,7 +44,8 @@
       <span class="place wide-only">{to.name}</span>
       {#if to.zh}<span class="zh wide-only">{to.zh}</span>{/if}
     {:else if story.back}
-      {@const [from, to] = story.back.map((k) => trip.legs[k])}
+      {@const from = trip.legs[story.back[0]]}
+      {@const to = trip.legs[story.back[1]] ?? { name: story.back[2] }}
       <span class="n">{String(story.back[0] + 1).padStart(2, '0')}<span class="of">/{trip.legs.length}</span></span>
       <span class="place faint wide-only">{from.name}</span>
       <svg class="wide-only" viewBox="0 0 18 10" width="18" height="10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
@@ -59,6 +63,9 @@
 
   {#if open}
     <ol id="stop-list" class="list" data-own-scroll>
+      <li class="edge" class:current={atStart}>
+        {@render edgeRow('start', 'Back to the start', atStart)}
+      </li>
       {#each stops as stop}
         <li class:walk={stop.walk} class:current={!stop.walk && stop.leg === story.at}>
           <button onclick={() => choose(stop)}>
@@ -69,6 +76,9 @@
           </button>
         </li>
       {/each}
+      <li class="edge end" class:current={story.end}>
+        {@render edgeRow('end', 'To the end', story.end)}
+      </li>
       {#if trip.album}
         <li class="album">
           <a href={trip.album} target="_blank" rel="noopener">
@@ -80,6 +90,19 @@
     </ol>
   {/if}
 </nav>
+
+<!-- The first and last rows: the title card, or the closing map. The arrow
+     sits in the number column, against a rule (to the top, to the foot). -->
+{#snippet edgeRow(edge, label, here)}
+  <button onclick={() => choose({ edge })} aria-current={here ? 'location' : undefined}>
+    <svg class="n" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+      {#if edge === 'start'}<path d="M3 2.5h10M8 14V6M4.5 9.5 8 6l3.5 3.5" />{:else}<path d="M3 13.5h10M8 2v8M4.5 6.5 8 10l3.5-3.5" />{/if}
+    </svg>
+    <span class="lettering name">{label}</span>
+    <span></span>
+    <span class="lettering when">{edge === 'start' ? 'Taiwan' : 'The whole route'}</span>
+  </button>
+{/snippet}
 
 <style>
   .stops {
@@ -242,6 +265,41 @@
 
   .list .current .n {
     color: var(--route);
+  }
+
+  /* Back to the start and on to the end: quieter than the stops, ruled off
+     from them like the album line. */
+  .list .edge .name {
+    font-weight: 500;
+    color: var(--route-deep);
+  }
+
+  .list .edge svg {
+    align-self: center;
+    fill: none;
+    stroke: var(--route-deep);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .list .edge:first-child {
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.3rem;
+  }
+
+  .list .edge.end {
+    border-top: 1px solid var(--rule);
+    margin-top: 0.3rem;
+  }
+
+  .list .edge.end button,
+  .list .edge:first-child + li button {
+    border-top: 0;
+  }
+
+  .list .edge.end + .album a {
+    margin-top: 0;
   }
 
   /* The way out to the full album, under the stops. */

@@ -251,6 +251,19 @@ export default {
     },
   ],
 
+  // The way home, after the last place (and its way back to base): on stop by
+  // stop, then the flight out, drawn over open map with no card or photos
+  // (photos from a stop go in that place's folder). Each hop:
+  //   { to: '<leg id>' | [lat, lng], toName (for a point), by (segments, as a leg's) }
+  // Kaohsiung → Yunlin → Taipei → home (the user, Nov 2, 2026). The car and
+  // the train are assumed: the ways we came.
+  home: [
+    { to: 'yunlin', by: [{ mode: 'car' }] },
+    { to: 'taipei', by: [{ mode: 'train' }] },
+    // Off the map to the east, the way the plane came in.
+    { to: [24.4, 123.95], toName: 'Home', by: [{ mode: 'flight' }] },
+  ],
+
   // Shown at the end while the trip is still going (e.g. 'To be continued').
   // Off since Nov 2, 2026: the user asked, and will add the last legs as they go.
   continues: null,

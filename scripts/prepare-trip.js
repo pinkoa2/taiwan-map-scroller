@@ -526,6 +526,28 @@ for (const [i, leg] of trip.legs.entries()) {
   })
 }
 
+// The way home after the last place: from where we were staying, hop by hop,
+// ending with the flight off the map.
+const home = []
+{
+  const last = trip.legs.length - 1
+  let from = ll((returnOf(last) ?? trip.legs[last]).at)
+  for (const hop of trip.home ?? []) {
+    const to = typeof hop.to === 'string' ? trip.legs.find((l) => l.id === hop.to) : null
+    if (typeof hop.to === 'string' && !to) throw new Error(`home: '${hop.to}' is not a leg id`)
+    const at = to ? ll(to.at) : ll(hop.to)
+    const segs = await segmentsFor(hop.by?.length ? hop.by : [{ mode: 'car' }], from, at)
+    home.push({
+      to: to ? to.name : hop.toName ?? null,
+      toIndex: to ? trip.legs.indexOf(to) : null,
+      segments: segs.map(({ _pts, ...s }) => s),
+      // Off the map (the flight out): the whole island stays in view.
+      camera: to ? boxOf(segs.flatMap((s) => s._pts), 0.45, 9000) : null,
+    })
+    from = at
+  }
+}
+
 // ---------- the island ----------
 // A minimal map: the island's outline only, no elevation, so it stays light
 // and fast. Contoured from terrain tiles at sea level and cached in content/geo/sheets/.
@@ -606,6 +628,7 @@ const manifest = {
   byMode,
   places: new Set(trip.legs.map((l) => l.name)).size,
   legs,
+  home,
 }
 await writeJSON(path.join(outDir, 'trip.json'), manifest)
 const nPhotos = legs.reduce((a, l) => a + l.photos.length + (l.walk?.photos.length ?? 0), 0)

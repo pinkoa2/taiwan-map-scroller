@@ -89,6 +89,8 @@
   const mapH = $derived(h)
   // Room the leg caption takes at the foot of a phone screen.
   const capH = 132
+  // Room the closing card takes at the foot of a phone screen (measured).
+  let closeH = $state(0)
   // Where the camera frames its subject: the sheet above the leg caption.
   const focus = $derived.by(() => {
     if (wide && !overMap) {
@@ -115,8 +117,11 @@
     // Above the leg caption, clear of the key map.
     const top = { x: 24, y: 60, w: w - 48, h: Math.max(h - capH - 60 - 30, 160) }
     // Phone deck: the place in a band at the top, the prints below it.
-    const band = { x: 24, y: 58, w: w - 48, h: Math.max(h * 0.2 - 58 - 6, 80) }
-    return (step) => (phoneDeck && step.centre ? band : top)
+    const band = { x: 24, y: 58, w: w - 48, h: Math.max(h * 0.165 - 58 - 6, 56) }
+    // The close: the whole island above the closing card, which is taller
+    // than a leg caption (measured, so it never covers the south).
+    const close = { ...top, h: Math.max(h - (closeH || capH) - 60 - 16, 160) }
+    return (step) => (step.end ? close : phoneDeck && step.centre ? band : top)
   })
   const layout = $derived({
     w,
@@ -214,7 +219,7 @@
   }
 
   // The next stop scrolling on leads to from a step (the next place, the
-  // hike, or, after the last place, where we went back to), named on the ↓
+  // hike, or, after the last place, home, or where we went back to), named on the ↓
   // buttons under a deck and on a place's words when it has no photos.
   function nextAfter(key) {
     const i = steps.findIndex((s) => s.key === key)
@@ -224,6 +229,9 @@
       const s = steps[j]
       if (s.key.endsWith('-walk')) return trip.legs[s.leg].walk
       if (s.key.endsWith('-travel')) return trip.legs[s.card.leg]
+      // After the last place, the way home (and the close) follows on in one
+      // glide, so it's named for where it ends: home.
+      if (s.home) return { name: trip.home.at(-1).to ?? 'Home' }
       if (s.key.endsWith('-returned')) back ??= trip.legs[s.at]
     }
     return back
@@ -325,6 +333,9 @@
       const end = r.top + r.height - h * ROOM_AT + line
       return Math.min(Math.max((end - marks[i]) / (marks[i + 1] - marks[i]), 0), 0.9)
     })
+    // The phone's closing card, from its top to the screen's foot when the page is at the end.
+    const close = !wide && document.querySelector('.end .closing')
+    if (close) closeH = Math.round(document.documentElement.scrollHeight - (close.getBoundingClientRect().top + y))
     measureStops(y)
     onScroll()
   }
@@ -379,6 +390,14 @@
   // #mianyue-line) to share or bookmark.
   function jump(stop) {
     measure()
+    // The top and bottom rows of the stop list: the title card, or the
+    // closing map with the whole route drawn. Neither has an address of its own.
+    if (stop.edge) {
+      scrollTo({ top: stop.edge === 'start' ? 0 : stops.at(-1).top, behavior: 'instant' })
+      glide?.rest()
+      history.replaceState(null, '', location.pathname + location.search)
+      return
+    }
     const at = stops.find((s) => s.place === stop.id)
     if (!at) return
     scrollTo({ top: at.top, behavior: 'instant' })
@@ -395,18 +414,66 @@
     return w >= 0 ? { leg: w, id, walk: true } : null
   }
 
+  // Where you left off (this browser only): the step and how far through it,
+  // the address it had then, and the photo on top of each pile. Saved as you go.
+  const LEFT_OFF_KEY = 'taiwan-left-off'
+  let resumed = false
+  function readLeftOff() {
+    try {
+      const v = JSON.parse(localStorage.getItem(LEFT_OFF_KEY))
+      return v && typeof v.key === 'string' ? v : null
+    } catch {
+      return null
+    }
+  }
+  let saveTimer
+  $effect(() => {
+    const i = Math.floor(p)
+    const s = steps[i]
+    const v = { key: s?.key, frac: p - i, flips: { ...flips } }
+    if (!resumed || !s) return
+    clearTimeout(saveTimer)
+    saveTimer = setTimeout(() => {
+      try {
+        // The address as it is by now (it follows the scroll too).
+        localStorage.setItem(LEFT_OFF_KEY, JSON.stringify({ ...v, hash: location.hash }))
+      } catch {}
+    }, 300)
+  })
+  function resume(saved) {
+    measure()
+    const i = steps.findIndex((s) => s.key === saved.key)
+    if (i < 0) return
+    const a = marks[i]
+    const b = marks[i + 1] ?? a
+    let y = i === 0 ? saved.frac * Math.max(b - line, 0) : a + saved.frac * (b - a) - line
+    // Settle on the nearest place the page rests, so the glide carries on from there.
+    let best = null
+    for (const st of stops) {
+      const d = y < st.top ? st.top - y : y > st.bottom ? y - st.bottom : 0
+      if (!best || d < best.d) best = { d, st }
+    }
+    if (best) y = Math.min(Math.max(y, best.st.top), best.st.bottom)
+    scrollTo({ top: y, behavior: 'instant' })
+    glide?.rest()
+  }
+
+  // The stop a step belongs to is in its key ('jiufen-travel' → jiufen), so a
+  // route that's still drawing already counts as the place it heads for.
+  function stopIdOf(key) {
+    const legId = key.replace(/-(travel|travelled|ride|ridden|here|walk|walked|return|returned)$/, '')
+    const leg = trip.legs.find((l) => l.id === legId)
+    if (!leg) return null
+    return /-walke?d?$/.test(key) ? leg.walk.folder : leg.id
+  }
+
   // As you scroll, the address follows the place you're at, so it can be shared.
   let lastHash = ''
   $effect(() => {
     const s = steps[Math.floor(p)]
     if (!s || typeof history === 'undefined') return
-    // The stop a step belongs to is in its key ('jiufen-travel' → jiufen), so a
-    // route that's still drawing already counts as the place it heads for.
-    const legId = s.key.replace(/-(travel|travelled|ride|ridden|here|walk|walked|return|returned)$/, '')
-    const leg = trip.legs.find((l) => l.id === legId)
-    if (!leg) return
-    const id = /-walke?d?$/.test(s.key) ? leg.walk.folder : leg.id
-    if (id === lastHash) return
+    const id = stopIdOf(s.key)
+    if (!id || id === lastHash) return
     lastHash = id
     history.replaceState(null, '', `${location.pathname}${location.search}#${id}`)
   })
@@ -437,21 +504,22 @@
     window.addEventListener('scroll', scroll, { passive: true })
     measure()
     glide = glider(() => stops, mapMoves, () => viewer == null)
-    // A refresh starts over from the top (the user asked: where you left off
-    // isn't kept), so the browser's scroll memory is off, and a reload drops
-    // the stop the address picked up while scrolling. Opening a stop's link
-    // fresh (#jiufen) still goes straight there.
+    // The browser's own scroll memory is off: the page moves itself once laid out.
     history.scrollRestoration = 'manual'
-    const reload = performance.getEntriesByType?.('navigation')[0]?.type === 'reload'
-    if (reload) {
-      history.replaceState(null, '', location.pathname + location.search)
-      scrollTo(0, 0)
-      glide.rest()
-    }
-    // Opened from a stop's link: go there once the page has laid out.
-    const start = reload ? null : stopFromHash()
+    // Coming back (a reload, or the address opened again) picks up where you
+    // left off, at the same stop with the same photos on top. A link to another
+    // stop (#jiufen, shared) goes to that stop instead.
+    const saved = readLeftOff()
+    const start = stopFromHash()
+    if (saved?.flips) flips = saved.flips
     // Once the fonts are in, so the cards have their final height.
-    if (start) document.fonts.ready.then(() => requestAnimationFrame(() => jump(start)))
+    document.fonts.ready.then(() =>
+      requestAnimationFrame(() => {
+        if (saved && (!start || location.hash === saved.hash)) resume(saved)
+        else if (start) jump(start)
+        resumed = true
+      }),
+    )
     return () => {
       document.removeEventListener('gesturestart', noZoom)
       document.removeEventListener('gesturechange', noZoom)
@@ -481,6 +549,17 @@
     {#each trip.legs as leg, i}
       <Leg {leg} plates={plateStart[i]} layout={wideLayout} open={(n) => (viewer = n - 1)} {onward} {back} {nextAfter} />
     {/each}
+    {#if trip.home?.length}
+      <!-- The way home: the route draws on over open map, no card. -->
+      <div class="home-run" aria-label="The way home">
+        {#each trip.home as hop, k}
+          <div class="mark" data-step="home-{k}"></div>
+          <div class="gap long"></div>
+          <div class="mark" data-step="home-{k}-done"></div>
+          <div class="gap"></div>
+        {/each}
+      </div>
+    {/if}
     <Closing {trip} />
   </main>
   {#if prints}
@@ -543,4 +622,13 @@
     padding-bottom: calc(var(--edge) + 2.5rem);
   }
 
+
+  /* The way home (desktop): open map while the route draws on. */
+  .home-run .gap {
+    height: 34svh;
+  }
+
+  .home-run .gap.long {
+    height: 60svh;
+  }
 </style>

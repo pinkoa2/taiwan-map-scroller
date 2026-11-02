@@ -15,6 +15,7 @@ export function buildRoute(trip) {
     if (leg.walk) lines.push({ leg: i, mode: 'walk', walk: true, track: leg.walk.track, line: buildLine(leg.walk.line, ROUTE_Q) })
     leg.returns?.segments.forEach((s) => lines.push({ leg: i, mode: s.mode, line: buildLine(s.line, ROUTE_Q) }))
   })
+  trip.home?.forEach((hop) => hop.segments.forEach((s) => lines.push({ leg: trip.legs.length - 1, mode: s.mode, line: buildLine(s.line, ROUTE_Q) })))
   return lines
 }
 
@@ -56,6 +57,17 @@ export function buildSteps(trip) {
       ink += leg.returns.segments.length
       steps.push({ key: `${leg.id}-returned`, camera, ink, leg: i, at: leg.returns.toIndex, card: { type: 'leg', leg: i } })
     }
+  })
+  // The way home: on from where we were staying, stop by stop, then the
+  // flight out. Once the plane is off the map no place is singled out.
+  const last = trip.legs.length - 1
+  let at = trip.legs[last].returns?.toIndex ?? last
+  ;(trip.home ?? []).forEach((hop, k) => {
+    const camera = hop.camera ?? trip.island
+    steps.push({ key: `home-${k}`, camera, ink, leg: last, at, home: true, card: { type: 'end' } })
+    ink += hop.segments.length
+    at = hop.toIndex ?? -1
+    steps.push({ key: `home-${k}-done`, camera, ink, leg: last, at, toName: hop.to, card: { type: 'end' } })
   })
   steps.push({ key: 'end', camera: trip.island, ink, leg: trip.legs.length - 1, end: true, card: { type: 'end' } })
   return steps
@@ -121,8 +133,9 @@ export function viewAt(steps, p, focusFor, hold = 0) {
     end: !!(t > 0.5 ? b.end : a.end),
     // Between leaving one place and reaching the next.
     travel: a.key.endsWith('-travel') && t <= 0.92 ? b.leg : null,
-    // On the way back from a day trip: [from, to] place indexes.
-    back: a.key.endsWith('-return') && t <= 0.92 ? [a.leg, b.at] : null,
+    // On the way back from a day trip, or on the way home: [from, to] place
+    // indexes, and the name when `to` is off the map (-1).
+    back: (a.key.endsWith('-return') || a.home) && t <= 0.92 ? [a.at ?? a.leg, b.at, b.toName] : null,
     step: t > 0.5 ? j : i,
   }
 }
