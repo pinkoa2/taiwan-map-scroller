@@ -74,12 +74,10 @@
             {#if stop.zh}<span class="zh">{stop.zh}</span>{/if}
             <!-- No dates here (the user asked, Nov 2, 2026): they're on each postcard. -->
           </button>
-          <!-- The place's card (its words) and the photos, each its own
-               button (the user asked, Nov 2, 2026, liking the photo icon). -->
+          <!-- Straight to the photos (the user asked, Nov 2, 2026): the pile
+               with photo 1 on top, past the place's card (the row itself
+               opens on the card). -->
           {#if stop.count}
-            <button class="photos card" onclick={() => choose(stop)} aria-label="About {stop.name}" title="About">
-              <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><rect x="2" y="3" width="16" height="14" /><path d="M4.5 7h11M7.5 3v2.2M12.5 3v2.2M10 17v-2.2" /><circle class="stamp" cx="6.4" cy="11.2" r="1.9" /><path d="M9.5 11.2h5" /></svg>
-            </button>
             <button class="photos" onclick={() => choose({ ...stop, photos: true })} aria-label="Straight to the {stop.count} photos of {stop.name}" title="Photos">
               <svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><rect x="5.5" y="3" width="11.5" height="12.5" transform="rotate(8 11 9)" /><rect x="3" y="4.5" width="11.5" height="12.5" /><path d="M5 13.5l2.6-3 2 2 1.4-1.4 2 2.4" /></svg>
               <span class="lettering">{stop.count}</span>
@@ -208,9 +206,11 @@
   .list {
     list-style: none;
     margin: 6px 0 0;
-    padding: 0.3rem 0;
+    padding: 0.2rem 0;
     min-width: 20rem;
-    max-height: min(70svh, 34rem);
+    /* Down to just above the screen's foot, so the whole trip shows at once
+       on most phones (the user asked, Nov 2, 2026); a small one scrolls. */
+    max-height: calc(100svh - var(--edge) - 68px - env(safe-area-inset-top));
     overflow-y: auto;
     /* Its own scroll (glide.js leaves it alone), never handed on to the page. */
     overscroll-behavior: contain;
@@ -233,7 +233,8 @@
     align-items: baseline;
     gap: 0.5rem;
     width: 100%;
-    padding: 0.5rem 0.9rem;
+    /* About 38px a row: still an easy tap, full width. */
+    padding: 0.32rem 0.9rem;
     border: 0;
     border-top: 1px solid rgb(29 31 26 / 0.12);
     background: none;
@@ -297,17 +298,6 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* The postcard: just its icon, ruled off from the photos. */
-  .list .photos.card {
-    width: auto;
-    padding: 0 0.6rem;
-  }
-
-  .list .photos .stamp {
-    fill: var(--route);
-    stroke: none;
-  }
-
   .list .photos svg {
     fill: var(--paper);
     stroke: currentColor;
@@ -369,7 +359,7 @@
     align-items: center;
     gap: 0.5rem;
     margin-top: 0.3rem;
-    padding: 0.6rem 0.9rem 0.45rem 3.4rem;
+    padding: 0.45rem 0.9rem 0.35rem 3.4rem;
     border-top: 1px solid var(--rule);
     color: var(--route-deep);
     text-decoration: none;

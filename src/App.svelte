@@ -158,6 +158,9 @@
     const drawing = s.key.endsWith('-walk') && p - Math.floor(p) >= 0.04
     if (!drawing && !(s.key.endsWith('-walked') && !prints)) return null
     const walk = trip.legs[s.leg].walk
+    // With a pile of photos, the stats are a card in it instead (the user
+    // asked, Nov 2, 2026), with the splits on phones too.
+    if (walk?.photos.length && (phoneDeck || (overMap && wideLayout === 'deck'))) return null
     return walk?.stats ? walk : null
   })
 
@@ -226,7 +229,11 @@
       : { ...sheet, name: leg.name, zh: leg.zh, segments: leg.segments, from: leg.from, arrive: leg.arrive, when: leg.when, stay: leg.stay, gmaps: leg.gmaps }
     const parts = cards(walk ? walk.text : leg.text)
     if (!parts.length) parts.push([])
-    return parts.map((words, k) => ({ note: { ...base, [walk ? 'quote' : 'text']: words }, part: k, parts: parts.length, key: `card-${k}`, number: null }))
+    const list = parts.map((words, k) => ({ note: { ...base, [walk ? 'quote' : 'text']: words }, part: k, parts: parts.length, key: `card-${k}`, number: null }))
+    // A hike's stats (AllTrails), on a card of their own after its words.
+    if (walk?.stats) list.push({ note: { ...base, stats: walk.stats }, part: parts.length, parts: parts.length, key: 'card-stats', number: null })
+    list.at(-1).final = true
+    return list
   }
 
   // A place's photos (the leg's, or a hike's on its '-walked' step).
@@ -669,7 +676,9 @@
 {/if}
 
 <!-- Where we are on the sheet; tap it for the list of stops. -->
-<Stops {trip} {story} {here} shown={p > 0.6} {jump} />
+<!-- Always up, the title card included (the user asked, Nov 2, 2026), so you
+     can jump to a stop from the first screen. -->
+<Stops {trip} {story} {here} shown={true} {jump} />
 
 {#if overMap}
   <!-- Over-map layout: the map fills the page, photos float over it. -->

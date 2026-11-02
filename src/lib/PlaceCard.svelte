@@ -17,11 +17,17 @@
   // note: { name, zh, sheet, of, inset, lonlat, segments, from, arrive, when,
   // stay, text: [paragraphs], quote, by, gmaps, walk: { miles, hours } }.
   // part, parts: which card of how many. photos: how many photos lie
-  // beneath. live: it's on top (its link takes the keyboard).
-  let { note, part = 0, parts = 1, photos = 0, live = false } = $props()
+  // beneath. live: it's on top (its link takes the keyboard). final: the last
+  // card before the photos. note.stats: a hike's AllTrails figures and splits,
+  // on a card of their own (the user asked, Nov 2, 2026, moving them off the
+  // map now there are no hike cards; the splits fit on phones there too).
+  let { note, part = 0, parts = 1, final = true, photos = 0, live = false } = $props()
 
-  const front = $derived(part === 0)
+  const stats = $derived(note.stats ?? null)
+  const front = $derived(part === 0 && !stats)
   const last = $derived(part === parts - 1)
+  const secs = (pace) => pace.split(':').reduce((a, n) => a * 60 + Number(n), 0)
+  const slowest = $derived(Math.max(...(stats?.splits ?? []).map((sp) => secs(sp[1])), 1))
   const pad2 = (n) => String(n).padStart(2, '0')
   // Degrees and minutes, the way the frame's ticks are lettered.
   const dm = (v, pos, neg) => {
@@ -38,8 +44,14 @@
   function fitWords(face) {
     const check = () => {
       let f = 1
+      // The words (or stats) box can overflow into the foot without the
+      // card itself overflowing, so both are checked. Stats may shrink a
+      // little further than words.
+      const body = face.querySelector('.message, .stats')
+      const over = () => face.scrollHeight > face.clientHeight + 1 || (body && body.scrollHeight > body.clientHeight + 1)
+      const floor = stats ? 0.66 : 0.78
       face.style.setProperty('--fit', f)
-      while (face.scrollHeight > face.clientHeight + 1 && f > 0.78) {
+      while (over() && f > floor) {
         f = Math.round((f - 0.04) * 100) / 100
         face.style.setProperty('--fit', f)
       }
@@ -58,7 +70,7 @@
     <p class="head lettering">
       <span class="sheet">
         {note.inset ? 'Inset\u2002·\u2002' : ''}Sheet <b>{pad2(note.sheet)}</b>&thinsp;/&thinsp;{pad2(note.of)}
-        {#if !front}<span class="cont">· cont. {part + 1}&thinsp;/&thinsp;{parts}</span>{/if}
+        {#if !front && !stats}<span class="cont">· cont. {part + 1}&thinsp;/&thinsp;{parts}</span>{/if}
       </span>
       {#if coords}<span class="coords">{coords}</span>{/if}
     </p>
@@ -86,9 +98,37 @@
       <p class="carry">
         <span class="carry-name lettering">{note.name}</span>
         {#if note.zh}<span class="zh" lang="zh-Hant">{note.zh}</span>{/if}
+        {#if stats?.source}<span class="source lettering">{stats.source}</span>{/if}
       </p>
     {/if}
 
+    {#if stats}
+      <div class="stats">
+        <dl class="figures">
+          {#each stats.figures as [label, value]}
+            <div>
+              <dd class="lettering">{value}</dd>
+              <dt class="lettering">{label}</dt>
+            </div>
+          {/each}
+        </dl>
+        {#if stats.splits?.length}
+          <table class="splits">
+            <thead class="lettering"><tr><th>Mile</th><th>Pace</th><th class="bar-h"></th><th class="gain">Gain</th></tr></thead>
+            <tbody>
+              {#each stats.splits as [mile, pace, ft]}
+                <tr>
+                  <td class="lettering mile">{mile}</td>
+                  <td class="lettering pace">{pace}</td>
+                  <td class="bar"><span style:width="{(secs(pace) / slowest) * 100}%"></span></td>
+                  <td class="lettering gain">{ft} ft</td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        {/if}
+      </div>
+    {:else}
     <div class="message">
       {#if note.quote}
         <blockquote>
@@ -98,6 +138,7 @@
       {/if}
       {#each note.text ?? [] as para}<p>{para}</p>{/each}
     </div>
+    {/if}
 
     <div class="foot lettering">
       {#if front && note.gmaps}
@@ -106,7 +147,7 @@
         <span></span>
       {/if}
       <span class="more">
-        {last ? `${photos} photo${photos === 1 ? '' : 's'}` : 'Next'}
+        {final ? `${photos} photo${photos === 1 ? '' : 's'}` : stats || !last ? 'Next' : 'The stats'}
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5" /></svg>
       </span>
     </div>
@@ -266,6 +307,102 @@
 
   .carry .zh {
     color: var(--route-deep);
+  }
+
+  /* The stats card's running head: tighter, to leave the splits room. */
+  .face:has(.stats) .carry {
+    margin-top: 0.6rem;
+    padding-bottom: 0.45rem;
+  }
+
+  .source {
+    margin-left: auto;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+  }
+
+  /* A hike's stats: the headline figures, then each mile's pace as a red
+     bar with its climb. Sized with the card (and --fit, if it must). */
+  .stats {
+    flex: 1;
+    min-height: 0;
+    padding: 0.7em 0 0.5em;
+    font-size: calc(clamp(0.8rem, 3.6cqi, 1rem) * var(--fit, 1));
+    overflow: hidden;
+  }
+
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6em 0.8em;
+    margin: 0 0 0.9em;
+  }
+
+  .figures dd {
+    margin: 0;
+    font-size: 1.45em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .figures dt {
+    font-size: 0.72em;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+
+  .splits {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .splits th {
+    padding: 0 0 0.25em;
+    border-bottom: 1px solid var(--hair);
+    font-weight: 500;
+    font-size: 0.85em;
+    letter-spacing: 0.1em;
+    text-align: left;
+    color: var(--ink-faint);
+  }
+
+  .splits td {
+    padding: 0.1em 0;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+
+  .splits .mile {
+    width: 3.4em;
+    padding-right: 0.6em;
+    color: var(--ink-faint);
+  }
+
+  .splits .pace {
+    width: 3.6em;
+  }
+
+  .splits .bar {
+    width: 100%;
+    padding: 0 0.6em;
+  }
+
+  .splits .bar span {
+    display: block;
+    height: 0.42em;
+    border-radius: 0.21em;
+    background: var(--route);
+    opacity: 0.85;
+  }
+
+  .splits .gain {
+    text-align: right;
+    color: var(--ink-soft);
   }
 
   /* The words, in the serif, as large as the card allows. */

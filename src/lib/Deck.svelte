@@ -56,6 +56,11 @@
   // them).
   const shelf = $derived(Math.min(area.bottom, area.cy + Math.max(...sized.filter((s) => !s.note).map((s) => s.ph), 0) / 2))
   const controlsY = $derived(shelf + (area.controls - area.bottom))
+  // Each print is centred in the pile's space (from the tallest print's top
+  // to the shelf), so a wide photo sits in the middle, not low with map above
+  // it (the user asked, Nov 2, 2026: landscape photos sat too far down).
+  const stageH = $derived(Math.max(...sized.map((s) => s.ph), 0))
+  const mid = $derived(shelf - stageH / 2)
   const skipY = $derived(shelf + (area.skip - area.bottom))
 
   // Images load from the top print outward, and stay once loaded, so flipping
@@ -200,16 +205,16 @@
   function place(i) {
     const d = depth(i)
     const turn = TURNS[i % TURNS.length]
-    if (d === n - 1 && n > 2) return { transform: `translate(calc(-50% - ${sized[i].pw * 0.85 + 40}px), calc(-100% + 30px)) rotate(${turn - 14}deg)`, opacity: 0, z: n + 1 }
-    if (d === 0 && sized[i].note) return { transform: `translate(calc(-50% + ${drag}px), calc(-100% + ${give}px)) rotate(${-0.8 + drag * 0.03}deg)`, opacity: 1, z: n }
-    if (d === 0 && (drag || give)) return { transform: `translate(calc(-50% + ${drag}px), calc(-100% + ${give}px)) rotate(${turn + drag * 0.03}deg)`, opacity: 1, z: n }
+    if (d === n - 1 && n > 2) return { transform: `translate(calc(-50% - ${sized[i].pw * 0.85 + 40}px), calc(-50% + 30px)) rotate(${turn - 14}deg)`, opacity: 0, z: n + 1 }
+    if (d === 0 && sized[i].note) return { transform: `translate(calc(-50% + ${drag}px), calc(-50% + ${give}px)) rotate(${-0.8 + drag * 0.03}deg)`, opacity: 1, z: n }
+    if (d === 0 && (drag || give)) return { transform: `translate(calc(-50% + ${drag}px), calc(-50% + ${give}px)) rotate(${turn + drag * 0.03}deg)`, opacity: 1, z: n }
     const u = UNDER[Math.min(d, 2)]
     // A print beneath is shrunk to tuck in behind the one on top, so a wide
     // photo under a tall one doesn't stick out past it on both sides.
     const top = sized[at]
     const fit = d === 0 || !top || top.note ? 1 : Math.min(1, (top.pw + 8) / sized[i].pw, (top.ph + 10) / sized[i].ph)
     return {
-      transform: `translate(calc(-50% + ${u.x}px), calc(-100% + ${u.y}px)) rotate(${turn + u.r}deg) scale(${fit})`,
+      transform: `translate(calc(-50% + ${u.x}px), calc(-50% + ${u.y}px)) rotate(${turn + u.r}deg) scale(${fit})`,
       opacity: d > 2 ? 0 : 1,
       z: n - d,
     }
@@ -232,7 +237,6 @@
   function deal(node, { i }) {
     const d = depth(i)
     if (d > 2 || still) return { duration: 0 }
-    const mid = shelf - sized[i].ph / 2
     const dx = (origin?.x ?? area.cx) - area.cx
     const dy = (origin?.y ?? mid - 40) - mid
     const final = node.style.transform
@@ -278,7 +282,7 @@
       class:dragging={i === at && (dragging || give !== 0)}
       data-own-swipe={i === at ? '' : undefined}
       style:left="{area.cx}px"
-      style:top="{shelf}px"
+      style:top="{mid}px"
       style:width="{s.pw}px"
       style:height="{s.ph}px"
       style:transform={pos.transform}
@@ -286,7 +290,7 @@
       style:z-index={pos.z}
       role="group"
       aria-roledescription="card"
-      aria-label={print.parts > 1 ? `${note.name}, card ${print.part + 1} of ${print.parts}` : note.name}
+      aria-label={note.stats ? `${note.name}, the stats` : print.parts > 1 ? `${note.name}, card ${print.part + 1} of ${print.parts}` : note.name}
       aria-hidden={i !== at}
       onpointerdown={down}
       onpointermove={move}
@@ -297,7 +301,7 @@
       tabindex={i === at ? 0 : -1}
       in:deal|global={{ i }}
     >
-      <PlaceCard note={print.note} part={print.part} parts={print.parts} photos={photoCount} live={i === at} />
+      <PlaceCard note={print.note} part={print.part} parts={print.parts} final={!!print.final} photos={photoCount} live={i === at} />
     </div>
     {:else}
     <button
@@ -306,7 +310,7 @@
       class:dragging={i === at && (dragging || give !== 0)}
       data-own-swipe={i === at ? '' : undefined}
       style:left="{area.cx}px"
-      style:top="{shelf}px"
+      style:top="{mid}px"
       style:width="{s.pw}px"
       style:transform={pos.transform}
       style:opacity={pos.opacity}
@@ -404,9 +408,9 @@
   }
 
   /* The top print takes every drag on it (flips; the page never scrolls
-     from the photo). It rests on the shelf: turns and tucks pivot at its foot. */
+     from the photo). Prints are centred in the pile's space. */
   .print {
-    transform-origin: 50% 100%;
+    transform-origin: 50% 50%;
   }
 
   .print.top {
