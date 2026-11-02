@@ -76,17 +76,19 @@ At the domain's registrar: an `A` record for `taiwan` pointing to the server's I
 
 ## Updating the site
 
-On the laptop: edit, pick photos (`npm run curate`), commit and push. Then on the server:
+On the laptop: edit, pick photos (`docker compose up curate preview`), commit and push. Then on the server:
 
 ```bash
 cd ~/taiwan-map-scroller
 git pull
-SITE_DIR=/srv/taiwan docker compose run --rm --build build
+REFRESH_PHOTOS=1 DELETE_ZIP=1 SITE_DIR=/srv/taiwan docker compose run --rm --build build
 ```
 
 It ends with `Site ready in … → /out/current`. Visitors get the new version on their next load; Caddy needs no reload.
 
-- After replacing the zip in Drive: add `REFRESH_PHOTOS=1` in front.
+- `REFRESH_PHOTOS=1` downloads the zip fresh (it's replaced in Drive whenever there are new photos). `DELETE_ZIP=1` deletes it once the site is built, to keep the server's disk small (since Nov 2, 2026, the user asked); the converted photos stay in their volumes, so the next build downloads the zip again but only converts new picks. A build with neither reuses a zip that's still there.
+- A new zip link: put it in `.env` (`PHOTOS_ZIP_URL=…`, `nano .env`) before building.
+- To delete a zip left from an earlier build: `docker compose run --rm --entrypoint sh build -c 'rm -f photos/photos.zip'`.
 - A first build (or with `REFRESH_PHOTOS=1`) downloads the zip and converts every pick: about 10–15 minutes. A rebuild with nothing new takes seconds.
 - Run it inside tmux, so a dropped connection doesn't stop it.
 
