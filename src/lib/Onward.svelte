@@ -8,7 +8,10 @@
   // asked for one to match).
   // deal: the step key of the deck this ↓ leads to; the deck's prints are
   // dealt out of this button as it lands (Deck.svelte).
-  let { label, zh = null, note = null, at = null, onclick, onback = null, aria = null, deal = null } = $props()
+  // call: the way on is what's wanted now (every photo of a deck seen): the
+  // ↓ turns solid red and sends out a ring, so it can't be missed (the user
+  // asked, Nov 2, 2026, once swipes on a photo stopped leaving the deck).
+  let { label, zh = null, note = null, at = null, onclick, onback = null, aria = null, deal = null, call = false } = $props()
 </script>
 
 <div class="row" class:placed={at} data-deal={deal} style:left={at ? `${at[0]}px` : null} style:top={at ? `${at[1]}px` : null}>
@@ -17,7 +20,7 @@
       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 19V6M6 11.5l6-6 6 6" /></svg>
     </button>
   {/if}
-  <button class="onward" {onclick} aria-label={aria}>
+  <button class="onward" class:call {onclick} aria-label={aria}>
     <span class="down" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 5v13M6 12.5l6 6 6-6" /></svg></span>
     <span class="to lettering">
       <span class="what">{label}{#if zh}<span class="zh" lang="zh-Hant">{zh}</span>{/if}</span>
@@ -181,6 +184,51 @@
     transition-duration: 0.08s;
   }
 
+  .call .down {
+    position: relative;
+    background: var(--route-deep);
+    border-color: var(--route-deep);
+    color: var(--paper);
+    transition:
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.4s,
+      color 0.4s;
+  }
+
+  /* A ring that spreads from the button and fades, twice, then a rest. */
+  .call .down::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    border: 2px solid var(--route);
+    opacity: 0;
+    animation: ring 3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s infinite;
+  }
+
+  @keyframes ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    30% {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+    31%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .call .what {
+    color: var(--route-deep);
+  }
+
+  .call:active .down {
+    background: var(--route);
+  }
+
   .onward:hover .what {
     color: var(--route-deep);
   }
@@ -192,7 +240,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .down svg {
+    .down svg,
+    .call .down::after {
       animation: none;
     }
   }

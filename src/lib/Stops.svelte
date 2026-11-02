@@ -8,8 +8,8 @@
 
   // Every stop, with the hike listed under the place it set out from.
   const stops = trip.legs.flatMap((l, i) => [
-    { id: l.id, n: i + 1, name: l.name, zh: l.zh, when: l.when, leg: i },
-    ...(l.walk ? [{ id: l.walk.folder ?? `${l.id}-walk`, n: null, name: l.walk.name, zh: l.walk.zh, when: l.walk.when, leg: i, walk: true }] : []),
+    { id: l.id, n: i + 1, name: l.name, zh: l.zh, when: l.when, leg: i, count: l.photos.length },
+    ...(l.walk ? [{ id: l.walk.folder ?? `${l.id}-walk`, n: null, name: l.walk.name, zh: l.walk.zh, when: l.walk.when, leg: i, walk: true, count: l.walk.photos.length }] : []),
   ])
 
   // On the title card: before the plane has landed, and not yet at the close.
@@ -67,13 +67,24 @@
         {@render edgeRow('start', 'Back to the start', atStart)}
       </li>
       {#each stops as stop}
-        <li class:walk={stop.walk} class:current={!stop.walk && stop.leg === story.at}>
+        <li class="stop" class:walk={stop.walk} class:current={!stop.walk && stop.leg === story.at}>
           <button onclick={() => choose(stop)}>
             <span class="lettering n">{stop.n ? String(stop.n).padStart(2, '0') : '↳'}</span>
             <span class="lettering name">{stop.name}</span>
             {#if stop.zh}<span class="zh">{stop.zh}</span>{/if}
-            {#if stop.when}<span class="lettering when">{stop.when}</span>{/if}
+            <!-- No dates here (the user asked, Nov 2, 2026): they're on each postcard. -->
           </button>
+          <!-- The place's card (its words) and the photos, each its own
+               button (the user asked, Nov 2, 2026, liking the photo icon). -->
+          {#if stop.count}
+            <button class="photos card" onclick={() => choose(stop)} aria-label="About {stop.name}" title="About">
+              <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><rect x="2" y="3" width="16" height="14" /><path d="M4.5 7h11M7.5 3v2.2M12.5 3v2.2M10 17v-2.2" /><circle class="stamp" cx="6.4" cy="11.2" r="1.9" /><path d="M9.5 11.2h5" /></svg>
+            </button>
+            <button class="photos" onclick={() => choose({ ...stop, photos: true })} aria-label="Straight to the {stop.count} photos of {stop.name}" title="Photos">
+              <svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><rect x="5.5" y="3" width="11.5" height="12.5" transform="rotate(8 11 9)" /><rect x="3" y="4.5" width="11.5" height="12.5" /><path d="M5 13.5l2.6-3 2 2 1.4-1.4 2 2.4" /></svg>
+              <span class="lettering">{stop.count}</span>
+            </button>
+          {/if}
         </li>
       {/each}
       <li class="edge end" class:current={story.end}>
@@ -253,6 +264,56 @@
     font-size: 0.75rem;
     color: var(--ink-faint);
     white-space: nowrap;
+  }
+
+  /* A stop's row: the place (to its words), then its photos. */
+  .list .stop {
+    display: flex;
+    align-items: stretch;
+    border-top: 1px solid rgb(29 31 26 / 0.12);
+  }
+
+  .list .stop > button:first-child {
+    flex: 1;
+    min-width: 0;
+    border-top: 0;
+  }
+
+  .list .edge:first-child + .stop {
+    border-top: 0;
+  }
+
+  .list .photos {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 0.3rem;
+    width: 4.4rem;
+    padding: 0 0.6rem 0 0.7rem;
+    border: 0;
+    border-left: 1px solid rgb(29 31 26 / 0.12);
+    color: var(--route-deep);
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* The postcard: just its icon, ruled off from the photos. */
+  .list .photos.card {
+    width: auto;
+    padding: 0 0.6rem;
+  }
+
+  .list .photos .stamp {
+    fill: var(--route);
+    stroke: none;
+  }
+
+  .list .photos svg {
+    fill: var(--paper);
+    stroke: currentColor;
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+    stroke-linecap: round;
   }
 
   .list .walk .name {

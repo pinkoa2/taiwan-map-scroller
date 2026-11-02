@@ -7,6 +7,7 @@
   // first comes the last. Scrolling simply carries on past. The deck lands as a whole on
   // reaching the place and lifts away before the next one.
   import Onward from './Onward.svelte'
+  import PlaceCard from './PlaceCard.svelte'
   import { deckArea, printSize, printSizes } from './deck.js'
 
   // at: the print on top; flip(k) puts print k on top (App remembers it per place).
@@ -30,7 +31,32 @@
 
   const n = $derived(prints.length)
   const area = $derived(deckArea(w, h, edge, wide))
-  const sized = $derived(prints.map((print) => printSize(print.photo, area, wide)))
+  // The place's words ride on top of its pile as a card (PlaceCard.svelte, a
+  // map sheet's label; the user asked,
+  // Nov 2, 2026, to go straight to the photos: each place is one stop, its
+  // pile, instead of a page of words and then the photos), or several when
+  // the words are long. Photos count from the first one beneath them. A card
+  // is as big as the biggest print in the pile
+  // (the user asked: the same size if not bigger than the photos), so it
+  // covers the pile and the photos' edges peek out from under it.
+  const noted = $derived(prints.findIndex((print) => !print.note) < 0 ? n : prints.findIndex((print) => !print.note))
+  const photoCount = $derived(n - noted)
+  const sized = $derived.by(() => {
+    const list = prints.map((print) => (print.note ? null : printSize(print.photo, area, wide)))
+    const photos = list.filter(Boolean)
+    const pw = photos.length ? Math.max(...photos.map((s) => s.pw)) : Math.min(area.right - area.left - 40, 520)
+    const ph = photos.length ? Math.max(...photos.map((s) => s.ph)) : pw * 0.7
+    return list.map((s) => s ?? { iw: pw - 20, ih: ph - 56, pw, ph, note: true })
+  })
+  // The pile rests on a shelf just above the controls: every print's foot
+  // sits on it, and the shelf is as low as the deck's tallest print needs
+  // (centred in the deck's ground). So the ‹ › and the ↓ sit right under the
+  // photo however short it is, and stay put as you flip (the user, Nov 2,
+  // 2026: on an iPad the buttons were so far below a wide photo they missed
+  // them).
+  const shelf = $derived(Math.min(area.bottom, area.cy + Math.max(...sized.filter((s) => !s.note).map((s) => s.ph), 0) / 2))
+  const controlsY = $derived(shelf + (area.controls - area.bottom))
+  const skipY = $derived(shelf + (area.skip - area.bottom))
 
   // Images load from the top print outward, and stay once loaded, so flipping
   // back never waits. The top one asks for its file first.
@@ -53,6 +79,14 @@
     flip(k)
   }
 
+  // Which photos have been on top here. Once every one has, the ↓ under the
+  // deck calls out (the way on), since swipes on the photo no longer leave.
+  let seen = $state(new Set())
+  $effect(() => {
+    if (!seen.has(at)) seen = new Set([...seen, at])
+  })
+  const seenAll = $derived(n > 1 && seen.size >= n)
+
   // The swipe hint, without words: the top print slides aside by itself to
   // show the one beneath, then settles back. Once as the deck lands, and once
   // more if it's left alone; never after the first flip.
@@ -70,33 +104,24 @@
   }
 
   // Dragging the top print: it follows the finger or mouse sideways, and past
-  // a short distance it flips on release. Vertical moves stay page scrolls.
-  // A swipe counts as sideways unless it's clearly more up-and-down
-  // (|dx| ≥ 0.7·|dy|), since thumbs swipe in an arc.
-  const SIDEWAYS = 0.7
+  // a short distance it flips on release. A swipe on the photo is the
+  // photo's, whatever its angle (the user asked, Nov 2, 2026: a slightly
+  // steep swipe used to scroll the page on, and Ting kept leaving the photos
+  // by mistake): anything short of nearly straight up or down flips, and a
+  // straight one just nudges the print, so it's clear it was felt. Leaving
+  // is the ↓, or a swipe on the map around the pile (glide.js leaves touches
+  // that start on [data-own-swipe] alone).
+  const SIDEWAYS = 0.45
 
-  // On a touch screen the browser would take a slightly diagonal swipe as a
-  // scroll (and the deck would slide away). So on the swipe's first move,
-  // a sideways one is claimed for the deck and the page holds still; an
-  // up-and-down one is left to scroll as normal.
-  function holdSideways(node) {
-    let t0 = null
-    let claimed = null
+  // The page never scrolls under a finger on the photo (touch-action: none
+  // on the print too, but iPhones need the touchmove held as well).
+  function holdPhoto(node) {
+    let on = false
     const start = (e) => {
-      const t = e.touches[0]
-      t0 = e.touches.length === 1 && e.target.closest?.('.print.top') ? { x: t.clientX, y: t.clientY } : null
-      claimed = null
+      on = e.touches.length === 1 && !!e.target.closest?.('.print.top')
     }
     const moveTouch = (e) => {
-      if (!t0) return
-      const t = e.touches[0]
-      const dx = t.clientX - t0.x
-      const dy = t.clientY - t0.y
-      if (claimed == null) {
-        if (dx === 0 && dy === 0) return
-        claimed = Math.abs(dx) >= Math.abs(dy) * SIDEWAYS
-      }
-      if (claimed && e.cancelable) e.preventDefault()
+      if (on && e.cancelable) e.preventDefault()
     }
     node.addEventListener('touchstart', start, { passive: true })
     node.addEventListener('touchmove', moveTouch, { passive: false })
@@ -106,30 +131,37 @@
     }
   }
   let drag = $state(0)
+  // A straight up-or-down drag on the photo: the print gives a little, then
+  // springs back on release.
+  let give = $state(0)
   let dragging = $state(false)
   let start = null
   let moved = false
   function down(e) {
     if (e.button > 0) return
-    start = { x: e.clientX, y: e.clientY, id: e.pointerId }
+    start = { x: e.clientX, y: e.clientY, id: e.pointerId, way: null }
     moved = false
   }
   function move(e) {
     if (!start || e.pointerId !== start.id) return
     const dx = e.clientX - start.x
     const dy = e.clientY - start.y
-    if (!dragging) {
-      if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy) * SIDEWAYS) return
-      dragging = true
+    if (!start.way) {
+      if (Math.hypot(dx, dy) < 8) return
+      start.way = Math.abs(dx) >= Math.abs(dy) * SIDEWAYS ? 'side' : 'up'
       moved = true
       e.currentTarget.setPointerCapture?.(e.pointerId)
+      if (start.way === 'side') dragging = true
     }
-    drag = n < 2 ? dx * 0.25 : dx
+    if (start.way === 'side') drag = n < 2 ? dx * 0.25 : dx
+    // Only a finger nudges it; a mouse dragged up or down does nothing.
+    else if (e.pointerType !== 'mouse') give = Math.max(-22, Math.min(22, dy * 0.18))
   }
   function up() {
     if (dragging) go(drag < -60 ? at + 1 : drag > 60 ? at - 1 : at)
     dragging = false
     drag = 0
+    give = 0
     start = null
   }
   // A photo opened by a click or tap shouldn't come back from the viewer
@@ -138,6 +170,10 @@
   let byPointer = false
   function click(e, print) {
     if (moved) return
+    if (print.note) {
+      if (!e.target.closest('a')) go(at + 1)
+      return
+    }
     byPointer = e.detail > 0
     open(print.number)
   }
@@ -164,15 +200,16 @@
   function place(i) {
     const d = depth(i)
     const turn = TURNS[i % TURNS.length]
-    if (d === n - 1 && n > 2) return { transform: `translate(calc(-50% - ${sized[i].pw * 0.85 + 40}px), calc(-50% + 30px)) rotate(${turn - 14}deg)`, opacity: 0, z: n + 1 }
-    if (d === 0 && drag) return { transform: `translate(calc(-50% + ${drag}px), -50%) rotate(${turn + drag * 0.03}deg)`, opacity: 1, z: n }
+    if (d === n - 1 && n > 2) return { transform: `translate(calc(-50% - ${sized[i].pw * 0.85 + 40}px), calc(-100% + 30px)) rotate(${turn - 14}deg)`, opacity: 0, z: n + 1 }
+    if (d === 0 && sized[i].note) return { transform: `translate(calc(-50% + ${drag}px), calc(-100% + ${give}px)) rotate(${-0.8 + drag * 0.03}deg)`, opacity: 1, z: n }
+    if (d === 0 && (drag || give)) return { transform: `translate(calc(-50% + ${drag}px), calc(-100% + ${give}px)) rotate(${turn + drag * 0.03}deg)`, opacity: 1, z: n }
     const u = UNDER[Math.min(d, 2)]
     // A print beneath is shrunk to tuck in behind the one on top, so a wide
     // photo under a tall one doesn't stick out past it on both sides.
     const top = sized[at]
-    const fit = d === 0 || !top ? 1 : Math.min(1, (top.pw + 8) / sized[i].pw, (top.ph + 10) / sized[i].ph)
+    const fit = d === 0 || !top || top.note ? 1 : Math.min(1, (top.pw + 8) / sized[i].pw, (top.ph + 10) / sized[i].ph)
     return {
-      transform: `translate(calc(-50% + ${u.x}px), calc(-50% + ${u.y}px)) rotate(${turn + u.r}deg) scale(${fit})`,
+      transform: `translate(calc(-50% + ${u.x}px), calc(-100% + ${u.y}px)) rotate(${turn + u.r}deg) scale(${fit})`,
       opacity: d > 2 ? 0 : 1,
       z: n - d,
     }
@@ -195,8 +232,9 @@
   function deal(node, { i }) {
     const d = depth(i)
     if (d > 2 || still) return { duration: 0 }
+    const mid = shelf - sized[i].ph / 2
     const dx = (origin?.x ?? area.cx) - area.cx
-    const dy = (origin?.y ?? area.cy - 40) - area.cy
+    const dy = (origin?.y ?? mid - 40) - mid
     const final = node.style.transform
     const spin = (i % 2 ? 1 : -1) * 9
     return {
@@ -225,17 +263,50 @@
 
 <svelte:window onkeydown={key} />
 
-<div class="deck" aria-label="Photos" out:lift|global {@attach holdSideways}>
-  {#each prints as print, i (print.number)}
+<div class="deck" aria-label="Photos" out:lift|global {@attach holdPhoto}>
+  {#each prints as print, i (print.key ?? print.number)}
     {@const s = sized[i]}
     {@const pos = place(i)}
     {@const near = loaded.has(i) || i === at}
+    {#if print.note}
+    {@const note = print.note}
+    <!-- The place's words, as a map sheet's label (or several) on top of the pile. A
+         tap anywhere on it (but the map link) flips on. -->
+    <div
+      class="print note"
+      class:top={i === at}
+      class:dragging={i === at && (dragging || give !== 0)}
+      data-own-swipe={i === at ? '' : undefined}
+      style:left="{area.cx}px"
+      style:top="{shelf}px"
+      style:width="{s.pw}px"
+      style:height="{s.ph}px"
+      style:transform={pos.transform}
+      style:opacity={pos.opacity}
+      style:z-index={pos.z}
+      role="group"
+      aria-roledescription="card"
+      aria-label={print.parts > 1 ? `${note.name}, card ${print.part + 1} of ${print.parts}` : note.name}
+      aria-hidden={i !== at}
+      onpointerdown={down}
+      onpointermove={move}
+      onpointerup={up}
+      onpointercancel={up}
+      onclick={(e) => click(e, print)}
+      onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && e.target === e.currentTarget && (e.preventDefault(), go(at + 1))}
+      tabindex={i === at ? 0 : -1}
+      in:deal|global={{ i }}
+    >
+      <PlaceCard note={print.note} part={print.part} parts={print.parts} photos={photoCount} live={i === at} />
+    </div>
+    {:else}
     <button
       class="print"
       class:top={i === at}
-      class:dragging={i === at && dragging}
+      class:dragging={i === at && (dragging || give !== 0)}
+      data-own-swipe={i === at ? '' : undefined}
       style:left="{area.cx}px"
-      style:top="{area.cy}px"
+      style:top="{shelf}px"
       style:width="{s.pw}px"
       style:transform={pos.transform}
       style:opacity={pos.opacity}
@@ -268,20 +339,21 @@
       {/if}
       <span class="foot">
         {#if print.photo.caption}<span class="caption">{print.photo.caption}</span>{:else}<span class="lettering">{print.place}</span>{/if}
-        <span class="count lettering"><b>{i + 1}</b> / {n}</span>
+        <span class="count lettering"><b>{i + 1 - noted}</b> / {photoCount}</span>
       </span>
     </button>
+    {/if}
   {/each}
 
   <!-- Back, one tick per photo (the lit one is on top), forward. -->
   {#if n > 1}
-    <nav class="controls" in:settle|global style:left="{area.cx}px" style:top="{area.controls}px" aria-label="Photos at this stop">
+    <nav class="controls" in:settle|global style:left="{area.cx}px" style:top="{controlsY}px" aria-label="Photos at this stop">
       <button class="arrow" onclick={() => go(at - 1)} aria-label="Previous photo">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" /></svg>
       </button>
       <span class="ticks" style:width="{Math.min(n * 23, area.right - area.left - 110)}px">
-        {#each prints as print, i (print.number)}
-          <button class="tick" class:lit={i === at} class:seen={i < at} onclick={() => go(i)} aria-label="Photo {i + 1} of {n}" aria-current={i === at ? 'true' : undefined}></button>
+        {#each prints as print, i (print.key ?? print.number)}
+          <button class="tick" class:note={!!print.note} class:lit={i === at} class:seen={seen.has(i) && i !== at} onclick={() => go(i)} aria-label={print.note ? `About ${print.note.name}${print.parts > 1 ? `, card ${print.part + 1}` : ''}` : `Photo ${i + 1 - noted} of ${photoCount}`} aria-current={i === at ? 'true' : undefined}></button>
         {/each}
       </span>
       <button class="arrow" onclick={() => go(at + 1)} aria-label="Next photo">
@@ -293,7 +365,7 @@
   <!-- Skip the photos: the ↓ on to the next stop, in its own row under the controls. -->
   {#if next}
     <div class="onward-in" in:settle|global>
-    <Onward label={next.name} zh={next.zh} at={[area.cx, area.skip]} onclick={onward} onback={back} aria="Skip the photos, on to {next.name}" />
+    <Onward label={next.name} zh={next.zh} at={[area.cx, skipY]} call={seenAll} onclick={onward} onback={back} aria="Skip the photos, on to {next.name}" />
     </div>
   {/if}
 </div>
@@ -331,11 +403,16 @@
     -webkit-user-select: none;
   }
 
-  /* The top print takes sideways drags; up and down still scroll the page. */
+  /* The top print takes every drag on it (flips; the page never scrolls
+     from the photo). It rests on the shelf: turns and tucks pivot at its foot. */
+  .print {
+    transform-origin: 50% 100%;
+  }
+
   .print.top {
     cursor: grab;
     pointer-events: auto;
-    touch-action: pan-y;
+    touch-action: none;
     box-shadow:
       0 2px 3px rgb(40 36 20 / 0.22),
       0 26px 46px -18px rgb(40 36 20 / 0.6);
@@ -419,6 +496,17 @@
   .count b {
     font-weight: 600;
     color: var(--route-deep);
+  }
+
+  /* A place card on the pile (PlaceCard.svelte draws it): no paper mount of
+     its own, the card is its own paper. */
+  .note {
+    padding: 0;
+  }
+
+  .note:focus-visible {
+    outline: 2px solid var(--route);
+    outline-offset: 4px;
   }
 
   .play {
@@ -515,6 +603,20 @@
       background-color 0.3s,
       opacity 0.3s,
       transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* The note's tick: a short square, set a little apart from the photos'. */
+  .tick.note {
+    max-width: 10px;
+    margin-right: 4px;
+  }
+
+  .tick.note::before {
+    height: 7px;
+  }
+
+  .tick.note.lit::before {
+    transform: scaleY(1.2);
   }
 
   .tick.seen::before {

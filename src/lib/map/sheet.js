@@ -9,6 +9,10 @@ import { stampVehicle } from './vehicles.js'
 
 const projection = geoTransverseMercator().rotate([-121, 0]).scale(6378137).translate([0, 0])
 
+// A point in sheet metres back to [longitude, latitude] (the place card on
+// top of a pile prints a place's coordinates, like the frame's ticks).
+export const toLonLat = (xy) => projection.invert(xy)
+
 // [x0, y0, dx, dy, …] in units of q → flat Float64Array of metres.
 export function decode(enc, q) {
   const out = new Float64Array(enc.length)

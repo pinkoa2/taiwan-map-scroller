@@ -15,6 +15,7 @@
   import TrailStats from './lib/TrailStats.svelte'
   import { buildRoute, buildSteps, viewAt } from './lib/story.js'
   import { glider } from './lib/glide.js'
+  import { toLonLat } from './lib/map/sheet.js'
 
   // A place's favourite (starred in the picker) leads its photos, so its pile
   // opens on it as photo 1; the rest follow in their order (the user asked).
@@ -54,9 +55,13 @@
     } catch {}
   })
 
-  // Deck: the print on top at each place (kept while you're on the page), and
+  // Deck: the print on top of the pile that's up (for this visit only), and
   // the "swipe for more" nudge, shown until the first flip.
   let flips = $state({})
+  // A pile always opens on its card, the place's words (the user asked, Nov 2,
+  // 2026: not where you left off), unless the stop list's photo button sent
+  // you there (opening: { key, at }).
+  let opening = null
   const SWIPE_KEY = 'taiwan-swipe-hint-seen'
   let swipeHint = $state(true)
   try {
@@ -173,9 +178,11 @@
     const place = walked ? leg.walk.name : `${leg.name}${leg.zh ? ' ' + leg.zh : ''}`
     const t = p - i
     if (t < 0.04 || t > 0.72) return null
+    const photos = list.map((photo, k) => ({ photo, number: first + k, place }))
+    if (wideLayout === 'deck') return { key: s.key, list: [...noteFor(s), ...photos], shown: list.length, start: 0 }
     return {
       key: s.key,
-      list: list.map((photo, k) => ({ photo, number: first + k, place })),
+      list: photos,
       shown: list.length,
       start: Math.max(list.findIndex((photo) => photo.favorite), 0),
     }
@@ -200,6 +207,28 @@
     return []
   })
 
+  // A place's words, as the cards on top of its pile (Deck.svelte,
+  // PlaceCard.svelte, a map sheet's label): the leg's, or the hike's on its '-walked' step. A line
+  // of just --- in the words starts another card (the user asked, Nov 2,
+  // 2026: break a lot of words over several); blank lines make paragraphs.
+  const cards = (words) =>
+    (words ?? '')
+      .split(/\n\s*---+\s*(?:\n|$)/)
+      .map((part) => part.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean))
+      .filter((part) => part.length)
+  function noteFor(s) {
+    const leg = trip.legs[s.leg]
+    const walk = s.key.endsWith('-walked') ? leg.walk : null
+    // The sheet number is the stop's (the hike is an inset on its place's).
+    const sheet = { sheet: s.leg + 1, of: trip.legs.length, inset: !!walk, lonlat: toLonLat(walk?.start ?? leg.at) }
+    const base = walk
+      ? { ...sheet, name: walk.name, zh: walk.zh, walk: { miles: walk.miles, hours: walk.hours }, when: walk.when, by: walk.by }
+      : { ...sheet, name: leg.name, zh: leg.zh, segments: leg.segments, from: leg.from, arrive: leg.arrive, when: leg.when, stay: leg.stay, gmaps: leg.gmaps }
+    const parts = cards(walk ? walk.text : leg.text)
+    if (!parts.length) parts.push([])
+    return parts.map((words, k) => ({ note: { ...base, [walk ? 'quote' : 'text']: words }, part: k, parts: parts.length, key: `card-${k}`, number: null }))
+  }
+
   // A place's photos (the leg's, or a hike's on its '-walked' step).
   function photosAt(s) {
     const leg = trip.legs[s.leg]
@@ -220,7 +249,7 @@
     if (u < 0 || u >= 1) return null
     const list = photosAt(s)
     if (!list.length) return null
-    return { key: s.key, list, shown: list.length, start: Math.max(list.findIndex((pr) => pr.photo.favorite), 0) }
+    return { key: s.key, list: [...noteFor(s), ...list], shown: list.length, start: 0 }
   }
 
   // The next stop scrolling on leads to from a step (the next place, the
@@ -246,6 +275,18 @@
   let glide = null
   const onward = () => glide?.next()
   const back = () => glide?.prev()
+
+  // Each time a pile comes up, it opens on its card (or where the stop list's
+  // photo button asked). Before the deck draws, so it never shows the old one.
+  let pileUp = null
+  $effect.pre(() => {
+    const key = prints?.key ?? null
+    if (key === pileUp) return
+    pileUp = key
+    if (!key) return
+    flips = opening?.key === key ? { [key]: opening.at } : {}
+    opening = null
+  })
 
   // Moving through photos full screen moves the deck along with it, so
   // closing the viewer leaves the photo you ended on at the top of the pile.
@@ -289,21 +330,23 @@
       const to = bottom - h + 16
       list.push(to > from ? { top: from, bottom: to, place } : { top: to, bottom: to, place })
     }
-    // Each deck, once it has landed.
+    // Each deck, once it has landed. It's the place's stop (the stop list
+    // and shared links land there): its words are the note on top.
     steps.forEach((s, i) => {
       if (!s.centre || !photosAt(s).length) return
+      const place = stopIdOf(s.key)
       if (phoneDeck) {
         const room = rooms[s.key]
         // skip: where the deck has lifted away (glide.js hops there on leaving).
-        if (room) list.push({ top: room.top + h * 0.4, bottom: room.top + h * 0.4, skip: room.top + room.height - h * ROOM_AT + 2 })
+        if (room) list.push({ top: room.top + h * 0.4, bottom: room.top + h * 0.4, skip: room.top + room.height - h * ROOM_AT + 2, place, deck: s.key })
       } else if (overMap && wideLayout === 'deck' && marks[i + 1] != null) {
         // A little way in, and with the card above it gone off the top.
         let at = marks[i] + 0.22 * (marks[i + 1] - marks[i]) - line
-        for (const card of document.querySelectorAll('[data-stop]')) {
+        for (const card of document.querySelectorAll('[data-stop], [data-slip]')) {
           const r = card.getBoundingClientRect()
           if (r.bottom + y <= marks[i]) at = Math.max(at, r.bottom + y + 40)
         }
-        list.push({ top: at, bottom: at, skip: marks[i] + 0.73 * (marks[i + 1] - marks[i]) - line })
+        list.push({ top: at, bottom: at, skip: marks[i] + 0.73 * (marks[i + 1] - marks[i]) - line, place, deck: s.key })
       }
     })
     const last = document.documentElement.scrollHeight - h
@@ -408,6 +451,14 @@
     }
     const at = stops.find((s) => s.place === stop.id)
     if (!at) return
+    // Straight to the photos (the stop list's photo button): the first photo
+    // on top, past the postcards. Otherwise the first postcard.
+    if (at.deck) {
+      const k = stop.photos ? noteFor(steps.find((s) => s.key === at.deck)).length : 0
+      flips[at.deck] = k
+      // Kept through the pile's arrival (which otherwise opens on the card).
+      opening = { key: at.deck, at: k }
+    }
     scrollTo({ top: at.top, behavior: 'instant' })
     glide?.rest()
     history.replaceState(null, '', `#${stop.id}`)
@@ -438,7 +489,7 @@
   $effect(() => {
     const i = Math.floor(p)
     const s = steps[i]
-    const v = { key: s?.key, frac: p - i, flips: { ...flips } }
+    const v = { key: s?.key, frac: p - i }
     if (!resumed || !s) return
     clearTimeout(saveTimer)
     saveTimer = setTimeout(() => {
@@ -533,8 +584,8 @@
       }
       requestAnimationFrame(settle)
     }
-    // A phone may zoom (the user's call, Nov 2, 2026: they can just zoom
-    // back out). Nothing here undoes it; an iPhone wouldn't have it.
+    // A phone may still end up zoomed (if the two-finger hold below doesn't
+    // take); nothing here undoes it, an iPhone wouldn't have it.
     // Desktop: a trackpad pinch (or ctrl + mouse wheel) arrives as a wheel
     // with ctrl held. Desktop browsers ignore the viewport tag, so it can't be
     // undone after; it's stopped instead. Ctrl + and − on the keyboard, a
@@ -568,6 +619,16 @@
     }
     document.addEventListener('gesturestart', noZoom)
     document.addEventListener('gesturechange', noZoom)
+    // Accidental zoom (Nov 2, 2026: Ting, on an iPad, kept zooming by mistake,
+    // a second finger or a palm touching mid-swipe): a touch with two fingers
+    // down is held, so the page doesn't pinch. Unlike the viewport tag and
+    // gesture events tried before, a held touchmove is what recent iPhones
+    // and iPads honour. Never once zoomed in (so a pinch out still works),
+    // nor in the photo viewer (its own pinch zooms the photo).
+    const twoFingers = (e) => {
+      if (e.touches.length > 1 && viewer == null && !zoomed() && e.cancelable) e.preventDefault()
+    }
+    document.addEventListener('touchmove', twoFingers, { passive: false })
     window.addEventListener('resize', resize)
     window.addEventListener('scroll', scroll, { passive: true })
     measure()
@@ -579,7 +640,6 @@
     // stop (#jiufen, shared) goes to that stop instead.
     const saved = readLeftOff()
     const start = stopFromHash()
-    if (saved?.flips) flips = saved.flips
     // Once the fonts are in, so the cards have their final height.
     document.fonts.ready.then(() =>
       requestAnimationFrame(() => {
@@ -591,6 +651,7 @@
     return () => {
       document.removeEventListener('gesturestart', noZoom)
       document.removeEventListener('gesturechange', noZoom)
+      document.removeEventListener('touchmove', twoFingers)
       window.removeEventListener('wheel', pinchWheel)
       clearInterval(watch)
       glide.destroy()

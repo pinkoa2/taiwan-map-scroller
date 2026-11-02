@@ -33,6 +33,11 @@
     return next ? { label: next.name, zh: next.zh } : null
   }
   let pageEls = $state({})
+  // Deck with photos: the place's words ride on its pile as a note card, so
+  // there's no page of words before it (the user asked, Nov 2, 2026, to go
+  // straight to the photos), and no caption over the route either (the user
+  // dropped it: the postcard says it all).
+  const noted = (list) => deck && list.length > 0
 </script>
 
 <!-- Opening: the whole island, with the title card at the foot of the screen. -->
@@ -54,7 +59,6 @@
   <!-- Open map: the route draws, then the sheet closes in on the place. -->
   <section class="map-run" class:short={!leg.segments.length} aria-label="Route to {leg.name}">
     {#if leg.segments.length}
-      <!-- No caption here: the route speaks for itself, and the place's page follows. -->
       <div class="mark" data-step="{leg.id}-travel"></div>
       <div class="gap"></div>
       <div class="gap long"></div>
@@ -74,6 +78,7 @@
 
   <!-- Paper: the place itself, its words and photos, over the map. -->
   <!-- data-stop: the page rests here, the words on screen with the place above. -->
+  {#if !noted(leg.photos)}
   <article class="page" class:night={leg.hang === 'lanterns'} aria-labelledby="m-{leg.id}" bind:this={pageEls[leg.id]} data-stop="" data-place={leg.id}>
     {#if leg.hang === 'lanterns' && pageEls[leg.id]}<LanternString container={pageEls[leg.id]} mode="backdrop" />{/if}
     <h2 id="m-{leg.id}">
@@ -100,6 +105,7 @@
       {#if !film && !deck}{@render photoList(leg.photos, plateStart[i], zhName(leg))}{/if}
     {/if}
   </article>
+  {/if}
   {#if deck && leg.photos.length}
     <div class="deck-room" data-deck="{leg.id}-here" style:height={room(leg.photos.length)}></div>
     <div class="deck-tail"></div>
@@ -113,6 +119,7 @@
     <section class="map-run" aria-label="The {walk.name} hike">
       <div class="mark" data-step="{leg.id}-walk"></div>
       <!-- Only while the footsteps draw: the hike's page says the same once it's up. -->
+      {#if !noted(walk.photos)}
       <div class="caption inset" class:gone={step !== `${leg.id}-walk`}>
         <p class="count lettering">On foot</p>
         <p class="to">
@@ -125,10 +132,12 @@
         {#if walk.hours}<span>{walk.hours} hours</span>{/if}
         </p>
       </div>
+      {/if}
       <div class="gap long"></div>
       <div class="mark" data-step="{leg.id}-walked"></div>
       <div class="gap"></div>
     </section>
+    {#if !noted(walk.photos)}
     <article class="page" aria-labelledby="m-{leg.id}-walk" data-stop="" data-place={leg.walk.folder ?? `${leg.id}-walk`}>
       <h2 id="m-{leg.id}-walk">
         <span class="name">{walk.name}</span>
@@ -151,6 +160,7 @@
       {/if}
       {#if !film && !deck}{@render photoList(walk.photos, plateStart[i] + leg.photos.length, walk.name)}{/if}
     </article>
+    {/if}
     {#if deck && walk.photos.length}
       <div class="deck-room" data-deck="{leg.id}-walked" style:height={room(walk.photos.length)}></div>
       <div class="deck-tail"></div>

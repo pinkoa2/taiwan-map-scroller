@@ -186,6 +186,11 @@ export function glider(stops, moves = () => true, enabled = () => true) {
 
   // Something that scrolls by itself (the stop list) keeps its own gestures.
   const own = (e) => e.target instanceof Element && e.target.closest('[data-own-scroll]')
+  // A swipe that starts on a photo (the deck's top print) is the photo's:
+  // it flips photos and never moves the page, however it's angled (the user
+  // asked, Nov 2, 2026: Ting kept leaving the photos with a swipe meant to
+  // flip one). The ↓ button, or a swipe on the map around it, moves on.
+  const swipeOwn = (e) => e.target instanceof Element && e.target.closest('[data-own-swipe]')
 
   function onWheel(e) {
     if (!enabled() || e.ctrlKey || own(e)) return
@@ -220,7 +225,7 @@ export function glider(stops, moves = () => true, enabled = () => true) {
     // Zoomed in (a stray pinch the page couldn't undo): the finger pans the
     // zoomed view as usual, or the page would be stuck.
     const zoomed = (visualViewport?.scale ?? 1) > 1.01
-    if (e.touches.length !== 1 || own(e) || zoomed) {
+    if (e.touches.length !== 1 || own(e) || swipeOwn(e) || zoomed) {
       touch = null
       return
     }

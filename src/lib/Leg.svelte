@@ -30,6 +30,13 @@
   // A loop at the end of the way there, drawn on its own close-up (story.js).
   const ride = !!leg.rideCamera
   const toWalkPhotos = leg.walk ? ahead(leg.walk.photos, `${leg.id}-walked`) : null
+  // Deck with photos: the place's words ride on its pile as a postcard, and
+  // the pile is where the page rests (the user asked, Nov 2, 2026, to go
+  // straight to the photos). No card here then, just its room, so the route
+  // still draws over the same stretch (the user dropped the slip that stood
+  // in for it: the postcard says it all).
+  const slip = layout === 'deck' && leg.photos.length > 0
+  const walkSlip = layout === 'deck' && (leg.walk?.photos.length ?? 0) > 0
 </script>
 
 <article class="leg" id={leg.id} aria-labelledby="{leg.id}-name">
@@ -50,6 +57,9 @@
 
   <!-- data-stop: the page rests on this card once the route between these
        steps has landed (this far through, see story.js viewAt). -->
+  {#if slip}
+  <div class="pause card-room" aria-hidden="true"></div>
+  {:else}
   <section class="inset card" data-stop={leg.segments.length ? `${leg.id}-${ride ? 'ride' : 'travel'} ${leg.id}-${ride ? 'ridden' : 'travelled'} 0.96` : undefined} data-place={leg.id}>
     <h2 id="{leg.id}-name">
       <span class="name">{leg.name}</span>
@@ -80,6 +90,7 @@
       {#if toPhotos}<Onward {...toPhotos} onclick={onward} onback={back} deal={leg.photos.length ? `${leg.id}-here` : null} />{/if}
     </div>
   </section>
+  {/if}
 
   {#if leg.segments.length}
     <!-- Short, so the route lands while the whole card is still on screen:
@@ -110,6 +121,9 @@
     {@const walk = leg.walk}
     <div class="pause"></div>
     <div class="mark" data-step="{leg.id}-walk"></div>
+    {#if walkSlip}
+    <div class="pause card-room" aria-hidden="true"></div>
+    {:else}
     <section class="inset card walk" aria-labelledby="{leg.id}-walk" data-stop="{leg.id}-walk {leg.id}-walked 0.81" data-place={leg.walk.folder ?? `${leg.id}-walk`}>
       <h3 id="{leg.id}-walk">
         <span class="name">{walk.name}</span>
@@ -127,6 +141,7 @@
       {/if}
       {#if toWalkPhotos}<div class="foot"><Onward {...toWalkPhotos} onclick={onward} onback={back} deal={leg.walk.photos.length ? `${leg.id}-walked` : null} /></div>{/if}
     </section>
+    {/if}
     <div class="pause landing"></div>
     <div class="mark" data-step="{leg.id}-walked"></div>
     <div class="pause short"></div>
@@ -185,6 +200,12 @@
 
   .pause.flight {
     height: 44svh;
+  }
+
+  /* Where a place's card was (its words are on the postcard now): the same
+     room, so the route draws over the same stretch of page. */
+  .pause.card-room {
+    height: 32svh;
   }
 
   .pause.landing {
