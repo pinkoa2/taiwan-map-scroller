@@ -409,7 +409,9 @@
   .message {
     flex: 1;
     min-height: 0;
-    max-width: 44ch;
+    /* The card's full width: about 60 characters a line at most on a
+       desktop card (44ch left half the card empty; the user asked). */
+    max-width: 66ch;
     padding: 0.95rem 0 0.9rem;
     font-size: calc(clamp(0.95rem, 4.2cqi, 1.2rem) * var(--fit, 1));
     line-height: 1.5;
