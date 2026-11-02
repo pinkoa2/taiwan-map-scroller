@@ -491,7 +491,7 @@
     const zoomed = () => (visualViewport?.scale ?? 1) > 1.01
     const resize = async () => {
       // Zoomed in, the window reports the zoomed-in part's size: keep the
-      // layout as it was (the zoom is undone below).
+      // layout as it was until they zoom back out.
       if (zoomed()) return
       const turned = window.innerWidth !== w
       // Turning the phone changes every height on the page (and maybe the
@@ -533,43 +533,8 @@
       }
       requestAnimationFrame(settle)
     }
-    // Zooming is let happen, then undone (the user asked, Nov 2, 2026): an
-    // iPhone zooms whatever the page says, so blocking it never held. Once the
-    // fingers lift, the viewport tag is locked to scale 1 for a moment, which
-    // makes the browser zoom back out, then freed again.
-    const meta = document.querySelector('meta[name=viewport]')
-    const FREE = meta?.content
-    const LOCK = 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover'
-    let fingers = 0
-    let locked = 0
-    let undoing = 0
-    // A few tries per zoom; if the browser won't budge, stop (each try
-    // rewrites the viewport, which could make the page jumpy).
-    let tries = 0
-    const unzoom = () => {
-      if (!zoomed()) tries = 0
-      if (!zoomed() || fingers > 0 || viewer != null || !meta || locked || tries >= 3) return
-      tries++
-      meta.content = LOCK
-      // Long enough for an iPhone to apply it (one frame wasn't).
-      locked = setTimeout(() => {
-        meta.content = FREE
-        locked = 0
-        scrollTo({ left: 0, top: scrollY, behavior: 'instant' })
-        resize()
-      }, 400)
-    }
-    // Soon after the zoom stops changing, or the fingers lift.
-    const soon = () => {
-      clearTimeout(undoing)
-      undoing = setTimeout(unzoom, 120)
-    }
-    const touches = (e) => {
-      // A new touch is a new chance (they may have pinched again).
-      if (e.type === 'touchstart' && fingers === 0) tries = 0
-      fingers = e.touches.length
-      if (fingers === 0) soon()
-    }
+    // A phone may zoom (the user's call, Nov 2, 2026: they can just zoom
+    // back out). Nothing here undoes it; an iPhone wouldn't have it.
     // Desktop: a trackpad pinch (or ctrl + mouse wheel) arrives as a wheel
     // with ctrl held. Desktop browsers ignore the viewport tag, so it can't be
     // undone after; it's stopped instead. Ctrl + and − on the keyboard, a
@@ -578,15 +543,9 @@
       if (e.ctrlKey && e.cancelable) e.preventDefault()
     }
     window.addEventListener('wheel', pinchWheel, { passive: false })
-    document.addEventListener('touchstart', touches, { passive: true })
-    document.addEventListener('touchend', touches, { passive: true })
-    document.addEventListener('touchcancel', touches, { passive: true })
-    visualViewport?.addEventListener('resize', soon)
-    // And a slow check, for anything the events miss: undo a zoom, and catch
-    // a size the page didn't hear about.
+    // A slow check for a size the page didn't hear about.
     const watch = setInterval(() => {
-      if (zoomed()) unzoom()
-      else if (window.innerWidth !== w || window.innerHeight !== h) resize()
+      if (!zoomed() && (window.innerWidth !== w || window.innerHeight !== h)) resize()
     }, 500)
     let ticking = false
     const scroll = () => {
@@ -633,13 +592,7 @@
       document.removeEventListener('gesturestart', noZoom)
       document.removeEventListener('gesturechange', noZoom)
       window.removeEventListener('wheel', pinchWheel)
-      document.removeEventListener('touchstart', touches)
-      document.removeEventListener('touchend', touches)
-      document.removeEventListener('touchcancel', touches)
-      visualViewport?.removeEventListener('resize', soon)
       clearInterval(watch)
-      clearTimeout(locked)
-      clearTimeout(undoing)
       glide.destroy()
       ro.disconnect()
       window.removeEventListener('resize', resize)

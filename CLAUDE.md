@@ -210,14 +210,12 @@ The user kept double-tapping on a phone by accident, which zoomed the page in an
 
 - `touch-action: manipulation` on `html` (app.css) turns off double-tap zoom.
 - Until Nov 2, 2026 the viewport meta had `maximum-scale=1, user-scalable=no` and App stopped `gesturestart`/`gesturechange` everywhere; the iPhone zoomed anyway. Now see below.
-- **Let it zoom, then snap back (Nov 2, 2026, the user asked, after the blocking didn't hold on their iPhone and once trapped them zoomed in).** The user is on an **iPhone, using Chrome** (WebKit underneath, so it behaves as Safari does).
-  - The viewport meta is now `width=device-width, initial-scale=1, viewport-fit=cover` (no `maximum-scale`/`user-scalable=no`), and a two-finger touch is no longer stopped.
-  - Once the fingers lift (and on `visualViewport` resize, 120ms after it settles, and a 500ms check), if `visualViewport.scale` > 1 App sets the meta to a lock (`minimum-scale=1, maximum-scale=1, user-scalable=no`) for 400ms, then frees it. The lock is meant to make the browser zoom back out (an earlier try toggled `initial-scale=1` to `1.0`, which reads as the same value, and freed it after a single frame; neither took).
-  - At most 3 tries per zoom (a new touch resets the count), so a browser that won't budge isn't hammered.
-  - While zoomed: resizes are ignored (the window then reports the zoomed-in part's size, which threw the layout off), and glide.js leaves touches alone, so a finger pans and a pinch out works.
-  - The photo viewer, open, still stops the page's pinch (`gesturestart`), as its own pinch zooms the photo.
-  - **Desktop (the user asked for both):** desktop browsers ignore the viewport meta, so a zoom can't be undone after; instead a trackpad pinch (ctrl + wheel in Chrome, Firefox and Edge; gesture events in Mac Safari, when `(pointer: fine)`) is stopped. Keyboard Ctrl +/− is left alone (deliberate, an accessibility feature) and the layout follows the new size.
-  - **Unverified on the iPhone.** Desktop Chrome can't produce a real pinch zoom in a test (`synthesizePinchGesture` hangs headless), and its forced zoom (`Emulation.setPageScaleFactor`) is an override the lock doesn't move. If it still doesn't snap back on the user's phone, there's no other known way for a page to set an iPhone's zoom.
+- **Zooming is allowed (Nov 2, 2026, the user's call: "they can simply zoom back out").** The user is on an **iPhone, using Chrome** (WebKit underneath, so it behaves as Safari does). Blocking the pinch never held there, and once it trapped them zoomed in.
+  - The viewport meta is `width=device-width, initial-scale=1, viewport-fit=cover` (no `maximum-scale`/`user-scalable=no`). Double-tap zoom is still off (`touch-action: manipulation`).
+  - While zoomed (`visualViewport.scale` > 1.01): resizes are ignored (the window then reports the zoomed-in part's size, which threw the layout off), and glide.js leaves touches alone, so a finger pans and a pinch out works.
+  - **Tried and removed:** snapping back by rewriting the viewport meta (to a lock of `minimum-scale=1, maximum-scale=1` for 400ms, then free; earlier `initial-scale=1.0` for one frame). Neither moved the zoom on the user's iPhone. There's no other known way for a page to set an iPhone's zoom.
+  - The photo viewer, open, stops the page's pinch (`gesturestart`), as its own pinch zooms the photo.
+  - **Desktop (the user asked for both):** a trackpad pinch is stopped (ctrl + wheel in Chrome, Firefox and Edge; gesture events in Mac Safari, when `(pointer: fine)`). Keyboard Ctrl +/− is left alone (deliberate, an accessibility feature) and the layout follows the new size.
 
 ## A phone on its side (Nov 2, 2026)
 
