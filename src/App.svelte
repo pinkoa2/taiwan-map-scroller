@@ -533,29 +533,55 @@
       }
       requestAnimationFrame(settle)
     }
-    // A stray pinch can still zoom the page on an iPhone. Two-finger touches
-    // are stopped before they start one (the photo viewer, open, has its own
-    // pinch), and a zoom that gets through anyway is put back to normal.
+    // Zooming is let happen, then undone (the user asked, Nov 2, 2026): an
+    // iPhone zooms whatever the page says, so blocking it never held. Once the
+    // fingers lift, the viewport tag is locked to scale 1 for a moment, which
+    // makes the browser zoom back out, then freed again.
     const meta = document.querySelector('meta[name=viewport]')
-    const viewportContent = meta?.content
+    const FREE = meta?.content
+    const LOCK = 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover'
+    let fingers = 0
+    let locked = 0
+    let undoing = 0
+    // A few tries per zoom; if the browser won't budge, stop (each try
+    // rewrites the viewport, which could make the page jumpy).
+    let tries = 0
     const unzoom = () => {
-      if (!zoomed() || viewer != null || !meta) return
-      // Rewriting the viewport tag makes Safari apply its scale of 1 again.
-      // A real change of scale (1.0 reads as the same 1, and did nothing).
-      meta.content = viewportContent.replace('initial-scale=1, maximum-scale=1', 'initial-scale=0.99, maximum-scale=0.99')
-      requestAnimationFrame(() => {
-        meta.content = viewportContent
+      if (!zoomed()) tries = 0
+      if (!zoomed() || fingers > 0 || viewer != null || !meta || locked || tries >= 3) return
+      tries++
+      meta.content = LOCK
+      // Long enough for an iPhone to apply it (one frame wasn't).
+      locked = setTimeout(() => {
+        meta.content = FREE
+        locked = 0
         scrollTo({ left: 0, top: scrollY, behavior: 'instant' })
         resize()
-      })
+      }, 400)
     }
-    const twoFingers = (e) => {
-      // Already zoomed in, a pinch is the way back out: leave it be.
-      if (e.touches.length > 1 && viewer == null && !zoomed() && e.cancelable) e.preventDefault()
+    // Soon after the zoom stops changing, or the fingers lift.
+    const soon = () => {
+      clearTimeout(undoing)
+      undoing = setTimeout(unzoom, 120)
     }
-    document.addEventListener('touchstart', twoFingers, { passive: false })
-    document.addEventListener('touchmove', twoFingers, { passive: false })
-    visualViewport?.addEventListener('resize', unzoom)
+    const touches = (e) => {
+      // A new touch is a new chance (they may have pinched again).
+      if (e.type === 'touchstart' && fingers === 0) tries = 0
+      fingers = e.touches.length
+      if (fingers === 0) soon()
+    }
+    // Desktop: a trackpad pinch (or ctrl + mouse wheel) arrives as a wheel
+    // with ctrl held. Desktop browsers ignore the viewport tag, so it can't be
+    // undone after; it's stopped instead. Ctrl + and − on the keyboard, a
+    // deliberate zoom, still work (the layout follows the new size).
+    const pinchWheel = (e) => {
+      if (e.ctrlKey && e.cancelable) e.preventDefault()
+    }
+    window.addEventListener('wheel', pinchWheel, { passive: false })
+    document.addEventListener('touchstart', touches, { passive: true })
+    document.addEventListener('touchend', touches, { passive: true })
+    document.addEventListener('touchcancel', touches, { passive: true })
+    visualViewport?.addEventListener('resize', soon)
     // And a slow check, for anything the events miss: undo a zoom, and catch
     // a size the page didn't hear about.
     const watch = setInterval(() => {
@@ -573,9 +599,14 @@
     }
     const ro = new ResizeObserver(() => measure())
     ro.observe(document.body)
-    // iPhone Safari ignores the viewport's no-zoom, so its pinch gesture is
-    // stopped here. The photo viewer zooms from raw touches, so it still works.
-    const noZoom = (e) => e.preventDefault()
+    // While the photo viewer is open its own pinch zooms the photo, so the
+    // page's pinch is stopped then (iPhone).
+    // Safari on a Mac sends a trackpad pinch as these too: stopped there
+    // (a mouse or trackpad, not a touch screen), like the ctrl-wheel below.
+    const desk = matchMedia('(pointer: fine)').matches
+    const noZoom = (e) => {
+      if (viewer != null || desk) e.preventDefault()
+    }
     document.addEventListener('gesturestart', noZoom)
     document.addEventListener('gesturechange', noZoom)
     window.addEventListener('resize', resize)
@@ -601,10 +632,14 @@
     return () => {
       document.removeEventListener('gesturestart', noZoom)
       document.removeEventListener('gesturechange', noZoom)
-      document.removeEventListener('touchstart', twoFingers)
-      document.removeEventListener('touchmove', twoFingers)
-      visualViewport?.removeEventListener('resize', unzoom)
+      window.removeEventListener('wheel', pinchWheel)
+      document.removeEventListener('touchstart', touches)
+      document.removeEventListener('touchend', touches)
+      document.removeEventListener('touchcancel', touches)
+      visualViewport?.removeEventListener('resize', soon)
       clearInterval(watch)
+      clearTimeout(locked)
+      clearTimeout(undoing)
       glide.destroy()
       ro.disconnect()
       window.removeEventListener('resize', resize)
