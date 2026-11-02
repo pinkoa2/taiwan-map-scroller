@@ -217,7 +217,10 @@ export function glider(stops, moves = () => true, enabled = () => true) {
   }
 
   function onTouchStart(e) {
-    if (e.touches.length !== 1 || own(e)) {
+    // Zoomed in (a stray pinch the page couldn't undo): the finger pans the
+    // zoomed view as usual, or the page would be stuck.
+    const zoomed = (visualViewport?.scale ?? 1) > 1.01
+    if (e.touches.length !== 1 || own(e) || zoomed) {
       touch = null
       return
     }

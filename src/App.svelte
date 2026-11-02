@@ -541,7 +541,8 @@
     const unzoom = () => {
       if (!zoomed() || viewer != null || !meta) return
       // Rewriting the viewport tag makes Safari apply its scale of 1 again.
-      meta.content = viewportContent.replace('initial-scale=1', 'initial-scale=1.0')
+      // A real change of scale (1.0 reads as the same 1, and did nothing).
+      meta.content = viewportContent.replace('initial-scale=1, maximum-scale=1', 'initial-scale=0.99, maximum-scale=0.99')
       requestAnimationFrame(() => {
         meta.content = viewportContent
         scrollTo({ left: 0, top: scrollY, behavior: 'instant' })
@@ -549,7 +550,8 @@
       })
     }
     const twoFingers = (e) => {
-      if (e.touches.length > 1 && viewer == null && e.cancelable) e.preventDefault()
+      // Already zoomed in, a pinch is the way back out: leave it be.
+      if (e.touches.length > 1 && viewer == null && !zoomed() && e.cancelable) e.preventDefault()
     }
     document.addEventListener('touchstart', twoFingers, { passive: false })
     document.addEventListener('touchmove', twoFingers, { passive: false })
