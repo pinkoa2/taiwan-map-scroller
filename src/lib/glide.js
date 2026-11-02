@@ -184,8 +184,11 @@ export function glider(stops, moves = () => true, enabled = () => true) {
     html.classList.remove('gliding')
   }
 
+  // Something that scrolls by itself (the stop list) keeps its own gestures.
+  const own = (e) => e.target instanceof Element && e.target.closest('[data-own-scroll]')
+
   function onWheel(e) {
-    if (!enabled() || e.ctrlKey) return
+    if (!enabled() || e.ctrlKey || own(e)) return
     // Sideways (a trackpad swipe across the deck) is left alone.
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return
     const dir = Math.sign(e.deltaY)
@@ -214,7 +217,7 @@ export function glider(stops, moves = () => true, enabled = () => true) {
   }
 
   function onTouchStart(e) {
-    if (e.touches.length !== 1) {
+    if (e.touches.length !== 1 || own(e)) {
       touch = null
       return
     }

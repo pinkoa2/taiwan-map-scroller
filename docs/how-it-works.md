@@ -2,7 +2,7 @@
 
 Working notes for the site: running it, editing the trip, photos, the picker and deploying.
 
-Our month in Taiwan (2026) as one scrolling page, plotted on a minimal survey-sheet map of the island (a flat outline, no elevation). As you scroll, the route is inked in vermilion leg by leg and the map moves to each place, where its photos land as a deck of prints to swipe through. The page rests at each place's words and each deck; scroll on (or tap the ↓ button) and it glides itself to the next one, so each route draws in one smooth move (`src/lib/glide.js`). At Alishan the map drops to a close-up of the Mianyue Line and draws the hike on foot.
+Our month in Taiwan (2026) as one scrolling page, plotted on a minimal survey-sheet map of the island (a flat outline, no elevation). As you scroll, the route is inked in vermilion leg by leg and the map moves to each place, where its photos land as a deck of prints to swipe through. The page rests at each place's words and each deck; scroll on (or tap the ↓ button) and it glides itself to the next one, so each route draws in one smooth move (`src/lib/glide.js`). At Alishan the map drops to a close-up of the Mianyue Line and draws the hike on foot; at Xiaoliuqiu a scooter rides round the island at the end of the trip there.
 
 ```
 content/
@@ -27,7 +27,7 @@ Add `--build` the first time and after a dependency changes. Ctrl+C stops them.
 The dev server and every build first run `scripts/prepare-trip.js`, which:
 
 - turns each **picked** photo into WebP sizes (640/960/1400/2000) with a blurred placeholder, and each picked video into a web copy with a poster (see Photos)
-- routes each leg by its mode: trains along OpenStreetMap rail lines, buses and cars by OSRM, flights and ferries as arcs; a hike is drawn from the OSM trail of that name
+- routes each leg by its mode: trains along OpenStreetMap rail lines, buses and cars by OSRM, flights and ferries as arcs; a hike is drawn from the OSM trail of that name, and a segment with `via: [[lat, lng], …]` by road through those points (the scooter loop)
 - outlines the island from the AWS Terrain Tiles at sea level (the map is kept minimal and fast; `CLOSE_UPS` in the script and the old contour code in `scripts/terrain.js` can bring terrain back)
 - fetches cities, the trail and its features from OpenStreetMap
 - writes the link-preview image (`og.jpg`), the `CNAME` and the page title
@@ -40,12 +40,14 @@ Anything fetched is cached in `content/geo/` so later builds (and CI) don't touc
 
 Everything on the page comes from `content/trip.js`; the comment at its top lists every field.
 
-- **A new leg:** add it to `legs` in order, with `at: [lat, lng]` (right-click in Google Maps to copy) and `by: [{ mode: 'train' }]`. Modes: `train`, `bus`, `car`, `walk`, `flight`, `ferry`. Split a journey with a midpoint: `by: [{ mode: 'bus', to: [lat, lng], toName: 'Ruifang' }, { mode: 'train' }]`.
+- **A new leg:** add it to `legs` in order, with `at: [lat, lng]` (right-click in Google Maps to copy) and `by: [{ mode: 'train' }]`. Modes: `train`, `metro`, `bus`, `car`, `walk`, `flight`, `ferry`, `scooter`. Split a journey with a midpoint: `by: [{ mode: 'bus', to: [lat, lng], toName: 'Ruifang' }, { mode: 'train' }]`.
 - **Going out and coming back:** `dayTrip: true` draws the way back to the base after the place's photos, and the next leg leaves from there. `returnTo: 'taipei'` does the same for a leg we went back to a particular place from. `back: [...]` (like `by`) says how we went back; without it the way out is retraced. A return visit doesn't get a leg of its own: its photos go in the first visit's folder.
 - **Dates:** add `when: 'Oct 3–6'` to a leg; it shows on the leg's inset.
 - **How close the map zooms:** `view: 16` is the width of the view in km.
 - **A hike:** `walk: { name, zh, osmName, miles, hours, text, by, photos }`, where `osmName` is the trail's name in OpenStreetMap.
+- **A loop by road:** a segment with `via: [[lat, lng], …]` goes by road through those points; ending where it starts (a loop, last in `by`), the map zooms in on it while it draws, and it's left out of the retraced way back. See Xiaoliuqiu in `content/trip.js`.
 - **When the trip is finished:** set `continues: null`.
+- **Full album link:** `album` in `content/trip.js` is the Google Photos album, linked from the closing card and the foot of the stop list. Set it to `null` to hide it.
 
 ## Photos
 

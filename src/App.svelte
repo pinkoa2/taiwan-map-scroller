@@ -37,8 +37,9 @@
 
   let viewer = $state(null)
 
-  // The squiggly "click a photo" hint shows until a photo is first opened,
-  // then stays away (remembered in this browser).
+  // The squiggly "click a photo" hint (scatter and prints layouts) shows until
+  // a photo is first opened, then stays away (remembered in this browser).
+  // The deck has the tapping hand instead, always on photo 1.
   const HINT_KEY = 'taiwan-photo-hint-seen'
   let hint = $state(true)
   try {
@@ -53,8 +54,7 @@
   })
 
   // Deck: the print on top at each place (kept while you're on the page), and
-  // the squiggly "swipe for more" hint, shown until the first flip. The "open"
-  // hint follows at the next place.
+  // the "swipe for more" nudge, shown until the first flip.
   let flips = $state({})
   const SWIPE_KEY = 'taiwan-swipe-hint-seen'
   let swipeHint = $state(true)
@@ -69,7 +69,7 @@
       localStorage.setItem(SWIPE_KEY, '1')
     } catch {}
   }
-  const deckHint = $derived(swipeHint ? 'swipe' : hint ? 'open' : null)
+  const deckHint = $derived(swipeHint ? 'swipe' : null)
   let w = $state(typeof window === 'undefined' ? 1200 : window.innerWidth)
   let h = $state(typeof window === 'undefined' ? 800 : window.innerHeight)
   let p = $state(0)
@@ -402,7 +402,7 @@
     if (!s || typeof history === 'undefined') return
     // The stop a step belongs to is in its key ('jiufen-travel' → jiufen), so a
     // route that's still drawing already counts as the place it heads for.
-    const legId = s.key.replace(/-(travel|travelled|here|walk|walked|return|returned)$/, '')
+    const legId = s.key.replace(/-(travel|travelled|ride|ridden|here|walk|walked|return|returned)$/, '')
     const leg = trip.legs.find((l) => l.id === legId)
     if (!leg) return
     const id = /-walke?d?$/.test(s.key) ? leg.walk.folder : leg.id

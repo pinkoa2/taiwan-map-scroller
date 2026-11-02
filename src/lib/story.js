@@ -30,9 +30,17 @@ export function buildSteps(trip) {
     if (leg.segments.length) {
       // Arriving from off the map, the whole island stays in view as the plane comes in.
       const camera = i === 0 ? trip.island : leg.travelCamera
+      const ride = leg.rideCamera
       steps.push({ key: `${leg.id}-travel`, camera, ink, leg: i - 1, card: { type: 'leg', leg: i } })
-      ink += leg.segments.length
+      ink += leg.segments.length - (ride ? 1 : 0)
       steps.push({ key: `${leg.id}-travelled`, camera, ink, leg: i, card: { type: 'leg', leg: i } })
+      // A loop at the end (the scooter round Xiaoliuqiu): the sheet closes in
+      // on it, then it draws.
+      if (ride) {
+        steps.push({ key: `${leg.id}-ride`, camera: ride, ink, leg: i, card: { type: 'leg', leg: i } })
+        ink += 1
+        steps.push({ key: `${leg.id}-ridden`, camera: ride, ink, leg: i, card: { type: 'leg', leg: i } })
+      }
     }
     // While a place's photos are up, the camera centres between them.
     steps.push({ key: `${leg.id}-here`, camera: leg.camera, ink, leg: i, centre: true, card: { type: 'leg', leg: i } })

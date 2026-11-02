@@ -6,8 +6,10 @@
 //   at           [lat, lng] of the place (right-click in Google Maps to copy)
 //   stay         how long we were there, free text ("4 days", "one night")
 //   by           how we got here from the previous leg, as segments:
-//                  { mode: 'train' | 'metro' | 'bus' | 'car' | 'walk' | 'flight' | 'ferry',
+//                  { mode: 'train' | 'metro' | 'bus' | 'car' | 'walk' | 'flight' | 'ferry' | 'scooter',
 //                    to: [lat, lng], toName: 'Ruifang' }   ← optional midpoint
+//                    via: [[lat, lng], …]   ← optional: by road through these, in order
+//                                             (the scooter loop round Xiaoliuqiu)
 //                the last segment always ends at this leg's `at`.
 //   arrive       for the first leg only: a word for how the trip began
 //   when         the dates, free text ('Oct 12–14')
@@ -18,7 +20,8 @@
 //                A return visit gets no leg of its own; its photos go in the
 //                first visit's folder.
 //   back         how we went back (dayTrip or returnTo), as segments like `by`;
-//                without it, the way out is retraced
+//                without it, the way out is retraced (leaving out a `via` loop
+//                that ends where it starts)
 //   text         a short write-up; blank lines start a new paragraph
 //   view         how many km wide the map is when it zooms in here (default 16)
 //   walk         a hike drawn on its own close-up (see Alishan); track: true
@@ -204,8 +207,8 @@ export default {
       zh: '高雄',
       // Where we stayed: from the view out of the window on the 25th (inferred).
       at: [22.6737, 120.3083],
-      // Back again on the 30th after Tainan.
-      when: 'Oct 25–27, 30',
+      // Back again on the 30th after Tainan, and on Nov 1 after Xiaoliuqiu.
+      when: 'Oct 25–27, 30, Nov 1',
       by: [{ mode: 'car' }],
       // Wide enough to take in Fo Guang Shan, out to the east.
       view: 34,
@@ -223,8 +226,36 @@ export default {
       view: 18,
       text: 'By car to Tainan.',
     },
+    {
+      id: 'xiaoliuqiu',
+      name: 'Xiaoliuqiu',
+      zh: '小琉球',
+      // Baisha harbour, by Vase Rock (from the photos' GPS).
+      at: [22.3543, 120.3815],
+      when: 'Oct 31 – Nov 1',
+      // Car to the Donggang pier (photo there at 12:16), the ferry across, then
+      // round the island by scooter: through the turtle coast, Sunset Pavilion,
+      // the south harbour and the east reef (spots from the photos' GPS; the
+      // roads between are OSRM's), back to Baisha.
+      by: [
+        { mode: 'car', to: [22.4685, 120.4447], toName: 'Donggang' },
+        { mode: 'ferry', to: [22.3543, 120.3815], toName: 'Baisha' },
+        { mode: 'scooter', via: [[22.3530, 120.3714], [22.3298, 120.3544], [22.3365, 120.3765], [22.3395, 120.3817]] },
+      ],
+      // Back to Kaohsiung after: the ferry and the car again, retraced (a loop
+      // like the scooter's is left out of the way back).
+      dayTrip: true,
+      // Close in, like the scooter loop's close-up, so the photos don't zoom back out.
+      view: 5,
+      text: 'By car to Donggang, the ferry across, then by scooter, kind of all around the island.',
+    },
   ],
 
-  // Shown at the end while the trip is still going. Set to null when it's done.
-  continues: 'To be continued',
+  // Shown at the end while the trip is still going (e.g. 'To be continued').
+  // Off since Nov 2, 2026: the user asked, and will add the last legs as they go.
+  continues: null,
+
+  // The full album (every photo, not just the picks): linked from the closing
+  // card and the foot of the stop list. Set to null to hide it.
+  album: 'https://photos.app.goo.gl/KQkQWtRiSuorU4vr9',
 }

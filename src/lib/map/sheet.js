@@ -174,8 +174,8 @@ function drawFootprints(ctx, line, f, toScreen, beside = false) {
   }
 }
 
-// The vehicle riding the route: a red doodle (vehicles.js), or an emoji for
-// a mode without one (ferry). Emoji side views face left on most platforms,
+// The vehicle riding the route: a red stamp (vehicles.js), or an emoji for
+// a mode without one. Emoji side views face left on most platforms,
 // so they're flipped when heading right.
 const VEHICLE_EMOJI = { train: '🚃', metro: '🚈', bus: '🚌', car: '🚗', ferry: '⛴️', flight: '✈️' }
 const EMOJI_FONT = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif'
@@ -741,7 +741,8 @@ function label(ctx, text, x, y, font, colour, tracking) {
   if ('letterSpacing' in ctx) ctx.letterSpacing = '0px'
 }
 
-// Transport symbols, matching the legend: rail hatching, dashes, solid, dots.
+// Transport symbols, matching the legend: rail hatching, dashes, solid, dots,
+// and the scooter's little road.
 export function routeStroke(ctx, mode, px) {
   ctx.setLineDash([])
   ctx.strokeStyle = colours.route
@@ -763,6 +764,13 @@ export function routeStroke(ctx, mode, px) {
   } else if (mode === 'walk') {
     ctx.lineWidth = 4.5 * px
     ctx.setLineDash([0.01, 8 * px])
+    ctx.stroke()
+  } else if (mode === 'scooter') {
+    // A little road with a paper centre line.
+    ctx.lineWidth = 5 * px
+    ctx.stroke()
+    ctx.strokeStyle = colours.paper
+    ctx.lineWidth = 1.4 * px
     ctx.stroke()
   } else if (mode === 'flight' || mode === 'ferry') {
     ctx.lineWidth = 2 * px

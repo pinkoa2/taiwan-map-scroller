@@ -11,7 +11,7 @@
   },
   {
     "file": "pineapple-fields.jpg",
-    "caption": "",
+    "caption": "Pineapples!",
     "comment": "",
     "taken": "2026-10-26 10:59",
     "pick": false,
@@ -44,7 +44,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 12:28",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0889.HEIC",
     "new": true
@@ -64,17 +64,18 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 12:31",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0895.HEIC",
-    "new": true
+    "new": true,
+    "favorite": true
   },
   {
     "file": "blue-dragon-vase.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 13:46",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0897.HEIC",
     "new": true
@@ -84,7 +85,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 13:57",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0900.HEIC",
     "new": true
@@ -124,7 +125,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 14:36",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0912.HEIC",
     "new": true
@@ -134,7 +135,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-27 09:45",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0914.HEIC",
     "new": true
@@ -154,7 +155,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-27 10:14",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0918.HEIC",
     "new": true
@@ -164,7 +165,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-27 10:15",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0919.HEIC",
     "new": true
@@ -184,7 +185,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-27 10:20",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0922.HEIC",
     "new": true

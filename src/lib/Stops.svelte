@@ -58,7 +58,7 @@
   </button>
 
   {#if open}
-    <ol id="stop-list" class="list">
+    <ol id="stop-list" class="list" data-own-scroll>
       {#each stops as stop}
         <li class:walk={stop.walk} class:current={!stop.walk && stop.leg === story.at}>
           <button onclick={() => choose(stop)}>
@@ -69,6 +69,14 @@
           </button>
         </li>
       {/each}
+      {#if trip.album}
+        <li class="album">
+          <a href={trip.album} target="_blank" rel="noopener">
+            <span class="lettering name">All the photos</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg>
+          </a>
+        </li>
+      {/if}
     </ol>
   {/if}
 </nav>
@@ -170,6 +178,8 @@
     min-width: 20rem;
     max-height: min(70svh, 34rem);
     overflow-y: auto;
+    /* Its own scroll (glide.js leaves it alone), never handed on to the page. */
+    overscroll-behavior: contain;
     background: var(--paper);
     border: 1px solid var(--rule);
     box-shadow: 0 18px 36px -18px rgb(40 36 20 / 0.5);
@@ -232,6 +242,30 @@
 
   .list .current .n {
     color: var(--route);
+  }
+
+  /* The way out to the full album, under the stops. */
+  .list .album a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+    padding: 0.6rem 0.9rem 0.45rem 3.4rem;
+    border-top: 1px solid var(--rule);
+    color: var(--route-deep);
+    text-decoration: none;
+  }
+
+  .list .album a:hover {
+    background: rgb(226 64 28 / 0.07);
+  }
+
+  .list .album svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   @media (max-width: 899px) {

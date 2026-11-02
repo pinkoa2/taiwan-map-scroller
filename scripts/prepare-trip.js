@@ -275,6 +275,20 @@ async function trail(osmName, near) {
   return base.trails[osmName]
 }
 
+// A segment with `via` (the scooter round Xiaoliuqiu): along the roads
+// through every point in order, by OSRM. A loop ends where it starts.
+async function ride(mode, points) {
+  const key = `${mode}:${points.map((p) => p.map((n) => n.toFixed(4)).join(',')).join('>')}`
+  if (routes[key]) return routes[key]
+  const coords = await osrm(points)
+  if (!coords) throw new Error(`No road route for ${key}`)
+  // Not simplified: a loop ends where it starts, which collapses Douglas–Peucker.
+  routes[key] = { coords: coords.map(([x, y]) => [+x.toFixed(5), +y.toFixed(5)]), km: +lineKm(coords).toFixed(2) }
+  await writeJSON(routesFile, routes)
+  console.log(`  routed ${key}`)
+  return routes[key]
+}
+
 // Named features along a trail, for its close-up: halts and stations,
 // and its numbered bridges (OSM names them like "13號橋36,3m").
 async function trailMarks(osmName, near) {
@@ -407,10 +421,11 @@ async function segmentsFor(by, from, at) {
   const out = []
   for (const seg of by) {
     const to = seg.to ? ll(seg.to) : at
-    const r = await route(seg.mode, from, to)
+    const r = seg.via ? await ride(seg.mode, [from, ...seg.via.map(ll), to]) : await route(seg.mode, from, to)
     out.push({
       mode: seg.mode,
       toName: seg.to ? seg.toName ?? null : null,
+      loop: seg.via ? from.join() === to.join() : undefined,
       km: r.km,
       dist: +toUnit(r.km).toFixed(1),
       line: encode(r.coords.map(P), Q_ROUTE),
@@ -436,12 +451,14 @@ for (const [i, leg] of trip.legs.entries()) {
   let returns = null
   const home = returnOf(i)
   if (home) {
+    // A loop at the end (the scooter round Xiaoliuqiu) isn't part of the way back.
+    const out = segments.filter((s) => !s.loop)
     const back = leg.back?.length
       ? await segmentsFor(leg.back, at, ll(home.at))
-      : [...segments].reverse().map((s, k) => {
+      : [...out].reverse().map((s, k) => {
           const pts = [...s._pts].reverse()
           // Retraced, each segment reaches where its outbound one set off from.
-          const toName = k < segments.length - 1 ? segments[segments.length - 2 - k].toName : null
+          const toName = k < out.length - 1 ? out[out.length - 2 - k].toName : null
           return { ...s, toName, line: encode(pts, Q_ROUTE), _pts: pts }
         })
     returns = {
@@ -497,7 +514,10 @@ for (const [i, leg] of trip.legs.entries()) {
     hang: leg.hang ?? null,
     segments: segments.map(({ _pts, ...s }) => s),
     dist: +segments.reduce((s, g) => s + toUnit(g.km), 0).toFixed(1),
-    travelCamera: routePts.length ? boxOf(routePts, 0.45, 9000) : null,
+    // A loop at the end (the scooter round Xiaoliuqiu) draws on its own
+    // close-up after the rest has landed; the rest frames the way there.
+    travelCamera: routePts.length ? boxOf(segments.filter((s) => !s.loop).flatMap((s) => s._pts), 0.45, 9000) : null,
+    rideCamera: segments.at(-1)?.loop ? boxOf(segments.at(-1)._pts, 0.35, 4000) : null,
     camera: around(at, leg.view ?? 16),
     walk,
     returns,
@@ -575,6 +595,7 @@ const manifest = {
   // The title card's line: from the photo picker (descriptions.json "intro"), else trip.js.
   summary: descriptions.intro?.trim() || trip.summary || '',
   continues: trip.continues ?? null,
+  album: trip.album ?? null,
   photoLayout: { wide: 'scatter', phone: 'prints', ...(trip.photoLayout ?? {}) },
   unit,
   subdomain: trip.subdomain ?? null,

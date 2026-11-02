@@ -18,6 +18,9 @@
         <ellipse cx="-2.8" cy="0" rx="1.4" ry="1.3" />
       </g>
     {/each}
+  {:else if mode === 'scooter'}
+    <line x1="2" y1="6" x2={width - 2} y2="6" stroke="var(--route)" stroke-width="5" stroke-linecap="round" />
+    <line x1="2" y1="6" x2={width - 2} y2="6" stroke="var(--paper)" stroke-width="1.4" stroke-linecap="round" />
   {:else if mode === 'flight' || mode === 'ferry'}
     <line x1="2" y1="6" x2={width - 2} y2="6" stroke="var(--route)" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 5" />
   {:else}

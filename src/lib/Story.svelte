@@ -9,6 +9,7 @@
   import Symbol from './Symbol.svelte'
   import LanternString from './LanternString.svelte'
   import Onward from './Onward.svelte'
+  import Album from './Album.svelte'
   import { howWeGotThere } from './modes.js'
 
   // film: photos as a stack of prints after each page (phones) instead of a mosaic in it.
@@ -59,6 +60,13 @@
       <div class="gap long"></div>
       <div class="mark" data-step="{leg.id}-travelled"></div>
       <div class="gap"></div>
+      {#if leg.rideCamera}
+        <!-- A loop at the end (the scooter): the sheet closes in on it, then it draws. -->
+        <div class="mark" data-step="{leg.id}-ride"></div>
+        <div class="gap long"></div>
+        <div class="mark" data-step="{leg.id}-ridden"></div>
+        <div class="gap"></div>
+      {/if}
     {/if}
     <div class="mark" data-step="{leg.id}-here"></div>
     <div class="gap"></div>
@@ -192,9 +200,9 @@
       {#if trip.titleZh}<span class="zh" lang="zh-Hant">{trip.titleZh}</span>{/if}
     </h2>
     {#if trip.continues}<p class="summary">{trip.continues}</p>{/if}
+    {#if trip.album}<p class="album"><Album href={trip.album} /></p>{/if}
     <p class="sources">
-      Map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors, AWS Terrain
-      Tiles.
+      Map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>
     </p>
   </div>
 </section>
@@ -479,10 +487,18 @@
     content: '— ';
   }
 
+  .closing .album {
+    margin: 0.75rem 0 0;
+  }
+
   .sources {
     margin: 0.7rem 0 0;
-    font-size: 0.75rem;
-    color: var(--ink-soft);
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+  }
+
+  .sources a {
+    color: inherit;
   }
 
   /* Wide screens: the paper page is a broad sheet with a centred column,

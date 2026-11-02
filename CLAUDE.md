@@ -21,7 +21,7 @@ The sibling project `/home/alex/projects/iceland-postcards` is the reference for
 
 ## Layout of the repo
 
-- **`content/trip.js`**: legs in order. Fields: `id`, `name`, `zh`, `at` [lat, lng], `when` (dates), `by` (transport segments, `{ mode, to, toName, from, fromName }`), `dayTrip`, `returnTo`, `arrive`, `text`, `view` (zoom width in km), `hang: 'lanterns'`, `walk` (a hike with its own `folder`, `osmName`, `track`, `outAndBack`, `miles`, `hours`, `text`, `by`). Also `cover` (the link-preview photo) and `continues` (the "To be continued" line; set to null when the trip is over).
+- **`content/trip.js`**: legs in order. Fields: `id`, `name`, `zh`, `at` [lat, lng], `when` (dates), `by` (transport segments, `{ mode, to, toName, from, fromName }`), `dayTrip`, `returnTo`, `arrive`, `text`, `view` (zoom width in km), `hang: 'lanterns'`, `walk` (a hike with its own `folder`, `osmName`, `track`, `outAndBack`, `miles`, `hours`, `text`, `by`). Also `cover` (the link-preview photo), `continues` (the "To be continued" line; set to null when the trip is over) and `album` (the full Google Photos album link; null hides it).
 - **`content/media/<place>/`**: the photos and videos for each leg (folder = the leg's `id`; the hike uses `walk.folder` = `mianyue-line`). Each folder's `photos.json` lists the files in display order (chronological to start with). Each entry has:
   - `file`: the descriptive filename.
   - `caption`: a short line under the photo.
@@ -61,7 +61,7 @@ The sibling project `/home/alex/projects/iceland-postcards` is the reference for
   - **Print style: polaroid.** The user tried a disposable-camera print on Oct 30, 2026 (thin glossy border, orange date stamp in the corner), kept the polaroid and had the disposable option removed from the code.
   - The deck is up from 4% to 72% of the place's step, landing as a whole and lifting away, as the scatter did. Each place gets a fixed `110svh` of scroll (`room` in Leg.svelte). The camera **holds** on the place until 74% of the step (`hold` in `viewAt`).
   - **Dealt from the card (Oct 30, 2026; the user asked for an animation between the cards and the photos and picked this from three options, over "pile tucked in the page" and "just smooth it"):** as a deck lands, its top three prints fly out of the place's "↓ 14 photos" button (`data-deal="<step key>"` on Onward, found by Deck's `place` prop), small at first (28%), bottom one first and the top one last 110ms apart, 640ms each, turning ±9° as they settle, with a drop shadow that deepens in flight (`deal()` in Deck.svelte). On a phone the button has just gone off the top, so they come down from there (origin clamped 90px outside the screen); with no button, from just above the pile. The controls and the ↓ under the deck fade in as they land (`settle`). Skipped under reduced motion. The deck used to land as a whole (a 26px drop and fade); it still lifts away as a whole.
-  - **Swipe hint: the nudge (the user picked it, Oct 30, 2026, replacing the "swipe" squiggle they didn't like).** No words or drawing: as a deck lands, the top print slides aside by itself (22% of its width, at most 96px) to show the one beneath, then settles back; once more after 6.5s if left alone (`nudge()` in Deck.svelte, using the drag transform). Until the first flip ever (`localStorage` `taiwan-swipe-hint-seen`); skipped under reduced motion. After that, the next place shows the "Click/Tap a photo to open it" squiggle by the top print's corner, until a photo is opened (`taiwan-photo-hint-seen`). That squiggle stays (the user only objected to the one for turning). `Squiggle.svelte` still has `toward="swipe"`, now unused.
+  - **Swipe hint: the nudge (the user picked it, Oct 30, 2026, replacing the "swipe" squiggle they didn't like).** No words or drawing: as a deck lands, the top print slides aside by itself (22% of its width, at most 96px) to show the one beneath, then settles back; once more after 6.5s if left alone (`nudge()` in Deck.svelte, using the drag transform). Until the first flip ever (`localStorage` `taiwan-swipe-hint-seen`); skipped under reduced motion. **No "open a photo" hint on the deck (Nov 2, 2026):** the "Click/Tap a photo to open it" squiggle was removed at the user's request; a tapping hand on photo 1 replaced it briefly and was removed too (the user found it ugly). `Squiggle.svelte` is now used only by the inactive scatter and prints layouts. **No focus ring after the viewer:** a print opened by click or tap is blurred a frame after the viewer closes (`byPointer` in Deck.svelte), since the browser otherwise draws the orange focus ring on it after the viewer's keys; a print opened from the keyboard keeps the ring.
   - **Skip button (Oct 30, 2026), for "keep scrolling to skip the photos":** a round ↓ button in the ‹ › buttons' style, with the next stop's name beside it ("↓ SHUINANDONG 水湳洞"), in its own row under the controls (`area.bottom + 102`). It lands with the deck, no delay (the user asked), and the arrow dips twice every 2.6s (not under reduced motion). The next stop is the next place, or the hike, or after the last place where we went back to (`nextAfter` in App). Since the glide (below) it's the shared `Onward.svelte`, and tapping it glides on to the next stop (the next place's words). To make room the deck area's bottom moved up: phones 0.8h − 34 (was 0.88h), desktop h − edge − 150 (was −104).
     - History: first a quiet route stub at the map's foot with the name (the user picked it from options), but on iPhone it sat under Safari's floating bar (the page uses `viewport-fit=cover`), and once moved up the user didn't read it as a skip arrow, so it became this button (the user asked for bolder).
 - **Desktop `wide: 'scatter'` (the previous default):** `Leg.svelte` plus `Scatter.svelte`.
@@ -113,11 +113,38 @@ The user showed the site to Ting, who didn't know she had to scroll and didn't l
 - **↑ buttons (Oct 30, 2026, the user asked for one to match):** a smaller, quieter round ↑ (32px, ink-soft arrow, no label) just before each ↓, on each place's words, the hike's words and under each deck (not on the title card). It glides back to the stop before (`onback` on Onward, `glide.prev()`).
 - **Hike timing:** where the ground stays and only the frame moves (`-walk` → `-walked`), the footsteps now finish by 80% of the step and the frame shifts after (`shift` in `viewAt`), so the page can rest on the finished trail. On phones the hike's sticky "On foot" caption shows only while the footsteps draw (`step` prop on Story), since the hike's page says the same.
 
+## Xiaoliuqiu and the scooter loop (Nov 2, 2026)
+
+The third zip (539 files, up to IMG_1048) added 24 photos, all from Xiaoliuqiu (GPS). The user answered: car to Donggang, ferry across, back to Kaohsiung after (Nov 1, now in Kaohsiung's dates), name "Xiaoliuqiu 小琉球", draw a stamp ferry. They also asked for "some fun loop" on the scooter they rode "kind of all around" the island.
+
+- **The scooter is part of getting there** (the user asked: car, boat and scooter all in the getting there). Claude first built it as a separate hike-like section ("Round the island 環島", with its own card and deck); the user had it folded in. Xiaoliuqiu's `by` is car → ferry (to Baisha) → `{ mode: 'scooter', via: [...] }`.
+- **`via` on a segment:** routed by OSRM through the points in order (`ride()` in prepare-trip.js; not simplified, since a loop ends where it starts and collapses Douglas–Peucker). The loop runs from Baisha through the turtle coast, Sunset Pavilion, the south harbour and the east reef (spots from the GPS), back to Baisha. A `via` segment that ends where it starts is a `loop` and is left out of the retraced way back, so the return is the same ferry and car lines.
+- **Zoom for the loop (the user asked, Nov 2, 2026):** a loop at the end of `by` draws on its own close-up. prepare-trip gives the leg `rideCamera` (the loop's box) and frames `travelCamera` on the rest; story.js adds `<id>-ride` (the sheet flies in to the island, ink unchanged) and `<id>-ridden` (the loop drawn) after `-travelled`. Desktop (`Leg.svelte`): the way there draws with no card up, then a `.pause.flight` for the zoom, then the card comes up (`.lead`) as the loop draws, and the page rests at 0.96 through the ride (`data-stop="<id>-ride <id>-ridden 0.96"`). Phone (`Story.svelte`): two more marks in the map run. Xiaoliuqiu's `view` is 5 so the photo step stays fairly close (it's still framed small in the deck's place box, like every stop).
+- **Scooter route style:** a little road, red with a paper centre line (`routeStroke`, `Symbol`), with the scooter stamp at its head.
+- **Photos:** all 24 in `xiaoliuqiu/`, unpicked and `new: true`, so the deck is empty until picked. Filenames avoid naming people.
+- **Known:** the island's outline is a coarse polygon at the close-up (the z9 coastline).
+
+## What's left of the trip (Nov 2, 2026)
+
+The user expects to go from Kaohsiung to Taipei and then fly home. Not added: only completed legs show, and they'll ask once it's done. For Taipei, it'd be a return visit (photos in Taipei's folder, per "No return sections"), so that needs a decision on how to draw it then.
+
+## Stop list scrolls (Nov 2, 2026)
+
+The user couldn't scroll the stop list (taller than a phone screen once Xiaoliuqiu was added): glide.js took every wheel and touch. Elements marked `data-own-scroll` (the list) now keep their own gestures, and the list has `overscroll-behavior: contain`.
+
 ## Title card, closing map, no distances (Oct 23, 2026)
 
 - **No distances anywhere** (the user asked): the map's scale bar is gone. **Exception:** the Mianyue hike shows "10 miles · 6 hours" under its title (the user asked for it back).
 - **Title card:** just "Taiwan 臺灣" and a description; the user didn't want names, year or stop count. The description is edited in the photo picker's **Title card** section and saved as `"intro"` in `content/descriptions.json` (it overrides `summary` in trip.js). A blank line makes paragraphs. The "Scroll to follow the route" cue stays.
-- **Closing map:** a long stretch at the very bottom (60svh desktop; 115svh on phones, so the grey photo backdrop has fully scrolled away) showing the whole island with every route drawn, every stop marked alike (`story.end` drops the "current place" emphasis), and no photos. Bottom-left is a closing card that mirrors the title card: "Taiwan 臺灣", "To be continued" and Sources. The badge reads "Taiwan" there.
+- **Closing map:** a long stretch at the very bottom (60svh desktop; 115svh on phones, so the grey photo backdrop has fully scrolled away) showing the whole island with every route drawn, every stop marked alike (`story.end` drops the "current place" emphasis), and no photos. Bottom-left is a closing card that mirrors the title card: "Taiwan 臺灣", an "All the photos" link ("To be continued" was removed on Nov 2, 2026, the user asked: `continues: null`) and a tiny faint "Map © OpenStreetMap" (the user asked on Nov 1, 2026 to drop the Sources dropdown; this one line stays because the OSM licence requires it, AWS Terrain Tiles and OSRM credits were dropped). The badge reads "Taiwan" there.
+
+## Full album link (Nov 1, 2026)
+
+The user asked for a link to all the photos (a shared Google Photos album, `album` in trip.js); Claude recommended the bottom, and the user agreed to it in two places:
+
+- **Closing card** (`Closing.svelte` desktop, the end caption in `Story.svelte` phones): `Album.svelte`, the ↓ buttons' round paper button with an out-of-page arrow ↗, "All the photos" and "Google Photos album" under it. Opens in a new tab.
+- **Stop list** (`Stops.svelte`): a last line under the stops, "All the photos ↗", for people who jump to one stop and never reach the end.
+- Claude flagged that the album shows every photo (the site shows picks only) and that Google Photos shares location unless "Remove location" is on in the album's settings.
 
 ## Photo picker (`docker compose up curate preview`, http://localhost:4318, laptop only)
 
@@ -154,7 +181,7 @@ A small local app the user asked for (Oct 23, 2026) to choose photos and write t
 
 Photos used to be labelled "Plate 14" (old atlas style). The user didn't know the term and asked to drop it (Oct 23, 2026), so photos now show only the place name or caption. Plates are still numbered internally for the viewer.
 
-## "Click a photo" hint (Oct 23, 2026)
+## "Click a photo" hint (Oct 23, 2026; removed from the deck on Nov 2, 2026, see Layout)
 
 The user asked for a fun squiggly arrow to show the photos can be opened. `Squiggle.svelte` is a hand-drawn route-red arrow (a loop, then a swoop to an arrowhead) that draws itself in, with an italic note: "Click a photo to open it" on desktop, "Tap a photo to open it" on a phone.
 
@@ -190,7 +217,7 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 - **Structure:** chapters by place or leg, not one per day.
 - **Stack:** same as Iceland. Svelte 5 + Vite, fully static, no backend, no map API keys. Deployed to GitHub Pages at https://taiwan.pinkoa2.lol/ (`subdomain` in trip.js).
 - **Audience:** Alex and Ting keep it as a keepsake. Friends and family open a shared link, mostly on phones.
-- **Keepsake, no live tracker:** only completed legs show. Kaohsiung and Tainan were added on Oct 30, 2026, once Tainan was done.
+- **Keepsake, no live tracker:** only completed legs show. Kaohsiung and Tainan were added on Oct 30, 2026, once Tainan was done; Xiaoliuqiu on Nov 2, 2026.
 - **Units:** miles in trip.js, but **no distances are shown anywhere** (the user asked).
 - **Visual direction: Survey Sheet**, the map as a printed survey sheet (`.impeccable/surfaces/`, seed 232636eb). It was picked over Night Market Lights and a Tear-off Day Calendar.
 - **Minimal map:** the first build had full terrain (elevation tints, contours, rivers, rail, close-up sheets). The user found it laggy and asked for "much simpler, lower quality, no elevation, just a minimal Taiwan map". The map is now a flat land tint plus the coastline, route, places, a few cities, the locator, the frame ticks and the scale bar.
@@ -202,7 +229,7 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 ## Route animation
 
 - Each transport mode draws differently: train and metro as hatched rail, bus dashed, car solid, walking as footprints, flight dashed and arced.
-- **A red stamp vehicle rides the head of the route while a leg draws (the user picked style "C · Stamp" from three sketched styles on Oct 30, 2026, replacing the emoji; they tried "B · Doodle" first, then switched):** train, metro (light rail), bus, car and plane, solid red with the windows cut out in paper and a paper stripe along the side, like the footprints, on a paper halo. `src/lib/map/vehicles.js` holds the shapes (64 × 32 grid, facing right) and turns each into an SVG image once (4× for sharpness); `stampVehicle` draws it 62px wide on the canvas, flipped when heading left; the plane is seen from above and turns along its line. SheetMap redraws once the images are decoded (`vehiclesReady`). Ferry has no drawing yet and still uses its emoji (the trip has no ferry). The other styles tried: "Ink line" (even red outline, paper inside) and "Doodle" (wobbly outline with speed marks and a puff from the train).
+- **A red stamp vehicle rides the head of the route while a leg draws (the user picked style "C · Stamp" from three sketched styles on Oct 30, 2026, replacing the emoji; they tried "B · Doodle" first, then switched):** train, metro (light rail), bus, car and plane, solid red with the windows cut out in paper and a paper stripe along the side, like the footprints, on a paper halo. `src/lib/map/vehicles.js` holds the shapes (64 × 32 grid, facing right) and turns each into an SVG image once (4× for sharpness); `stampVehicle` draws it 62px wide on the canvas, flipped when heading left; the plane is seen from above and turns along its line. SheetMap redraws once the images are decoded (`vehiclesReady`). **Ferry and scooter (Nov 2, 2026, for Xiaoliuqiu; the user said yes to a stamp ferry):** a ferry riding a line of waves, and a scooter with two speed lines (`ANCHOR.ferry` rides it on its waterline). The other styles tried: "Ink line" (even red outline, paper inside) and "Doodle" (wobbly outline with speed marks and a puff from the train).
   - Before that: emoji (🚃 train, 🚈 metro, 🚌 bus, 🚗 car, ✈️ flight), which the user had asked for instead of drawn badges.
 - **Opening:** the island starts with no place marked. A ✈️ flies in from just off-screen to the east ("from the US"; `from: [24.4, 123.95]` on the Taipei leg), and Taipei's marker and label appear only once it lands (intro step `leg: -1` in story.js).
 - **One continuous route, no teleporting (the user asked, Oct 30, 2026, after trying it both ways):** wherever we went out and came back, the way back is drawn too.
@@ -239,8 +266,9 @@ Opening a photo lets you move only through that place's photos, wrapping at the 
 | Sun Moon Lake 日月潭 | Oct 18 | car, day trip from Yunlin |
 | Alishan 阿里山 | Oct 20–22 | car, treated as a day trip from Yunlin; via Chiayi and Fenqihu on the way up, tea hills (Shizhuo area) on the way down. All folded into Alishan |
 | ↳ Mianyue Line 眠月線 | Oct 21 | on foot: Zhushan sunrise, then about 10 mi / 6 h, a little dangerous, the highlight for Alex |
-| Kaohsiung 高雄 | Oct 25–27, 30 | car from Yunlin. Includes Fo Guang Shan and the pineapple fields (Oct 26) and Lotus Pond (Oct 27), folded in (the user's call). Pin from the hotel-window photo's GPS (inferred) |
+| Kaohsiung 高雄 | Oct 25–27, 30, Nov 1 | car from Yunlin. Includes Fo Guang Shan and the pineapple fields (Oct 26) and Lotus Pond (Oct 27), folded in (the user's call). Pin from the hotel-window photo's GPS (inferred) |
 | Tainan 臺南 | Oct 28–30 | car; treated as a day trip from Kaohsiung (back there by Oct 30). Includes Anping (Oct 30) |
+| Xiaoliuqiu 小琉球 | Oct 31 – Nov 1 | car to the Donggang pier (photo there 12:16), ferry to Baisha, then a scooter loop round the island; a day trip from Kaohsiung (back there Nov 1). Pin at Baisha harbour by Vase Rock (GPS) |
 
 - Yunlin's pin is at Dounan (the user confirmed). "Oct 17" for Yunlin is inferred (no photos that day). Tamsui photos are the Oct 14 afternoon.
 - Train legs follow OSM rail between the nearest stations. Bus and car legs use OSRM. Metro is a straight line.

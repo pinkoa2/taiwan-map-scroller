@@ -6,12 +6,11 @@
   // through; it loops, so past the last comes the first and back from the
   // first comes the last. Scrolling simply carries on past. The deck lands as a whole on
   // reaching the place and lifts away before the next one.
-  import Squiggle from './Squiggle.svelte'
   import Onward from './Onward.svelte'
   import { deckArea, printSize, printSizes } from './deck.js'
 
   // at: the print on top; flip(k) puts print k on top (App remembers it per place).
-  // hint: 'swipe' (how to flip), 'open' (tap to open) or null.
+  // hint: 'swipe' (nudge to show how to flip) or null.
   // next: the stop scrolling on takes you to ({ name, zh }), and onward() skips there.
   // place: the deck's step key, naming the ↓ button it's dealt from.
   let { prints, at, flip, w, h, edge, open, wide = true, active = true, hint = null, next = null, onward, back = null, place: dealFrom = '' } = $props()
@@ -133,10 +132,23 @@
     drag = 0
     start = null
   }
-  function click(print) {
+  // A photo opened by a click or tap shouldn't come back from the viewer
+  // wearing the keyboard focus ring (the browser shows it after the viewer's
+  // keys); one opened from the keyboard keeps it.
+  let byPointer = false
+  function click(e, print) {
     if (moved) return
+    byPointer = e.detail > 0
     open(print.number)
   }
+  $effect(() => {
+    if (!active || !byPointer) return
+    byPointer = false
+    // A frame later: the closing viewer hands focus back to the print first.
+    requestAnimationFrame(() => {
+      if (document.activeElement?.closest?.('.print')) document.activeElement.blur()
+    })
+  })
 
   function key(e) {
     if (!active || e.defaultPrevented || e.altKey || e.metaKey || e.ctrlKey) return
@@ -165,17 +177,6 @@
       z: n - d,
     }
   }
-
-  // Where the "open" hint goes: above the top print's top-left corner,
-  // swooping onto it (a box about 220 × 112 px with its tip ~105 px in and
-  // ~108 px down). The swipe hint is the nudge above, not a drawing.
-  const hintAt = $derived.by(() => {
-    const s = sized[at]
-    if (!s || shownHint !== 'open') return null
-    const printTop = area.cy - s.ph / 2
-    const cornerX = area.cx - s.pw / 2 + 22
-    return { kind: 'open', left: Math.max(cornerX - 105, 4), top: Math.max(printTop + 16 - 110, edge + 8) }
-  })
 
   // Dealt from the card (the user picked it, Oct 30, 2026): as the deck
   // lands, the top three prints fly out of the place's "↓ 14 photos" button,
@@ -225,12 +226,6 @@
 <svelte:window onkeydown={key} />
 
 <div class="deck" aria-label="Photos" out:lift|global {@attach holdSideways}>
-  {#if hintAt}
-    <div class="hint" style:left="{hintAt.left}px" style:top="{hintAt.top}px">
-      <Squiggle text={wide ? 'Click a photo to open it' : 'Tap a photo to open it'} toward="right" />
-    </div>
-  {/if}
-
   {#each prints as print, i (print.number)}
     {@const s = sized[i]}
     {@const pos = place(i)}
@@ -251,7 +246,7 @@
       onpointermove={move}
       onpointerup={up}
       onpointercancel={up}
-      onclick={() => click(print)}
+      onclick={(e) => click(e, print)}
       ondragstart={(e) => e.preventDefault()}
       aria-label={print.photo.video ? `Play video` : `Open photo full screen`}
       in:deal|global={{ i }}
@@ -316,19 +311,6 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-  }
-
-  .hint {
-    position: absolute;
-    z-index: 200;
-    width: 220px;
-    animation: appear 0.3s ease-out 0.55s both;
-  }
-
-  @keyframes appear {
-    from {
-      opacity: 0;
-    }
   }
 
   /* A print: the photo on a paper mount with a wider foot for its caption. */

@@ -1,6 +1,9 @@
 <script>
   // The end of the sheet (wide screens): the whole route back in view, and
-  // the sources the map was drawn from.
+  // the link to the full album and the map's credit (OpenStreetMap's licence
+  // asks for one).
+  import Album from './Album.svelte'
+
   let { trip } = $props()
 </script>
 
@@ -12,14 +15,8 @@
       {#if trip.titleZh}<span class="zh" lang="zh-Hant">{trip.titleZh}</span>{/if}
     </h2>
     {#if trip.continues}<p class="continues">{trip.continues}</p>{/if}
-    <details class="sources">
-      <summary class="lettering">Sources</summary>
-      <p>
-        Map outline from the AWS Terrain Tiles. Routes, cities and the trail ©
-        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors; road
-        routes by OSRM.
-      </p>
-    </details>
+    {#if trip.album}<p class="album"><Album href={trip.album} /></p>{/if}
+    <p class="sources">Map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></p>
   </div>
 </footer>
 
@@ -73,36 +70,17 @@
     color: var(--ink-soft);
   }
 
+  .album {
+    margin: 0 0 1.1rem;
+  }
+
   .sources {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
+    margin: 0;
+    font-size: 0.72rem;
+    color: var(--ink-faint);
   }
 
-  summary {
-    cursor: pointer;
-    font-size: 0.8rem;
-    list-style: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-  }
-
-  summary::-webkit-details-marker {
-    display: none;
-  }
-
-  /* A drawn chevron in place of the browser's triangle. */
-  summary::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-right: 1.5px solid currentColor;
-    border-bottom: 1.5px solid currentColor;
-    transform: rotate(-45deg);
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  details[open] summary::before {
-    transform: rotate(45deg);
+  .sources a {
+    color: inherit;
   }
 </style>

@@ -27,6 +27,8 @@
     return next ? { label: next.name, zh: next.zh } : null
   }
   const toPhotos = ahead(leg.photos, `${leg.id}-here`)
+  // A loop at the end of the way there, drawn on its own close-up (story.js).
+  const ride = !!leg.rideCamera
   const toWalkPhotos = leg.walk ? ahead(leg.walk.photos, `${leg.id}-walked`) : null
 </script>
 
@@ -36,11 +38,19 @@
     <!-- The card comes up from the foot of the screen only once the route
          sets off, not while we're still at the last place. -->
     <div class="lead"></div>
+    {#if ride}
+      <!-- A loop at the end (the scooter): the way there lands, the sheet
+           closes in on the island, and the card comes up as the loop draws. -->
+      <div class="mark" data-step="{leg.id}-travelled"></div>
+      <div class="pause flight"></div>
+      <div class="mark" data-step="{leg.id}-ride"></div>
+      <div class="lead"></div>
+    {/if}
   {/if}
 
   <!-- data-stop: the page rests on this card once the route between these
        steps has landed (this far through, see story.js viewAt). -->
-  <section class="inset card" data-stop={leg.segments.length ? `${leg.id}-travel ${leg.id}-travelled 0.96` : undefined} data-place={leg.id}>
+  <section class="inset card" data-stop={leg.segments.length ? `${leg.id}-${ride ? 'ride' : 'travel'} ${leg.id}-${ride ? 'ridden' : 'travelled'} 0.96` : undefined} data-place={leg.id}>
     <h2 id="{leg.id}-name">
       <span class="name">{leg.name}</span>
       {#if leg.zh}<span class="zh" lang="zh-Hant">{leg.zh}</span>{/if}
@@ -75,7 +85,7 @@
     <!-- Short, so the route lands while the whole card is still on screen:
          the page rests there (glide.js). -->
     <div class="pause landing"></div>
-    <div class="mark" data-step="{leg.id}-travelled"></div>
+    <div class="mark" data-step="{leg.id}-{ride ? 'ridden' : 'travelled'}"></div>
   {/if}
   <!-- Room for the map to fly from the route to the place, so the scroll
        that sets a glide off doesn't play half of it at once. -->

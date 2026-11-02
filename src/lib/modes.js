@@ -7,6 +7,7 @@ export const modeName = {
   walk: 'On foot',
   flight: 'Flight',
   ferry: 'Ferry',
+  scooter: 'Scooter',
 }
 
 export const modeLegend = ['train', 'bus', 'car', 'walk']
