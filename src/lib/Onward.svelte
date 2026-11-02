@@ -147,6 +147,7 @@
 
   .what {
     display: flex;
+    white-space: nowrap;
     align-items: baseline;
     gap: 0.45em;
   }

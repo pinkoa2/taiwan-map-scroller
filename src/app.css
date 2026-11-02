@@ -27,10 +27,19 @@
   color-scheme: light;
 }
 
-@media (max-width: 899px) {
+/* A phone held upright (a phone on its side gets the wide layout, compact).
+   The queries match SHORT in src/lib/screen.js. */
+@media (max-width: 899px) and (not ((orientation: landscape) and (max-height: 539px) and (min-width: 640px))) {
   :root {
     --edge: 10px;
     --column: auto;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 539px) and (min-width: 640px) {
+  :root {
+    --edge: 10px;
+    --column: min(360px, 42vw);
   }
 }
 

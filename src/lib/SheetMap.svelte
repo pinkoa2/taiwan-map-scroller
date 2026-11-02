@@ -79,8 +79,11 @@
   })
 
   $effect(() => {
+    // Read the size first: returning before reading it would leave the effect
+    // with nothing to follow, and the canvas would never resize (a phone turned).
+    const { w, h } = layout
     if (!renderer) return
-    renderer.resize(layout.w, layout.h)
+    renderer.resize(w, h)
     queue()
   })
 

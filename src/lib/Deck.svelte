@@ -380,6 +380,19 @@
     text-align: left;
   }
 
+  /* A narrow print (a phone on its side) cuts the name short, never wraps it. */
+  .foot > .lettering:first-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .count {
+    flex: none;
+    white-space: nowrap;
+  }
+
   /* Only the top print's foot is read; the ones beneath stay blank paper. */
   .print:not(.top) .foot > * {
     opacity: 0;

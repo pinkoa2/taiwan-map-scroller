@@ -515,7 +515,7 @@
 
   /* Wide screens: the paper page is a broad sheet with a centred column,
      the mosaic runs three across, captions sit at the sheet's foot-left. */
-  @media (min-width: 900px) {
+  @media (min-width: 900px), (orientation: landscape) and (max-height: 539px) and (min-width: 640px) {
     .map-run {
       padding: 0 calc(var(--edge) + 34px);
     }

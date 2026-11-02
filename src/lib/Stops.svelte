@@ -180,7 +180,7 @@
     display: none;
   }
 
-  @media (max-width: 899px) {
+  @media (max-width: 899px) and (not ((orientation: landscape) and (max-height: 539px) and (min-width: 640px))) {
     .narrow-only {
       display: inline;
     }
@@ -326,7 +326,7 @@
     stroke-linejoin: round;
   }
 
-  @media (max-width: 899px) {
+  @media (max-width: 899px) and (not ((orientation: landscape) and (max-height: 539px) and (min-width: 640px))) {
     .stops {
       right: 12px;
       top: calc(12px + env(safe-area-inset-top));

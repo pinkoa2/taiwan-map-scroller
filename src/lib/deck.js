@@ -14,6 +14,14 @@ export function deckArea(w, h, edge, wide) {
     return { left: 14, right: w - 14, top, bottom, cx: w / 2, cy: (top + bottom) / 2, controls: bottom + 44, skip: bottom + 92 }
   }
   const left = Math.max(w * 0.47, w / 2 - 40)
+  // A phone on its side (short and wide): just under the badge, with the
+  // controls and the next stop packed tighter beneath.
+  if (h < 540) {
+    const right = w - edge - 24
+    const top = edge + 50
+    const bottom = h - edge - 96
+    return { left, right, top, bottom, cx: (left + right) / 2, cy: (top + bottom) / 2, controls: bottom + 30, skip: bottom + 72 }
+  }
   const right = w - edge - 56
   const top = edge + 74
   const bottom = h - edge - 150

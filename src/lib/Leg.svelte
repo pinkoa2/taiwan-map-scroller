@@ -346,4 +346,59 @@
   blockquote footer::before {
     content: '— ';
   }
+  /* A phone on its side: the card has to fit a short screen whole (the page
+     rests with all of it showing), so it tightens up. */
+  @media (orientation: landscape) and (max-height: 539px) and (min-width: 640px) {
+    .card {
+      padding: 0.7rem 1rem 0.8rem;
+    }
+
+    .name {
+      font-size: 2.1rem;
+    }
+
+    h2 .zh,
+    h3 .zh {
+      font-size: 1.25rem;
+    }
+
+    .how {
+      margin-top: 0.45rem;
+      font-size: 0.78rem;
+    }
+
+    .stay {
+      font-size: 0.74rem;
+    }
+
+    .text {
+      margin-top: 0.4rem;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .foot {
+      margin-top: 0.6rem;
+      padding-top: 0.55rem;
+    }
+
+    .stats dd {
+      font-size: 1.1rem;
+    }
+
+    blockquote {
+      margin-top: 0.6rem;
+      padding-top: 0.55rem;
+    }
+
+    blockquote p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    blockquote footer {
+      margin-top: 0.3rem;
+      font-size: 0.75rem;
+    }
+  }
 </style>

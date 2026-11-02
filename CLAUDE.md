@@ -211,6 +211,16 @@ The user kept double-tapping on a phone by accident, which zoomed the page in an
 - `touch-action: manipulation` on `html` (app.css) turns off double-tap zoom.
 - The viewport meta has `maximum-scale=1, user-scalable=no` (Android Chrome honours it).
 - iPhone Safari ignores that for pinches, so App stops `gesturestart`/`gesturechange`. The viewer works from raw touch events, so its zoom is unaffected.
+- **Still zoomed now and then (Nov 2, 2026, the user asked for the page to check and put itself back):** App also stops any two-finger `touchstart`/`touchmove` (non-passive, not while the viewer is open), and if a zoom gets through anyway (`visualViewport.scale` > 1, heard from `visualViewport` resize and a 500ms check) it rewrites the viewport meta (`initial-scale=1.0`, then back), which makes Safari go back to scale 1. While zoomed, resizes are ignored (the window then reports the zoomed-in part's size, which is what threw the layout off). The 500ms check also catches a size the page missed. Untested on a real iPhone.
+
+## A phone on its side (Nov 2, 2026)
+
+The user found landscape on a phone "mega fucked": an iPhone (852×393) got the portrait phone layout, with the map a thin strip above a full-screen page and a tiny deck.
+
+- **A short landscape screen gets the wide layout, compact.** `SHORT` in `src/lib/screen.js` (`(orientation: landscape) and (max-height: 539px) and (min-width: 640px)`); `wide = w >= 900 || short` in App. The same query is in the CSS (app.css, Leg, TitleBlock, Closing, Stops, Story) and the phone queries are `(max-width: 899px) and (not (…SHORT…))`; keep them in step.
+- Compact: `--edge` 10px, `--column` min(360px, 42vw); smaller card, title and closing type (so a card fits a 375px-tall screen whole); no key map (`locatorAt` returns null) and no trail-stats card; the deck sits just under the badge with the controls packed tighter (`deckArea`, `h < 540`); narrow print feet and ↓ labels cut short rather than wrap. The title card says "Tap" on a touch screen.
+- **Turning the phone keeps your place:** resize notes the glide stop you're on (both layouts have the same stops in the same order) or else the step and how far through it, waits until the old layout has gone (its parts fade out) and the page height has held for 150ms, then goes back there. `onScroll` ignores scrolls mid-turn (the CSS switches before App does).
+- Fixed on the way: SheetMap's resize effect never re-ran (it returned before reading the size), so the canvas kept its old size after any resize or turn.
 
 ## Photo viewer
 

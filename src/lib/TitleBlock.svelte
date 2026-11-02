@@ -4,6 +4,8 @@
   import Onward from './Onward.svelte'
 
   let { trip, onward } = $props()
+  // A phone on its side gets this card too, so it says tap there.
+  const touch = typeof window !== 'undefined' && matchMedia('(pointer: coarse)').matches
 </script>
 
 <header class="block inset">
@@ -14,7 +16,7 @@
   {#each trip.summary.split(/\n\s*\n/).filter(Boolean) as line}<p class="summary">{line}</p>{/each}
 
   <div class="cue">
-    <Onward label="Follow the route" note="Click, or just scroll" onclick={onward} />
+    <Onward label="Follow the route" note={touch ? "Tap, or just scroll" : "Click, or just scroll"} onclick={onward} />
   </div>
 </header>
 
@@ -58,5 +60,27 @@
     margin: 1.2rem 0 0;
     padding-top: 0.9rem;
     border-top: 1px solid var(--rule);
+  }
+  @media (orientation: landscape) and (max-height: 539px) and (min-width: 640px) {
+    .block {
+      width: min(100%, 30rem);
+      padding: 0.9rem 1.1rem 0.8rem;
+    }
+
+    .name {
+      font-size: 2.8rem;
+    }
+
+    .summary {
+      margin-top: 0.4rem;
+      max-width: 48ch;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .cue {
+      margin-top: 0.7rem;
+      padding-top: 0.6rem;
+    }
   }
 </style>

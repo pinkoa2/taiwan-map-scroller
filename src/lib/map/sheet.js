@@ -577,7 +577,9 @@ export class SheetRenderer {
     const boxH = frame.wide ? 132 : 92
     const s = boxH / isl.h
     const boxW = isl.w * s
-    const [bx, by] = frame.locatorAt(boxW, boxH)
+    const spot = frame.locatorAt(boxW, boxH)
+    if (!spot) return
+    const [bx, by] = spot
     ctx.globalAlpha = a
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     ctx.fillStyle = colours.sea

@@ -1,5 +1,6 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onMount, tick } from 'svelte'
+  import { SHORT } from './lib/screen.js'
   import trip from 'virtual:trip'
   import SheetMap from './lib/SheetMap.svelte'
   import Viewer from './lib/Viewer.svelte'
@@ -73,8 +74,11 @@
   let w = $state(typeof window === 'undefined' ? 1200 : window.innerWidth)
   let h = $state(typeof window === 'undefined' ? 800 : window.innerHeight)
   let p = $state(0)
+  // A phone on its side: too short for the phone's stacked layout, so it gets
+  // the wide one (map beside the card, deck in the right half), made compact.
+  let short = $state(typeof window !== 'undefined' && matchMedia(SHORT).matches)
 
-  const wide = $derived(w >= 900)
+  const wide = $derived(w >= 900 || short)
   // trip.js photoLayout: wide 'deck' | 'scatter' | 'over-map' (map pages, Leg.svelte)
   // or 'mosaic' (paper pages, Story.svelte); phone 'prints' | 'mosaic'.
   const wideLayout = trip.photoLayout?.wide ?? 'deck'
@@ -85,7 +89,7 @@
   // Where a phone deck's room starts flipping: its top at this much of the screen.
   const ROOM_AT = 0.02
   // The map is a framed sheet on a wide screen, edge to edge on a phone.
-  const edge = $derived(wide ? 26 : 0)
+  const edge = $derived(wide ? (short ? 10 : 26) : 0)
   const mapH = $derived(h)
   // Room the leg caption takes at the foot of a phone screen.
   const capH = 132
@@ -131,7 +135,8 @@
     // Over-map: key map bottom-centre, clear of the photos at both edges.
     // Mosaic: key map top-right under the badge. Phone: key map top-left (the
     // badge is top-right, clear of the left-aligned page headings).
-    locatorAt: (bw, bh) => (overMap ? [w / 2 - bw - 28, h - edge - 18 - bh] : wide ? [w - edge - 22 - bw, edge + 78] : [18, 18]),
+    // A phone on its side has no room for the key map; the badge says where.
+    locatorAt: (bw, bh) => (short ? null : overMap ? [w / 2 - bw - 28, h - edge - 18 - bh] : wide ? [w - edge - 22 - bw, edge + 78] : [18, 18]),
   })
   // The reading line: a step starts as its marker crosses it.
   const line = $derived(overMap ? h * 0.55 : h * 0.5)
@@ -341,6 +346,9 @@
   }
 
   function onScroll() {
+    // Mid-turn (the phone rotated, the CSS has switched, the layout here
+    // hasn't yet): hold on, so the place we were at is kept for resize().
+    if (window.innerWidth !== w) return
     sy = window.scrollY
     p = stepAt(window.scrollY)
   }
@@ -479,11 +487,79 @@
   })
 
   onMount(() => {
-    const resize = () => {
+    const shortQuery = matchMedia(SHORT)
+    const zoomed = () => (visualViewport?.scale ?? 1) > 1.01
+    const resize = async () => {
+      // Zoomed in, the window reports the zoomed-in part's size: keep the
+      // layout as it was (the zoom is undone below).
+      if (zoomed()) return
+      const turned = window.innerWidth !== w
+      // Turning the phone changes every height on the page (and maybe the
+      // layout), so note where we are and come back to it after.
+      const i = Math.floor(p)
+      const here = turned && steps[i] ? { key: steps[i].key, frac: p - i } : null
+      // Resting on a stop (a place's words, its photos): both layouts have the
+      // same stops in the same order, so the turn keeps that one.
+      const y = sy
+      const on = stops.findIndex((s) => y >= s.top - 40 && y <= s.bottom + 40)
+      const rest = on >= 0 ? { k: on, n: stops.length, end: stops[on].bottom > stops[on].top && y > stops[on].bottom - 20 } : null
       w = window.innerWidth
       h = window.innerHeight
+      short = shortQuery.matches
+      await tick()
       requestAnimationFrame(measure)
+      // The new layout takes a moment to settle (the old one's parts fade
+      // out first, and the page's height jumps about), so come back once
+      // its height has held still for a quarter second.
+      if (!here) return
+      const t0 = performance.now()
+      let last = -1
+      let since = t0
+      const settle = (now) => {
+        const tall = document.documentElement.scrollHeight
+        // The other layout's parts still on the page (fading out).
+        const old = document.querySelector(overMap ? '.map-run' : 'article.leg')
+        if (tall !== last || old) {
+          last = tall
+          since = now
+        }
+        if (now - since < 150 && now - t0 < 2500) return requestAnimationFrame(settle)
+        if (!resumed || window.innerWidth !== w) return
+        measure()
+        const st = rest && stops.length === rest.n ? stops[rest.k] : null
+        if (!st) return resume(here)
+        scrollTo({ top: rest.end ? st.bottom : st.top, behavior: 'instant' })
+        glide?.rest()
+      }
+      requestAnimationFrame(settle)
     }
+    // A stray pinch can still zoom the page on an iPhone. Two-finger touches
+    // are stopped before they start one (the photo viewer, open, has its own
+    // pinch), and a zoom that gets through anyway is put back to normal.
+    const meta = document.querySelector('meta[name=viewport]')
+    const viewportContent = meta?.content
+    const unzoom = () => {
+      if (!zoomed() || viewer != null || !meta) return
+      // Rewriting the viewport tag makes Safari apply its scale of 1 again.
+      meta.content = viewportContent.replace('initial-scale=1', 'initial-scale=1.0')
+      requestAnimationFrame(() => {
+        meta.content = viewportContent
+        scrollTo({ left: 0, top: scrollY, behavior: 'instant' })
+        resize()
+      })
+    }
+    const twoFingers = (e) => {
+      if (e.touches.length > 1 && viewer == null && e.cancelable) e.preventDefault()
+    }
+    document.addEventListener('touchstart', twoFingers, { passive: false })
+    document.addEventListener('touchmove', twoFingers, { passive: false })
+    visualViewport?.addEventListener('resize', unzoom)
+    // And a slow check, for anything the events miss: undo a zoom, and catch
+    // a size the page didn't hear about.
+    const watch = setInterval(() => {
+      if (zoomed()) unzoom()
+      else if (window.innerWidth !== w || window.innerHeight !== h) resize()
+    }, 500)
     let ticking = false
     const scroll = () => {
       if (ticking) return
@@ -523,6 +599,10 @@
     return () => {
       document.removeEventListener('gesturestart', noZoom)
       document.removeEventListener('gesturechange', noZoom)
+      document.removeEventListener('touchstart', twoFingers)
+      document.removeEventListener('touchmove', twoFingers)
+      visualViewport?.removeEventListener('resize', unzoom)
+      clearInterval(watch)
       glide.destroy()
       ro.disconnect()
       window.removeEventListener('resize', resize)
@@ -533,7 +613,7 @@
 
 <SheetMap {trip} {route} {story} {focus} {layout} />
 
-{#if trailStats}
+{#if trailStats && !short}
   <TrailStats stats={trailStats.stats} name={trailStats.name} {wide} low={steps[Math.floor(p)]?.key.endsWith('-walked')} />
 {/if}
 
