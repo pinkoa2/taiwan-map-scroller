@@ -4,9 +4,19 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-25 14:06",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0885.HEIC",
+    "new": true
+  },
+  {
+    "file": "img-6073.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-25 15:16",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6073.JPG",
     "new": true
   },
   {
@@ -14,17 +24,17 @@
     "caption": "Pineapples!",
     "comment": "",
     "taken": "2026-10-26 10:59",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0886.HEIC",
     "new": true
   },
   {
     "file": "fo-guang-shan-halls.jpg",
-    "caption": "",
-    "comment": "",
+    "caption": "Fo Guang San Buddha Museum 佛光山佛陀紀念館",
+    "comment": "https://share.google/9L3fjgrs95Ni2s4hQ",
     "taken": "2026-10-26 12:21",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0887.HEIC",
     "new": true
@@ -44,7 +54,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 12:28",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0889.HEIC",
     "new": true
@@ -54,160 +64,9 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 12:28",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0891.HEIC",
-    "new": true
-  },
-  {
-    "file": "big-buddha-and-painted-animals.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-26 12:31",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0895.HEIC",
-    "new": true,
-    "favorite": true
-  },
-  {
-    "file": "blue-dragon-vase.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-26 13:46",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0897.HEIC",
-    "new": true
-  },
-  {
-    "file": "ting-below-the-big-buddha.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-26 13:57",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0900.HEIC",
-    "new": true
-  },
-  {
-    "file": "the-big-buddha.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-26 14:02",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0902.HEIC",
-    "new": true
-  },
-  {
-    "file": "the-pagoda-avenue.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-26 14:32",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0907.HEIC",
-    "new": true
-  },
-  {
-    "file": "buddha-over-the-main-hall.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-26 14:33",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0910.HEIC",
-    "new": true
-  },
-  {
-    "file": "pagoda-by-the-pond.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-26 14:36",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0912.HEIC",
-    "new": true
-  },
-  {
-    "file": "queue-at-a-food-stall.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-27 09:45",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0914.HEIC",
-    "new": true
-  },
-  {
-    "file": "apartment-towers.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-27 09:56",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0917.HEIC",
-    "new": true
-  },
-  {
-    "file": "dragon-and-tiger-pagodas.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-27 10:14",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0918.HEIC",
-    "new": true
-  },
-  {
-    "file": "temple-by-lotus-pond.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-27 10:15",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0919.HEIC",
-    "new": true
-  },
-  {
-    "file": "dragon-and-tiger-pagodas-up-close.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-27 10:17",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0920.HEIC",
-    "new": true
-  },
-  {
-    "file": "lotus-pond-pavilions.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-27 10:20",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0922.HEIC",
-    "new": true
-  },
-  {
-    "file": "across-lotus-pond.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-27 10:23",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0923.HEIC",
-    "new": true
-  },
-  {
-    "file": "img-6073.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-25 15:16",
-    "pick": false,
-    "show": true,
-    "original": "IMG_6073.JPG",
     "new": true
   },
   {
@@ -241,6 +100,17 @@
     "new": true
   },
   {
+    "file": "big-buddha-and-painted-animals.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-26 12:31",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0895.HEIC",
+    "new": true,
+    "favorite": true
+  },
+  {
     "file": "img-0894.heic",
     "caption": "",
     "comment": "",
@@ -265,7 +135,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 12:43",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005876.JPG",
     "new": true
@@ -275,9 +145,19 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 12:45",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0896.HEIC",
+    "new": true
+  },
+  {
+    "file": "blue-dragon-vase.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-26 13:46",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0897.HEIC",
     "new": true
   },
   {
@@ -301,6 +181,16 @@
     "new": true
   },
   {
+    "file": "ting-below-the-big-buddha.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-26 13:57",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0900.HEIC",
+    "new": true
+  },
+  {
     "file": "img-6077.jpg",
     "caption": "",
     "comment": "",
@@ -315,7 +205,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 13:57",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6078.JPG",
     "new": true
@@ -341,13 +231,13 @@
     "new": true
   },
   {
-    "file": "img-6081.jpg",
-    "caption": "",
+    "file": "img-6091.jpg",
+    "caption": "Thank you Janet, Dylan and Felix come with us!",
     "comment": "",
-    "taken": "2026-10-26 14:00",
-    "pick": false,
+    "taken": "",
+    "pick": true,
     "show": true,
-    "original": "IMG_6081.JPG",
+    "original": "IMG_6091.JPG",
     "new": true
   },
   {
@@ -371,11 +261,21 @@
     "new": true
   },
   {
+    "file": "the-big-buddha.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-26 14:02",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0902.HEIC",
+    "new": true
+  },
+  {
     "file": "img-0903.heic",
     "caption": "",
     "comment": "",
     "taken": "2026-10-26 14:04",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0903.HEIC",
     "new": true
@@ -402,10 +302,10 @@
   },
   {
     "file": "img-0904.heic",
-    "caption": "",
+    "caption": "Guess which one is Ting which is Alex?",
     "comment": "",
     "taken": "2026-10-26 14:14",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0904.HEIC",
     "new": true
@@ -431,6 +331,16 @@
     "new": true
   },
   {
+    "file": "the-pagoda-avenue.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-26 14:32",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0907.HEIC",
+    "new": true
+  },
+  {
     "file": "img-0908.heic",
     "caption": "",
     "comment": "",
@@ -451,6 +361,16 @@
     "new": true
   },
   {
+    "file": "buddha-over-the-main-hall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-26 14:33",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0910.HEIC",
+    "new": true
+  },
+  {
     "file": "img-0911.heic",
     "caption": "",
     "comment": "",
@@ -458,6 +378,16 @@
     "pick": false,
     "show": true,
     "original": "IMG_0911.HEIC",
+    "new": true
+  },
+  {
+    "file": "img-6081.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-26 14:00",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6081.JPG",
     "new": true
   },
   {
@@ -491,13 +421,43 @@
     "new": true
   },
   {
-    "file": "r0005882.jpg",
+    "file": "img-6092.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-27 09:59",
+    "taken": "",
+    "pick": true,
+    "show": true,
+    "original": "IMG_6092.JPG",
+    "new": true
+  },
+  {
+    "file": "apartment-towers.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-27 09:56",
     "pick": false,
     "show": true,
-    "original": "R0005882.JPG",
+    "original": "IMG_0917.HEIC",
+    "new": true
+  },
+  {
+    "file": "pagoda-by-the-pond.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-26 14:36",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0912.HEIC",
+    "new": true
+  },
+  {
+    "file": "queue-at-a-food-stall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-27 09:45",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0914.HEIC",
     "new": true
   },
   {
@@ -511,13 +471,43 @@
     "new": true
   },
   {
+    "file": "r0005882.jpg",
+    "caption": "Kuan Lai Shun",
+    "comment": "Famous traditional breakfast ! https://share.google/JT0VVrO2tqrUfh9mn",
+    "taken": "2026-10-27 09:59",
+    "pick": true,
+    "show": true,
+    "original": "R0005882.JPG",
+    "new": true
+  },
+  {
     "file": "img-6094.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-27 10:14",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6094.JPG",
+    "new": true
+  },
+  {
+    "file": "dragon-and-tiger-pagodas-up-close.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-27 10:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0920.HEIC",
+    "new": true
+  },
+  {
+    "file": "dragon-and-tiger-pagodas.jpg",
+    "caption": "The Dragon and Tiger Pagodas ",
+    "comment": "",
+    "taken": "2026-10-27 10:14",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0918.HEIC",
     "new": true
   },
   {
@@ -531,23 +521,33 @@
     "new": true
   },
   {
+    "file": "temple-by-lotus-pond.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-27 10:15",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0919.HEIC",
+    "new": true
+  },
+  {
+    "file": "across-lotus-pond.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-27 10:23",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0923.HEIC",
+    "new": true
+  },
+  {
     "file": "img-6097.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-27 10:22",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6097.JPG",
-    "new": true
-  },
-  {
-    "file": "img-6098.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-27 10:30",
-    "pick": false,
-    "show": true,
-    "original": "IMG_6098.JPG",
     "new": true
   },
   {
@@ -611,23 +611,23 @@
     "new": true
   },
   {
-    "file": "img-6091.jpg",
+    "file": "lotus-pond-pavilions.jpg",
     "caption": "",
     "comment": "",
-    "taken": "",
+    "taken": "2026-10-27 10:20",
     "pick": false,
     "show": true,
-    "original": "IMG_6091.JPG",
+    "original": "IMG_0922.HEIC",
     "new": true
   },
   {
-    "file": "img-6092.jpg",
+    "file": "img-6098.jpg",
     "caption": "",
     "comment": "",
-    "taken": "",
-    "pick": false,
+    "taken": "2026-10-27 10:30",
+    "pick": true,
     "show": true,
-    "original": "IMG_6092.JPG",
+    "original": "IMG_6098.JPG",
     "new": true
   }
 ]

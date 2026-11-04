@@ -1,857 +1,20 @@
 [
   {
-    "file": "sunrise-over-the-mountains.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 06:05",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0664.HEIC"
-  },
-  {
-    "file": "ting-on-the-sunrise-train.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 06:39",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0673.HEIC"
-  },
-  {
-    "file": "forest-stairs.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:35",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0681.HEIC"
-  },
-  {
-    "file": "stone-steps-in-the-grass.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:36",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0684.HEIC"
-  },
-  {
-    "file": "fern-clearing.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:47",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0692.HEIC"
-  },
-  {
-    "file": "forest-hut.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:07",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0699.HEIC"
-  },
-  {
-    "file": "trail-sign-by-the-tracks.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:08",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0702.HEIC"
-  },
-  {
-    "file": "sunlight-through-cedars.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:22",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0712.HEIC"
-  },
-  {
-    "file": "tunnel-on-the-cliff.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:38",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0717.HEIC"
-  },
-  {
-    "file": "rockfall-in-the-shed.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:41",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0728.HEIC"
-  },
-  {
-    "file": "rock-wall-in-the-sun.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:44",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0731.HEIC"
-  },
-  {
-    "file": "inside-the-rock-tunnel.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:01",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0746.HEIC"
-  },
-  {
-    "file": "selfie-at-the-tunnel.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:11",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0751.HEIC"
-  },
-  {
-    "file": "trestle-in-the-forest.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:19",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0759.HEIC"
-  },
-  {
-    "file": "trestle-to-a-tunnel.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:48",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0791.HEIC"
-  },
-  {
-    "file": "mossy-trestle.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:56",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0795.HEIC"
-  },
-  {
-    "file": "selfie-on-the-trestle.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 11:19",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0810.HEIC"
-  },
-  {
-    "file": "tunnel-in-the-ferns.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 11:26",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0816.HEIC"
-  },
-  {
-    "file": "ting-on-the-chain-traverse.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 12:26",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0839.HEIC"
-  },
-  {
-    "file": "alex-walking-the-rails.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 12:39",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0845.HEIC"
-  },
-  {
-    "file": "zhushan-sunrise-ridge.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 06:17",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0666.HEIC"
-  },
-  {
-    "file": "sunrise-over-the-mountains-video.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 06:19",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0668.mov",
-    "poster": "sunrise-over-the-mountains-video-poster.jpg"
-  },
-  {
-    "file": "cliffside-railway.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:25",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0676.HEIC"
-  },
-  {
-    "file": "rail-through-the-cedars.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:31",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0677.HEIC"
-  },
-  {
-    "file": "walking-the-forest-path.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:32",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0678.MOV",
-    "new": true,
-    "poster": "walking-the-forest-path-poster.jpg"
-  },
-  {
-    "file": "forest-trail.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:33",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0680.HEIC"
-  },
-  {
-    "file": "boardwalk-into-the-forest.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:35",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0683.HEIC"
-  },
-  {
-    "file": "tracks-past-old-stumps.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:38",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0685.HEIC"
-  },
-  {
-    "file": "rail-cutting.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:44",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0687.HEIC"
-  },
-  {
-    "file": "tracks-along-a-wall.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:44",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0688.HEIC"
-  },
-  {
-    "file": "raised-boardwalk.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:45",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0689.HEIC"
-  },
-  {
-    "file": "ting-on-the-forest-bridge.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:46",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0691.MOV",
-    "poster": "ting-on-the-forest-bridge-poster.jpg"
-  },
-  {
-    "file": "cedar-path.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:49",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0693.HEIC"
-  },
-  {
-    "file": "ting-on-the-boardwalk.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:54",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0695.HEIC"
-  },
-  {
-    "file": "stairs-through-cedars.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 07:56",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0696.HEIC"
-  },
-  {
-    "file": "curving-rails.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:02",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0698.HEIC"
-  },
-  {
-    "file": "boardwalk-by-a-giant-tree.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:07",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0701.HEIC"
-  },
-  {
-    "file": "walking-past-the-tracks.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:14",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0704.MOV",
-    "poster": "walking-past-the-tracks-poster.jpg"
-  },
-  {
-    "file": "rails-through-tall-cedars.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:19",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0705.HEIC"
-  },
-  {
-    "file": "ting-balancing-on-the-rails.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:20",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0709.HEIC"
-  },
-  {
-    "file": "cedar-corridor.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:21",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0710.HEIC"
-  },
-  {
-    "file": "sunny-cutting.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:33",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0714.HEIC"
-  },
-  {
-    "file": "mountain-view.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:39",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0718.HEIC"
-  },
-  {
-    "file": "selfie-in-the-snow-shed.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:39",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0720.HEIC"
-  },
-  {
-    "file": "ting-at-the-viewpoint.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:40",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0723.HEIC"
-  },
-  {
-    "file": "cliff-face.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:42",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0729.HEIC"
-  },
-  {
-    "file": "rebar-handholds.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:43",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0730.HEIC"
-  },
-  {
-    "file": "misty-cliff-traverse.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:44",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0733.MOV",
-    "new": true,
-    "poster": "misty-cliff-traverse-poster.jpg"
-  },
-  {
-    "file": "concrete-snow-shed.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:47",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0734.HEIC"
-  },
-  {
-    "file": "ting-climbing-the-rockfall.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:47",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0738.HEIC"
-  },
-  {
-    "file": "landslide-gully.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:48",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0739.HEIC"
-  },
-  {
-    "file": "blue-sky-ridge.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 08:56",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0741.HEIC"
-  },
-  {
-    "file": "ting-at-a-tunnel-mouth.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:00",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0743.HEIC"
-  },
-  {
-    "file": "rough-rock-tunnel.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:01",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0745.HEIC"
-  },
-  {
-    "file": "through-the-dark-tunnel.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:03",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0747.MOV",
-    "new": true,
-    "poster": "through-the-dark-tunnel-poster.jpg"
-  },
-  {
-    "file": "ting-in-a-tunnel-entrance.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:09",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0748.HEIC"
-  },
-  {
-    "file": "broken-boardwalk.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:12",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0756.HEIC"
-  },
-  {
-    "file": "tunnel-portal.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:16",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0757.HEIC"
-  },
-  {
-    "file": "old-track-through-the-forest.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:20",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0760.MOV",
-    "new": true,
-    "poster": "old-track-through-the-forest-poster.jpg"
-  },
-  {
-    "file": "trestle-bridge.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:24",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0763.HEIC"
-  },
-  {
-    "file": "ting-walking-the-rails.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:26",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0764.MOV",
-    "new": true,
-    "poster": "ting-walking-the-rails-poster.jpg"
-  },
-  {
-    "file": "looking-out-of-a-tunnel.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:28",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0766.HEIC"
-  },
-  {
-    "file": "ting-on-a-trestle.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:34",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0771.HEIC"
-  },
-  {
-    "file": "crossing-the-high-trestle.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:36",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0775.MOV",
-    "new": true,
-    "poster": "crossing-the-high-trestle-poster.jpg"
-  },
-  {
-    "file": "trestle-into-the-trees.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:37",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0776.HEIC"
-  },
-  {
-    "file": "ting-crossing-a-bridge.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:40",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0780.HEIC"
-  },
-  {
-    "file": "alex-on-the-trestle.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:42",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0785.HEIC"
-  },
-  {
-    "file": "timbered-tunnel.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:44",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0787.HEIC"
-  },
-  {
-    "file": "rails-into-the-trees.mp4",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:52",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0792.MOV",
-    "new": true,
-    "poster": "rails-into-the-trees-poster.jpg"
-  },
-  {
-    "file": "rails-in-green-shade.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:57",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0796.HEIC"
-  },
-  {
-    "file": "trestle-curve.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 09:58",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0797.HEIC"
-  },
-  {
-    "file": "forested-valley.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 10:00",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0798.HEIC"
-  },
-  {
-    "file": "long-trestle.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 10:09",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0799.HEIC"
-  },
-  {
-    "file": "ting-waving-on-a-bridge.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 10:10",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0801.HEIC"
-  },
-  {
-    "file": "ting-on-a-log.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 10:13",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0802.HEIC"
-  },
-  {
-    "file": "bamboo-thicket.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 10:28",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0803.HEIC"
-  },
-  {
-    "file": "shihou-recreation-area-sign.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 10:40",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0804.HEIC"
-  },
-  {
-    "file": "ting-on-the-trestle.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 11:20",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0814.HEIC"
-  },
-  {
-    "file": "rails-into-the-forest.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 11:29",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0818.HEIC"
-  },
-  {
-    "file": "ting-on-a-narrow-trestle.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 11:31",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0819.HEIC"
-  },
-  {
-    "file": "light-at-the-end-of-the-tunnel.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 11:35",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0821.HEIC"
-  },
-  {
-    "file": "ting-on-a-tunnel-roof.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 11:57",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0825.HEIC"
-  },
-  {
-    "file": "mountain-panorama.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 12:12",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0826.HEIC"
-  },
-  {
-    "file": "selfie-with-the-view.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 12:13",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0832.HEIC"
-  },
-  {
-    "file": "ting-at-the-railing.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 12:21",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0834.HEIC"
-  },
-  {
-    "file": "ting-scrambling-past-rocks.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 12:24",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0838.HEIC"
-  },
-  {
-    "file": "steep-ravine.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 12:26",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0841.HEIC"
-  },
-  {
-    "file": "walking-the-rails.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 12:40",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0851.HEIC"
-  },
-  {
-    "file": "wildflowers.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 13:25",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0860.HEIC"
-  },
-  {
-    "file": "alltrails-mianyue-line.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 13:48",
-    "pick": false,
-    "show": true,
-    "original": "AllTrails.jpg"
-  },
-  {
-    "file": "alltrails-splits.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-23 22:33",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0882.PNG",
-    "new": true
-  },
-  {
     "file": "img-5893.jpg",
-    "caption": "",
-    "comment": "",
+    "caption": "Watch Sunrise ",
+    "comment": "We were there 30 mins before ticket start sell ",
     "taken": "2026-10-21 04:52",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5893.JPG",
     "new": true
   },
   {
     "file": "img-5894.jpg",
-    "caption": "",
+    "caption": "Zhushan line 祝山線",
     "comment": "",
     "taken": "2026-10-21 04:55",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5894.JPG",
     "new": true
@@ -879,10 +42,10 @@
   },
   {
     "file": "img-5897.jpg",
-    "caption": "",
-    "comment": "",
+    "caption": "In the train",
+    "comment": "Luckily, got seats on second train!",
     "taken": "2026-10-21 05:19",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5897.JPG",
     "new": true
@@ -898,16 +61,6 @@
     "new": true
   },
   {
-    "file": "img-5899.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 06:02",
-    "pick": false,
-    "show": true,
-    "original": "IMG_5899.JPG",
-    "new": true
-  },
-  {
     "file": "img-5902.mp4",
     "caption": "",
     "comment": "",
@@ -917,6 +70,44 @@
     "original": "IMG_5902.MOV",
     "new": true,
     "poster": "img-5902-poster.jpg"
+  },
+  {
+    "file": "sunrise-over-the-mountains.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 06:05",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0664.HEIC"
+  },
+  {
+    "file": "zhushan-sunrise-ridge.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 06:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0666.HEIC"
+  },
+  {
+    "file": "sunrise-over-the-mountains-video.mp4",
+    "caption": "Sunrise!!",
+    "comment": "",
+    "taken": "2026-10-21 06:19",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0668.mov",
+    "poster": "sunrise-over-the-mountains-video-poster.jpg"
+  },
+  {
+    "file": "img-5899.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 06:02",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5899.JPG",
+    "new": true
   },
   {
     "file": "img-5904.jpg",
@@ -953,7 +144,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 06:22",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5907.JPG",
     "new": true
@@ -979,6 +170,15 @@
     "new": true
   },
   {
+    "file": "ting-on-the-sunrise-train.jpg",
+    "caption": "Coffee time!!",
+    "comment": "heading back to Zhaoping Line沼平線",
+    "taken": "2026-10-21 06:39",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0673.HEIC"
+  },
+  {
     "file": "img-5913.mp4",
     "caption": "",
     "comment": "",
@@ -1000,11 +200,20 @@
     "new": true
   },
   {
-    "file": "img-5914.jpg",
+    "file": "cliffside-railway.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 07:29",
+    "taken": "2026-10-21 07:25",
     "pick": false,
+    "show": true,
+    "original": "IMG_0676.HEIC"
+  },
+  {
+    "file": "img-5914.jpg",
+    "caption": "START MianYue Line !",
+    "comment": "10 Miles hike",
+    "taken": "2026-10-21 07:29",
+    "pick": true,
     "show": true,
     "original": "IMG_5914.JPG",
     "new": true
@@ -1021,6 +230,26 @@
     "poster": "img-5915-poster.jpg"
   },
   {
+    "file": "rail-through-the-cedars.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:31",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0677.HEIC"
+  },
+  {
+    "file": "walking-the-forest-path.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:32",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0678.MOV",
+    "new": true,
+    "poster": "walking-the-forest-path-poster.jpg"
+  },
+  {
     "file": "img-5916.mp4",
     "caption": "",
     "comment": "",
@@ -1032,6 +261,33 @@
     "poster": "img-5916-poster.jpg"
   },
   {
+    "file": "forest-trail.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:33",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0680.HEIC"
+  },
+  {
+    "file": "forest-stairs.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:35",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0681.HEIC"
+  },
+  {
+    "file": "boardwalk-into-the-forest.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:35",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0683.HEIC"
+  },
+  {
     "file": "img-5917.mp4",
     "caption": "",
     "comment": "",
@@ -1041,6 +297,24 @@
     "original": "IMG_5917.MOV",
     "new": true,
     "poster": "img-5917-poster.jpg"
+  },
+  {
+    "file": "stone-steps-in-the-grass.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:36",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0684.HEIC"
+  },
+  {
+    "file": "tracks-past-old-stumps.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:38",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0685.HEIC"
   },
   {
     "file": "img-5918.mp4",
@@ -1064,6 +338,33 @@
     "new": true
   },
   {
+    "file": "rail-cutting.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:44",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0687.HEIC"
+  },
+  {
+    "file": "tracks-along-a-wall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:44",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0688.HEIC"
+  },
+  {
+    "file": "raised-boardwalk.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:45",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0689.HEIC"
+  },
+  {
     "file": "img-5920.mp4",
     "caption": "",
     "comment": "",
@@ -1073,6 +374,43 @@
     "original": "IMG_5920.MOV",
     "new": true,
     "poster": "img-5920-poster.jpg"
+  },
+  {
+    "file": "ting-on-the-forest-bridge.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:46",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0691.MOV",
+    "poster": "ting-on-the-forest-bridge-poster.jpg"
+  },
+  {
+    "file": "fern-clearing.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:47",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0692.HEIC"
+  },
+  {
+    "file": "cedar-path.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:49",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0693.HEIC"
+  },
+  {
+    "file": "ting-on-the-boardwalk.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:54",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0695.HEIC"
   },
   {
     "file": "r0005793.jpg",
@@ -1095,6 +433,15 @@
     "new": true
   },
   {
+    "file": "stairs-through-cedars.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 07:56",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0696.HEIC"
+  },
+  {
     "file": "r0005795.jpg",
     "caption": "",
     "comment": "",
@@ -1115,6 +462,15 @@
     "new": true
   },
   {
+    "file": "curving-rails.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:02",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0698.HEIC"
+  },
+  {
     "file": "r0005798.jpg",
     "caption": "",
     "comment": "",
@@ -1129,10 +485,37 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 08:03",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005799.JPG",
     "new": true
+  },
+  {
+    "file": "forest-hut.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:07",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0699.HEIC"
+  },
+  {
+    "file": "boardwalk-by-a-giant-tree.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:07",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0701.HEIC"
+  },
+  {
+    "file": "trail-sign-by-the-tracks.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:08",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0702.HEIC"
   },
   {
     "file": "r0005801.jpg",
@@ -1166,15 +549,60 @@
     "poster": "img-5922-poster.jpg"
   },
   {
-    "file": "img-5923.mp4",
+    "file": "walking-past-the-tracks.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:14",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0704.MOV",
+    "poster": "walking-past-the-tracks-poster.jpg"
+  },
+  {
+    "file": "rails-through-tall-cedars.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:19",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0705.HEIC"
+  },
+  {
+    "file": "ting-balancing-on-the-rails.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:20",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0709.HEIC"
+  },
+  {
+    "file": "cedar-corridor.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:21",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0710.HEIC"
+  },
+  {
+    "file": "sunlight-through-cedars.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 08:22",
     "pick": false,
     "show": true,
-    "original": "IMG_5923.mov",
-    "new": true,
-    "poster": "img-5923-poster.jpg"
+    "original": "IMG_0712.HEIC"
+  },
+  {
+    "file": "r0005816.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:53",
+    "pick": true,
+    "show": true,
+    "original": "R0005816.JPG",
+    "new": true
   },
   {
     "file": "r0005806.jpg",
@@ -1217,6 +645,15 @@
     "new": true
   },
   {
+    "file": "sunny-cutting.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:33",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0714.HEIC"
+  },
+  {
     "file": "r0005811.jpg",
     "caption": "",
     "comment": "",
@@ -1241,10 +678,19 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 08:34",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005813.JPG",
     "new": true
+  },
+  {
+    "file": "tunnel-on-the-cliff.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:38",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0717.HEIC"
   },
   {
     "file": "img-5925.mp4",
@@ -1258,6 +704,42 @@
     "poster": "img-5925-poster.jpg"
   },
   {
+    "file": "mountain-view.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:39",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0718.HEIC"
+  },
+  {
+    "file": "selfie-in-the-snow-shed.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:39",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0720.HEIC"
+  },
+  {
+    "file": "ting-at-the-viewpoint.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:40",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0723.HEIC"
+  },
+  {
+    "file": "rockfall-in-the-shed.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:41",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0728.HEIC"
+  },
+  {
     "file": "r0005814.jpg",
     "caption": "",
     "comment": "",
@@ -1268,15 +750,80 @@
     "new": true
   },
   {
+    "file": "cliff-face.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:42",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0729.HEIC"
+  },
+  {
     "file": "img-5926.mp4",
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 08:43",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5926.MOV",
     "new": true,
     "poster": "img-5926-poster.jpg"
+  },
+  {
+    "file": "rebar-handholds.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:43",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0730.HEIC"
+  },
+  {
+    "file": "rock-wall-in-the-sun.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:44",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0731.HEIC"
+  },
+  {
+    "file": "misty-cliff-traverse.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:44",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0733.MOV",
+    "new": true,
+    "poster": "misty-cliff-traverse-poster.jpg"
+  },
+  {
+    "file": "concrete-snow-shed.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:47",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0734.HEIC"
+  },
+  {
+    "file": "ting-climbing-the-rockfall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:47",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0738.HEIC"
+  },
+  {
+    "file": "landslide-gully.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:48",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0739.HEIC"
   },
   {
     "file": "img-5927.jpg",
@@ -1299,14 +846,15 @@
     "new": true
   },
   {
-    "file": "r0005816.jpg",
+    "file": "img-5923.mp4",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 08:53",
-    "pick": false,
+    "taken": "2026-10-21 08:22",
+    "pick": true,
     "show": true,
-    "original": "R0005816.JPG",
-    "new": true
+    "original": "IMG_5923.mov",
+    "new": true,
+    "poster": "img-5923-poster.jpg"
   },
   {
     "file": "r0005817.jpg",
@@ -1319,6 +867,15 @@
     "new": true
   },
   {
+    "file": "blue-sky-ridge.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 08:56",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0741.HEIC"
+  },
+  {
     "file": "r0005820.jpg",
     "caption": "",
     "comment": "",
@@ -1327,6 +884,33 @@
     "show": true,
     "original": "R0005820.JPG",
     "new": true
+  },
+  {
+    "file": "ting-at-a-tunnel-mouth.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:00",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0743.HEIC"
+  },
+  {
+    "file": "inside-the-rock-tunnel.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:01",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0746.HEIC"
+  },
+  {
+    "file": "rough-rock-tunnel.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:01",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0745.HEIC"
   },
   {
     "file": "img-5931.jpg",
@@ -1353,17 +937,28 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:02",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005825.JPG",
     "new": true
+  },
+  {
+    "file": "through-the-dark-tunnel.mp4",
+    "caption": "collapsed tunnel",
+    "comment": "will recommend have headlight",
+    "taken": "2026-10-21 09:03",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0747.MOV",
+    "new": true,
+    "poster": "through-the-dark-tunnel-poster.jpg"
   },
   {
     "file": "r0005826.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:03",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005826.JPG",
     "new": true
@@ -1379,6 +974,33 @@
     "new": true
   },
   {
+    "file": "ting-in-a-tunnel-entrance.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:09",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0748.HEIC"
+  },
+  {
+    "file": "selfie-at-the-tunnel.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:11",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0751.HEIC"
+  },
+  {
+    "file": "broken-boardwalk.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:12",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0756.HEIC"
+  },
+  {
     "file": "img-5932.jpg",
     "caption": "",
     "comment": "",
@@ -1387,6 +1009,15 @@
     "show": true,
     "original": "IMG_5932.JPG",
     "new": true
+  },
+  {
+    "file": "tunnel-portal.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:16",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0757.HEIC"
   },
   {
     "file": "img-5933.mp4",
@@ -1411,6 +1042,27 @@
     "poster": "img-5934-poster.jpg"
   },
   {
+    "file": "r0005829.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:24",
+    "pick": true,
+    "show": true,
+    "original": "R0005829.JPG",
+    "new": true
+  },
+  {
+    "file": "old-track-through-the-forest.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:20",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0760.MOV",
+    "new": true,
+    "poster": "old-track-through-the-forest-poster.jpg"
+  },
+  {
     "file": "img-5936.mp4",
     "caption": "",
     "comment": "",
@@ -1422,14 +1074,33 @@
     "poster": "img-5936-poster.jpg"
   },
   {
-    "file": "r0005829.jpg",
+    "file": "trestle-bridge.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:24",
     "pick": false,
     "show": true,
-    "original": "R0005829.JPG",
-    "new": true
+    "original": "IMG_0763.HEIC"
+  },
+  {
+    "file": "trestle-in-the-forest.jpg",
+    "caption": "Taiwan Pleione Nature Reserve",
+    "comment": "you will need permit to enter this area",
+    "taken": "2026-10-21 09:19",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0759.HEIC"
+  },
+  {
+    "file": "ting-walking-the-rails.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:26",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0764.MOV",
+    "new": true,
+    "poster": "ting-walking-the-rails-poster.jpg"
   },
   {
     "file": "r0005830.jpg",
@@ -1446,7 +1117,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:26",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005831.JPG",
     "new": true
@@ -1484,6 +1155,15 @@
     "poster": "img-5940-poster.jpg"
   },
   {
+    "file": "looking-out-of-a-tunnel.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:28",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0766.HEIC"
+  },
+  {
     "file": "img-5941.mp4",
     "caption": "",
     "comment": "",
@@ -1506,6 +1186,15 @@
     "poster": "img-5943-poster.jpg"
   },
   {
+    "file": "ting-on-a-trestle.jpg",
+    "caption": "Don't look down!!",
+    "comment": "",
+    "taken": "2026-10-21 09:34",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0771.HEIC"
+  },
+  {
     "file": "r0005833.jpg",
     "caption": "",
     "comment": "",
@@ -1514,6 +1203,26 @@
     "show": true,
     "original": "R0005833.JPG",
     "new": true
+  },
+  {
+    "file": "crossing-the-high-trestle.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:36",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0775.MOV",
+    "new": true,
+    "poster": "crossing-the-high-trestle-poster.jpg"
+  },
+  {
+    "file": "trestle-into-the-trees.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:37",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0776.HEIC"
   },
   {
     "file": "img-5946.jpg",
@@ -1540,7 +1249,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:38",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5948.JPG",
     "new": true
@@ -1556,6 +1265,24 @@
     "new": true
   },
   {
+    "file": "ting-crossing-a-bridge.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:40",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0780.HEIC"
+  },
+  {
+    "file": "alex-on-the-trestle.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:42",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0785.HEIC"
+  },
+  {
     "file": "r0005835.jpg",
     "caption": "",
     "comment": "",
@@ -1564,6 +1291,15 @@
     "show": true,
     "original": "R0005835.JPG",
     "new": true
+  },
+  {
+    "file": "timbered-tunnel.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:44",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0787.HEIC"
   },
   {
     "file": "img-5951.jpg",
@@ -1594,6 +1330,26 @@
     "show": true,
     "original": "IMG_5953.JPG",
     "new": true
+  },
+  {
+    "file": "trestle-to-a-tunnel.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:48",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0791.HEIC"
+  },
+  {
+    "file": "rails-into-the-trees.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:52",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0792.MOV",
+    "new": true,
+    "poster": "rails-into-the-trees-poster.jpg"
   },
   {
     "file": "img-5956.mp4",
@@ -1627,14 +1383,40 @@
     "new": true
   },
   {
-    "file": "r0005838.jpg",
+    "file": "wildflowers.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 09:52",
+    "taken": "2026-10-21 13:25",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0860.HEIC"
+  },
+  {
+    "file": "mossy-trestle.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:56",
     "pick": false,
     "show": true,
-    "original": "R0005838.JPG",
-    "new": true
+    "original": "IMG_0795.HEIC"
+  },
+  {
+    "file": "rails-in-green-shade.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:57",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0796.HEIC"
+  },
+  {
+    "file": "trestle-curve.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 09:58",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0797.HEIC"
   },
   {
     "file": "img-5958.jpg",
@@ -1647,13 +1429,13 @@
     "new": true
   },
   {
-    "file": "img-5960.jpg",
+    "file": "r0005838.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 09:58",
-    "pick": false,
+    "taken": "2026-10-21 09:52",
+    "pick": true,
     "show": true,
-    "original": "IMG_5960.JPG",
+    "original": "R0005838.JPG",
     "new": true
   },
   {
@@ -1665,6 +1447,15 @@
     "show": true,
     "original": "IMG_5962.JPG",
     "new": true
+  },
+  {
+    "file": "forested-valley.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 10:00",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0798.HEIC"
   },
   {
     "file": "img-5966.mp4",
@@ -1718,6 +1509,15 @@
     "new": true
   },
   {
+    "file": "long-trestle.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 10:09",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0799.HEIC"
+  },
+  {
     "file": "img-5974.jpg",
     "caption": "",
     "comment": "",
@@ -1726,6 +1526,42 @@
     "show": true,
     "original": "IMG_5974.JPG",
     "new": true
+  },
+  {
+    "file": "ting-waving-on-a-bridge.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 10:10",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0801.HEIC"
+  },
+  {
+    "file": "ting-on-a-log.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 10:13",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0802.HEIC"
+  },
+  {
+    "file": "bamboo-thicket.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 10:28",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0803.HEIC"
+  },
+  {
+    "file": "shihou-recreation-area-sign.jpg",
+    "caption": "Turning point",
+    "comment": "also the place you can eat lunch",
+    "taken": "2026-10-21 10:40",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0804.HEIC"
   },
   {
     "file": "r0005842.jpg",
@@ -1778,13 +1614,13 @@
     "new": true
   },
   {
-    "file": "r0005848.jpg",
+    "file": "img-5960.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 11:02",
-    "pick": false,
+    "taken": "2026-10-21 09:58",
+    "pick": true,
     "show": true,
-    "original": "R0005848.JPG",
+    "original": "IMG_5960.JPG",
     "new": true
   },
   {
@@ -1808,6 +1644,15 @@
     "new": true
   },
   {
+    "file": "selfie-on-the-trestle.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 11:19",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0810.HEIC"
+  },
+  {
     "file": "img-5980.jpg",
     "caption": "",
     "comment": "",
@@ -1816,6 +1661,15 @@
     "show": true,
     "original": "IMG_5980.JPG",
     "new": true
+  },
+  {
+    "file": "ting-on-the-trestle.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 11:20",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0814.HEIC"
   },
   {
     "file": "img-5982.jpg",
@@ -1828,6 +1682,43 @@
     "new": true
   },
   {
+    "file": "tunnel-in-the-ferns.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 11:26",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0816.HEIC"
+  },
+  {
+    "file": "rails-into-the-forest.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 11:29",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0818.HEIC"
+  },
+  {
+    "file": "r0005848.jpg",
+    "caption": "Nerds!!",
+    "comment": "",
+    "taken": "2026-10-21 11:02",
+    "pick": true,
+    "show": true,
+    "original": "R0005848.JPG",
+    "new": true
+  },
+  {
+    "file": "light-at-the-end-of-the-tunnel.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 11:35",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0821.HEIC"
+  },
+  {
     "file": "img-5983.jpg",
     "caption": "",
     "comment": "",
@@ -1838,14 +1729,13 @@
     "new": true
   },
   {
-    "file": "img-5985.jpg",
+    "file": "ting-on-a-narrow-trestle.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 11:36",
-    "pick": false,
+    "taken": "2026-10-21 11:31",
+    "pick": true,
     "show": true,
-    "original": "IMG_5985.JPG",
-    "new": true
+    "original": "IMG_0819.HEIC"
   },
   {
     "file": "r0005852.jpg",
@@ -1882,19 +1772,19 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 11:43",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005857.JPG",
     "new": true
   },
   {
-    "file": "img-5989.jpg",
+    "file": "img-5985.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 11:55",
-    "pick": false,
+    "taken": "2026-10-21 11:36",
+    "pick": true,
     "show": true,
-    "original": "IMG_5989.JPG",
+    "original": "IMG_5985.JPG",
     "new": true
   },
   {
@@ -1926,6 +1816,15 @@
     "show": true,
     "original": "IMG_5993.JPG",
     "new": true
+  },
+  {
+    "file": "ting-on-a-tunnel-roof.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 11:57",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0825.HEIC"
   },
   {
     "file": "img-5994.jpg",
@@ -1968,6 +1867,24 @@
     "new": true
   },
   {
+    "file": "mountain-panorama.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 12:12",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0826.HEIC"
+  },
+  {
+    "file": "selfie-with-the-view.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 12:13",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0832.HEIC"
+  },
+  {
     "file": "img-6001.jpg",
     "caption": "",
     "comment": "",
@@ -1998,6 +1915,15 @@
     "new": true
   },
   {
+    "file": "ting-at-the-railing.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 12:21",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0834.HEIC"
+  },
+  {
     "file": "img-6004.jpg",
     "caption": "",
     "comment": "",
@@ -2008,24 +1934,51 @@
     "new": true
   },
   {
-    "file": "img-6005.jpg",
+    "file": "img-5989.jpg",
+    "caption": "Tunnel no.3",
+    "comment": "you can climb up to take a cool picture!",
+    "taken": "2026-10-21 11:55",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5989.JPG",
+    "new": true
+  },
+  {
+    "file": "ting-on-the-chain-traverse.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 12:23",
+    "taken": "2026-10-21 12:26",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0839.HEIC"
+  },
+  {
+    "file": "ting-scrambling-past-rocks.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 12:24",
     "pick": false,
     "show": true,
-    "original": "IMG_6005.JPG",
-    "new": true
+    "original": "IMG_0838.HEIC"
   },
   {
     "file": "img-6006.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 12:23",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6006.JPG",
     "new": true
+  },
+  {
+    "file": "steep-ravine.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 12:26",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0841.HEIC"
   },
   {
     "file": "img-6007.jpg",
@@ -2058,13 +2011,13 @@
     "new": true
   },
   {
-    "file": "img-6010.jpg",
+    "file": "img-6005.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 12:37",
+    "taken": "2026-10-21 12:23",
     "pick": false,
     "show": true,
-    "original": "IMG_6010.JPG",
+    "original": "IMG_6005.JPG",
     "new": true
   },
   {
@@ -2078,11 +2031,39 @@
     "new": true
   },
   {
-    "file": "img-6014.mp4",
+    "file": "alex-walking-the-rails.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 13:39",
+    "taken": "2026-10-21 12:39",
     "pick": false,
+    "show": true,
+    "original": "IMG_0845.HEIC"
+  },
+  {
+    "file": "walking-the-rails.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 12:40",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0851.HEIC"
+  },
+  {
+    "file": "img-6010.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 12:37",
+    "pick": true,
+    "show": true,
+    "original": "IMG_6010.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6014.mp4",
+    "caption": "You can heard how happy am I ",
+    "comment": "",
+    "taken": "2026-10-21 13:39",
+    "pick": true,
     "show": true,
     "original": "IMG_6014.MOV",
     "new": true,
@@ -2098,5 +2079,33 @@
     "original": "IMG_6015.MOV",
     "new": true,
     "poster": "img-6015-poster.jpg"
+  },
+  {
+    "file": "alltrails-mianyue-line.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 13:48",
+    "pick": true,
+    "show": true,
+    "original": "AllTrails.jpg"
+  },
+  {
+    "file": "flower-tile-wall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 15:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0879.HEIC"
+  },
+  {
+    "file": "alltrails-splits.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-23 22:33",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0882.PNG",
+    "new": true
   }
 ]

@@ -18,41 +18,23 @@
     "original": "IMG_0611.HEIC"
   },
   {
+    "file": "img-5848.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-19 09:38",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5848.JPG",
+    "new": true
+  },
+  {
     "file": "temple-hall.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-19 09:39",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0614.HEIC"
-  },
-  {
-    "file": "rice-fields.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-19 10:17",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0617.HEIC",
-    "favorite": true
-  },
-  {
-    "file": "wooden-tea-cabinet.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-22 14:57",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0876.HEIC"
-  },
-  {
-    "file": "tiled-bathtub.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-22 15:04",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0878.HEIC"
   },
   {
     "file": "temple-roof-carvings.jpg",
@@ -62,44 +44,6 @@
     "pick": false,
     "show": true,
     "original": "IMG_0615.HEIC"
-  },
-  {
-    "file": "rice-field-under-the-sun.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-19 10:17",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0618.HEIC"
-  },
-  {
-    "file": "flower-tile-wall.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-22 15:17",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0879.HEIC"
-  },
-  {
-    "file": "coffee-and-a-kobo.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-24 13:36",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0884.HEIC",
-    "new": true
-  },
-  {
-    "file": "img-5848.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-19 09:38",
-    "pick": false,
-    "show": true,
-    "original": "IMG_5848.JPG",
-    "new": true
   },
   {
     "file": "img-5850.jpg",
@@ -126,19 +70,9 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-19 09:42",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5852.JPG",
-    "new": true
-  },
-  {
-    "file": "img-5858.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 10:17",
-    "pick": false,
-    "show": true,
-    "original": "IMG_5858.JPG",
     "new": true
   },
   {
@@ -153,11 +87,39 @@
     "poster": "img-0880-poster.jpg"
   },
   {
+    "file": "rice-field-under-the-sun.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-19 10:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0618.HEIC"
+  },
+  {
+    "file": "img-5858.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 10:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5858.JPG",
+    "new": true
+  },
+  {
+    "file": "rice-fields.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-19 10:17",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0617.HEIC"
+  },
+  {
     "file": "img-0881.mp4",
     "caption": "",
     "comment": "",
     "taken": "2026-10-23 17:40",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0881.MOV",
     "new": true,
@@ -195,12 +157,22 @@
   },
   {
     "file": "img-6052.jpg",
-    "caption": "",
+    "caption": "青食",
     "comment": "",
     "taken": "2026-10-24 12:21",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6052.JPG",
+    "new": true
+  },
+  {
+    "file": "coffee-and-a-kobo.jpg",
+    "caption": "綴咖啡",
+    "comment": "",
+    "taken": "2026-10-24 13:36",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0884.HEIC",
     "new": true
   },
   {
@@ -239,7 +211,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-24 17:40",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6064.JPG",
     "new": true
@@ -249,7 +221,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-24 17:43",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6065.JPG",
     "new": true
@@ -259,7 +231,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-25 11:27",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6068.JPG",
     "new": true

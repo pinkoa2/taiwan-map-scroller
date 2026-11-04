@@ -9,6 +9,36 @@
     "original": "IMG_0624.HEIC"
   },
   {
+    "file": "img-5859.jpg",
+    "caption": "Chiayi Turkey Rice 嘉義火雞肉飯",
+    "comment": "",
+    "taken": "2026-10-20 11:39",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5859.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5862.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 11:44",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5862.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5863.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 13:10",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5863.JPG",
+    "new": true
+  },
+  {
     "file": "driving-up-the-mountain.jpg",
     "caption": "",
     "comment": "",
@@ -36,30 +66,30 @@
     "original": "IMG_0632.HEIC"
   },
   {
-    "file": "selfie-with-the-red-train.jpg",
+    "file": "r0005755.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-20 14:03",
-    "pick": false,
+    "taken": "2026-10-20 14:16",
+    "pick": true,
     "show": true,
-    "original": "IMG_0638.HEIC"
+    "original": "R0005755.JPG",
+    "new": true
   },
   {
     "file": "fenqihu-station.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-20 14:04",
-    "pick": true,
+    "pick": false,
     "show": true,
-    "original": "IMG_0639.HEIC",
-    "favorite": true
+    "original": "IMG_0639.HEIC"
   },
   {
     "file": "ting-and-the-red-train.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-20 14:04",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0640.HEIC"
   },
@@ -73,6 +103,15 @@
     "original": "IMG_0644.HEIC"
   },
   {
+    "file": "selfie-with-the-red-train.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 14:03",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0638.HEIC"
+  },
+  {
     "file": "wooden-lodge.jpg",
     "caption": "",
     "comment": "",
@@ -80,172 +119,6 @@
     "pick": true,
     "show": true,
     "original": "IMG_0645.HEIC"
-  },
-  {
-    "file": "ting-on-the-forest-walk.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 15:12",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0646.HEIC"
-  },
-  {
-    "file": "mountain-village.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 15:14",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0650.HEIC"
-  },
-  {
-    "file": "ting-on-the-stairs.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 15:15",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0652.HEIC"
-  },
-  {
-    "file": "ting-and-the-cat-at-night-3.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 18:10",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0659.HEIC"
-  },
-  {
-    "file": "ting-and-the-cat-at-night.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 18:10",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0657.HEIC"
-  },
-  {
-    "file": "ting-and-the-cat-at-night-2.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 18:10",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0658.HEIC"
-  },
-  {
-    "file": "wooden-train-carriage.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 13:44",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0861.HEIC"
-  },
-  {
-    "file": "red-train-at-alishan-station.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 13:47",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0863.HEIC"
-  },
-  {
-    "file": "mist-in-the-trees.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-22 11:37",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0872.HEIC"
-  },
-  {
-    "file": "tea-fields.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-21 15:35",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0865.heic"
-  },
-  {
-    "file": "tea-farm-yard.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-22 11:00",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0866.HEIC"
-  },
-  {
-    "file": "bus-in-the-mist.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-22 11:01",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0869.HEIC"
-  },
-  {
-    "file": "bnb-in-the-tea-hills.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-22 11:03",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0871.HEIC"
-  },
-  {
-    "file": "coffee-tasting-flight.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-22 12:17",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0875.HEIC"
-  },
-  {
-    "file": "img-5859.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 11:39",
-    "pick": false,
-    "show": true,
-    "original": "IMG_5859.JPG",
-    "new": true
-  },
-  {
-    "file": "img-5862.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 11:44",
-    "pick": false,
-    "show": true,
-    "original": "IMG_5862.JPG",
-    "new": true
-  },
-  {
-    "file": "img-5863.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 13:10",
-    "pick": false,
-    "show": true,
-    "original": "IMG_5863.JPG",
-    "new": true
-  },
-  {
-    "file": "r0005755.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-20 14:16",
-    "pick": false,
-    "show": true,
-    "original": "R0005755.JPG",
-    "new": true
   },
   {
     "file": "r0005758.jpg",
@@ -282,7 +155,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-20 14:36",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5874.JPG",
     "new": true
@@ -298,6 +171,15 @@
     "new": true
   },
   {
+    "file": "ting-on-the-forest-walk.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 15:12",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0646.HEIC"
+  },
+  {
     "file": "img-5878.jpg",
     "caption": "",
     "comment": "",
@@ -306,6 +188,24 @@
     "show": true,
     "original": "IMG_5878.JPG",
     "new": true
+  },
+  {
+    "file": "mountain-village.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 15:14",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0650.HEIC"
+  },
+  {
+    "file": "ting-on-the-stairs.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 15:15",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0652.HEIC"
   },
   {
     "file": "r0005762.jpg",
@@ -322,7 +222,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-20 15:29",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005765.JPG",
     "new": true
@@ -353,7 +253,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-20 16:03",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005768.JPG",
     "new": true
@@ -393,7 +293,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-20 16:44",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005775.JPG",
     "new": true
@@ -423,10 +323,55 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-20 16:58",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005783.JPG",
     "new": true
+  },
+  {
+    "file": "ting-and-the-cat-at-night-3.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 18:10",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0659.HEIC"
+  },
+  {
+    "file": "ting-and-the-cat-at-night.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 18:10",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0657.HEIC"
+  },
+  {
+    "file": "ting-and-the-cat-at-night-2.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-20 18:10",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0658.HEIC"
+  },
+  {
+    "file": "wooden-train-carriage.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 13:44",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0861.HEIC"
+  },
+  {
+    "file": "red-train-at-alishan-station.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-21 13:47",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0863.HEIC"
   },
   {
     "file": "img-6017.mp4",
@@ -440,15 +385,23 @@
     "poster": "img-6017-poster.jpg"
   },
   {
-    "file": "img-6019.mp4",
+    "file": "img-6024.jpg",
+    "caption": "TeaDay Airbnb茶日民宿",
+    "comment": "https://www.booking-owlnest.com/teadaybnb?lang=en&adult=1&child=0&infant=0&start=2026-11-08&end=2026-11-09",
+    "taken": "2026-10-22 10:48",
+    "pick": true,
+    "show": true,
+    "original": "IMG_6024.JPG",
+    "new": true
+  },
+  {
+    "file": "tea-fields.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 15:34",
+    "taken": "2026-10-21 15:35",
     "pick": false,
     "show": true,
-    "original": "IMG_6019.MOV",
-    "new": true,
-    "poster": "img-6019-poster.jpg"
+    "original": "IMG_0865.heic"
   },
   {
     "file": "video-2026-10-22-0859.mp4",
@@ -462,14 +415,15 @@
     "poster": "video-2026-10-22-0859-poster.jpg"
   },
   {
-    "file": "img-6024.jpg",
+    "file": "img-6019.mp4",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-22 10:48",
-    "pick": false,
+    "taken": "2026-10-21 15:34",
+    "pick": true,
     "show": true,
-    "original": "IMG_6024.JPG",
-    "new": true
+    "original": "IMG_6019.MOV",
+    "new": true,
+    "poster": "img-6019-poster.jpg"
   },
   {
     "file": "img-6025.jpg",
@@ -500,6 +454,33 @@
     "show": true,
     "original": "IMG_6028.JPG",
     "new": true
+  },
+  {
+    "file": "tea-farm-yard.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:00",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0866.HEIC"
+  },
+  {
+    "file": "bus-in-the-mist.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:01",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0869.HEIC"
+  },
+  {
+    "file": "bnb-in-the-tea-hills.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:03",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0871.HEIC"
   },
   {
     "file": "r0005859.jpg",
@@ -543,6 +524,15 @@
     "poster": "img-6031-poster.jpg"
   },
   {
+    "file": "mist-in-the-trees.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 11:37",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0872.HEIC"
+  },
+  {
     "file": "img-6032.mp4",
     "caption": "",
     "comment": "",
@@ -568,10 +558,19 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-22 11:51",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005863.JPG",
     "new": true
+  },
+  {
+    "file": "coffee-tasting-flight.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 12:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0875.HEIC"
   },
   {
     "file": "img-6036.jpg",
@@ -595,10 +594,10 @@
   },
   {
     "file": "r0005865.jpg",
-    "caption": "",
-    "comment": "",
+    "caption": "仙井咖啡",
+    "comment": "https://www.xianjingestate.com/en",
     "taken": "2026-10-22 12:32",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005865.JPG",
     "new": true
@@ -615,13 +614,22 @@
   },
   {
     "file": "img-6037.jpg",
-    "caption": "",
-    "comment": "",
+    "caption": "Museum of Old Taiwan Tiles花磚博物館 ",
+    "comment": "https://www.1920t.com/en/",
     "taken": "2026-10-22 14:54",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6037.JPG",
     "new": true
+  },
+  {
+    "file": "wooden-tea-cabinet.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 14:57",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0876.HEIC"
   },
   {
     "file": "img-6038.jpg",
@@ -632,6 +640,15 @@
     "show": true,
     "original": "IMG_6038.JPG",
     "new": true
+  },
+  {
+    "file": "tiled-bathtub.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-22 15:04",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0878.HEIC"
   },
   {
     "file": "r0005867.jpg",
@@ -668,7 +685,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-22 15:19",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6043.JPG",
     "new": true
@@ -688,7 +705,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-22 15:34",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "R0005870.JPG",
     "new": true

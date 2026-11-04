@@ -1,12 +1,13 @@
 [
   {
-    "file": "bonsai-at-the-visitor-center.jpg",
+    "file": "r0005748.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-18 13:12",
+    "taken": "2026-10-18 13:30",
     "pick": true,
     "show": true,
-    "original": "IMG_0574.HEIC"
+    "original": "R0005748.JPG",
+    "new": true
   },
   {
     "file": "bonsai-display.jpg",
@@ -18,22 +19,13 @@
     "original": "IMG_0575.HEIC"
   },
   {
-    "file": "sun-moon-lake.jpg",
+    "file": "bonsai-at-the-visitor-center.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-18 13:16",
-    "pick": true,
+    "taken": "2026-10-18 13:12",
+    "pick": false,
     "show": true,
-    "original": "IMG_0577.HEIC"
-  },
-  {
-    "file": "lake-under-clouds.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-18 14:18",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0582.HEIC"
+    "original": "IMG_0574.HEIC"
   },
   {
     "file": "lakeside-rock.jpg",
@@ -45,87 +37,22 @@
     "original": "IMG_0583.HEIC"
   },
   {
-    "file": "boat-on-the-lake.jpg",
+    "file": "sun-moon-lake.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-18 14:48",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0585.HEIC"
-  },
-  {
-    "file": "alex-with-a-bike.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-18 14:50",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0587.HEIC"
-  },
-  {
-    "file": "ting-with-a-bike.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-18 14:51",
+    "taken": "2026-10-18 13:16",
     "pick": false,
     "show": true,
-    "original": "IMG_0592.HEIC"
+    "original": "IMG_0577.HEIC"
   },
   {
-    "file": "selfie-by-the-lake.jpg",
+    "file": "lake-under-clouds.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-18 14:54",
+    "taken": "2026-10-18 14:18",
     "pick": false,
     "show": true,
-    "original": "IMG_0594.HEIC"
-  },
-  {
-    "file": "hillside-pier.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-18 16:27",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0596.HEIC"
-  },
-  {
-    "file": "lakeside-hotels.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-18 16:28",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0597.HEIC",
-    "favorite": true
-  },
-  {
-    "file": "paddling-at-sunset.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-18 16:47",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0600.HEIC"
-  },
-  {
-    "file": "ting-paddling-into-the-sunset.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-18 16:57",
-    "pick": false,
-    "show": true,
-    "original": "IMG_0608.HEIC"
-  },
-  {
-    "file": "r0005748.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-18 13:30",
-    "pick": false,
-    "show": true,
-    "original": "R0005748.JPG",
-    "new": true
+    "original": "IMG_0582.HEIC"
   },
   {
     "file": "r0005749.jpg",
@@ -188,6 +115,42 @@
     "new": true
   },
   {
+    "file": "boat-on-the-lake.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:48",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0585.HEIC"
+  },
+  {
+    "file": "alex-with-a-bike.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:50",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0587.HEIC"
+  },
+  {
+    "file": "ting-with-a-bike.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:51",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0592.HEIC"
+  },
+  {
+    "file": "selfie-by-the-lake.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 14:54",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0594.HEIC"
+  },
+  {
     "file": "r0005753.jpg",
     "caption": "",
     "comment": "",
@@ -198,6 +161,25 @@
     "new": true
   },
   {
+    "file": "hillside-pier.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 16:27",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0596.HEIC"
+  },
+  {
+    "file": "lakeside-hotels.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 16:28",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0597.HEIC",
+    "favorite": true
+  },
+  {
     "file": "img-5824.jpg",
     "caption": "",
     "comment": "",
@@ -206,6 +188,15 @@
     "show": true,
     "original": "IMG_5824.JPG",
     "new": true
+  },
+  {
+    "file": "paddling-at-sunset.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 16:47",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0600.HEIC"
   },
   {
     "file": "img-5828.mp4",
@@ -223,10 +214,19 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-18 16:53",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5832.JPG",
     "new": true
+  },
+  {
+    "file": "ting-paddling-into-the-sunset.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-18 16:57",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0608.HEIC"
   },
   {
     "file": "img-5833.jpg",
@@ -239,13 +239,13 @@
     "new": true
   },
   {
-    "file": "img-5835.jpg",
+    "file": "img-5837.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-18 17:00",
-    "pick": false,
+    "taken": "2026-10-18 17:01",
+    "pick": true,
     "show": true,
-    "original": "IMG_5835.JPG",
+    "original": "IMG_5837.JPG",
     "new": true
   },
   {
@@ -259,13 +259,13 @@
     "new": true
   },
   {
-    "file": "img-5837.jpg",
+    "file": "img-5835.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-18 17:01",
-    "pick": false,
+    "taken": "2026-10-18 17:00",
+    "pick": true,
     "show": true,
-    "original": "IMG_5837.JPG",
+    "original": "IMG_5835.JPG",
     "new": true
   },
   {
