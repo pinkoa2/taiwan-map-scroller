@@ -57,9 +57,10 @@ services:
       - "5173:5173"
 
   # The photo picker (laptop). "Update site" builds dist/, which preview serves.
-  # Only on the laptop itself (127.0.0.1): it has no password, so it isn't
-  # offered to the rest of the wifi. Drop the 127.0.0.1: to use it from
-  # another device.
+  # Only on the laptop itself (127.0.0.1) by default: it has no password, so
+  # it isn't offered to the rest of the wifi. To use it from a phone or
+  # another computer on the wifi:
+  #   CURATE_HOST=0.0.0.0 docker compose up -d curate
   curate:
     <<: *workspace
     command: ["node", "tools/curate/server.js"]
@@ -67,7 +68,7 @@ services:
       - path: .env
         required: false
     ports:
-      - "127.0.0.1:4318:4318"
+      - "${CURATE_HOST:-127.0.0.1}:4318:4318"
 
   # The built site (dist/), served by Caddy as on the server, re-read on every
   # request so "Update site" shows on a reload.

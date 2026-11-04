@@ -181,43 +181,71 @@ async function move({ from, to, file }) {
   await writeJSON(path.join(media, to, 'photos.json'), dest)
 }
 
-// Save one section: its photos (in the order shown, which matters only when
-// the place is set to a custom order), its order setting and description.
-// Fields the curator doesn't edit are kept.
-async function save({ id, folder, description, photos, order }) {
-  if (!/^[a-z0-9-]+$/.test(id) || (folder != null && !/^[a-z0-9-]+$/.test(folder))) throw new Error('bad section')
-  if (folder) {
-    await savePhotos(folder, photos ?? [])
-    const orders = await readJSON(orderFile, {})
-    if (order === 'custom') orders[folder] = 'custom'
-    else delete orders[folder]
-    await writeJSON(orderFile, orders)
-  }
-  const desc = await readJSON(descFile, {})
-  if (description?.trim()) desc[id] = description.trim()
-  else delete desc[id]
-  await writeJSON(descFile, desc)
+// Save one section's changes. Two people can use the picker at once, so a
+// save carries only what was changed on that screen, and it's merged into
+// the file as it is now: each changed field of each photo (by file name),
+// and the description, order setting and custom arrangement only when sent.
+// Saves and moves run one at a time, so none reads a file mid-write.
+let writes = Promise.resolve()
+const serial = (fn) => {
+  const job = writes.then(fn)
+  writes = job.catch(() => {})
+  return job
 }
 
-async function savePhotos(folder, photos) {
+async function save({ id, folder, description, order, arrangement, changes }) {
+  if (!/^[a-z0-9-]+$/.test(id) || (folder != null && !/^[a-z0-9-]+$/.test(folder))) throw new Error('bad section')
+  if (folder) {
+    await savePhotos(folder, changes ?? [], arrangement)
+    if (order !== undefined) {
+      const orders = await readJSON(orderFile, {})
+      if (order === 'custom') orders[folder] = 'custom'
+      else delete orders[folder]
+      await writeJSON(orderFile, orders)
+    }
+  }
+  if (description !== undefined) {
+    const desc = await readJSON(descFile, {})
+    if (description?.trim()) desc[id] = description.trim()
+    else delete desc[id]
+    await writeJSON(descFile, desc)
+  }
+}
+
+async function savePhotos(folder, changes, arrangement) {
   const file = path.join(media, folder, 'photos.json')
-  const current = await readJSON(file, [])
-  const byFile = new Map(current.map((p) => [p.file, p]))
-  const next = photos.map((p) => {
-    const was = byFile.get(p.file)
-    if (!was) throw new Error(`unknown photo ${p.file}`)
-    const out = { ...was, caption: p.caption ?? '', comment: p.comment ?? '', pick: !!p.pick, taken: p.taken ?? was.taken ?? '' }
+  let list = await readJSON(file, [])
+  const byFile = new Map(list.map((p) => [p.file, p]))
+  for (const c of changes) {
+    // Moved to another place by someone else meanwhile: nothing to change here.
+    const p = byFile.get(c.file)
+    if (!p) continue
+    for (const f of ['caption', 'comment', 'taken']) if (f in c) p[f] = String(c[f] ?? '')
+    if ('pick' in c) {
+      p.pick = !!c.pick
+      if (!p.pick) delete p.favorite
+    }
     // New since the last import: kept until marked seen in the picker.
-    if (p.new) out.new = true
-    else delete out.new
-    // The place's favourite: its deck opens on it. Only one, and only a pick.
-    if (p.favorite && p.pick) out.favorite = true
-    else delete out.favorite
-    return out
-  })
-  // Anything the page didn't send stays, at the end.
-  for (const p of current) if (!next.some((n) => n.file === p.file)) next.push(p)
-  await writeJSON(file, next)
+    if ('new' in c) {
+      if (c.new) p.new = true
+      else delete p.new
+    }
+    // The place's favourite: only one, and only a pick.
+    if ('favorite' in c) {
+      if (c.favorite && p.pick) {
+        for (const o of list) delete o.favorite
+        p.favorite = true
+      } else delete p.favorite
+    }
+  }
+  // A custom order, as arranged on that screen; photos it didn't know keep
+  // their place after it.
+  if (Array.isArray(arrangement)) {
+    const at = new Map(arrangement.map((f, i) => [f, i]))
+    const known = list.filter((p) => at.has(p.file)).sort((a, b) => at.get(a.file) - at.get(b.file))
+    list = [...known, ...list.filter((p) => !at.has(p.file))]
+  }
+  await writeJSON(file, list)
 }
 
 // "Update site": rebuild the preview the site is served from.
@@ -277,13 +305,15 @@ http
     try {
       if (p === '/') return serveFile(res, path.join(here, 'index.html'))
       if (p === '/app.js' || p === '/app.css') return serveFile(res, path.join(here, p.slice(1)))
-      if (p === '/api/trip') return send(res, 200, JSON.stringify(await load()), 'application/json')
+      if (p === '/api/trip') return send(res, 200, JSON.stringify(await serial(load)), 'application/json')
       if (p === '/api/save' && req.method === 'POST') {
-        await save(await body(req))
+        const b = await body(req)
+        await serial(() => save(b))
         return send(res, 200, '{"ok":true}', 'application/json')
       }
       if (p === '/api/move' && req.method === 'POST') {
-        await move(await body(req))
+        const b = await body(req)
+        await serial(() => move(b))
         return send(res, 200, '{"ok":true}', 'application/json')
       }
       if (p === '/api/build' && req.method === 'POST') {

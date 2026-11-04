@@ -115,6 +115,10 @@ components:
 >
 > **Route animation (Oct 23, 2026):** while a leg draws, its vehicle rides at the head of the line on a paper badge (train, bus or car pictogram in route vermilion, flipped to face its direction; `drawVehicle` in sheet.js). Walking is drawn as alternating footprints, not dots, here and in the legend (`Symbol.svelte`). A walk with `track: true` (the Mianyue Line, an old railway) sits on a simple railway track: sleepers and two rails in ink-soft.
 
+> **Notes on the back of a print (Nov 3, 2026):** a deck print whose photo has a note has its top-right corner turned up: the corner cut from the paper and a flap showing its underside (paper shading to a warm grey at the crease), with a soft drop shadow and a small Deep Vermilion turn arrow. It lifts a little further and settles every 3s (off under reduced motion). Tapped, the print turns over in 3D to its back: the same paper, the caption in serif italic over a hairline rule, the note in the serif, and a label-lettering foot ("Tap to turn back", the count). The fold stays: from the back the same corner shows at the top left, its arrow mirrored. Any flip of the deck turns it face up. The print's lift is a drop shadow that follows its shape.
+
+> **Uncaptioned photos (Nov 3, 2026):** a print's foot and the viewer's bar show only the caption; with none, they stay blank (the print keeps its count), never the place name.
+
 # Design System: Taiwan 臺灣
 
 ## Overview

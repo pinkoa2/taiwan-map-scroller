@@ -208,5 +208,565 @@
     "show": true,
     "original": "IMG_0971.HEIC",
     "new": true
+  },
+  {
+    "file": "img-6105.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:01",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6105.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005886.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:28",
+    "pick": false,
+    "show": true,
+    "original": "R0005886.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005887.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:28",
+    "pick": false,
+    "show": true,
+    "original": "R0005887.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005888.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:28",
+    "pick": false,
+    "show": true,
+    "original": "R0005888.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005889.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:28",
+    "pick": false,
+    "show": true,
+    "original": "R0005889.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005890.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:34",
+    "pick": false,
+    "show": true,
+    "original": "R0005890.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005891.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:36",
+    "pick": false,
+    "show": true,
+    "original": "R0005891.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005892.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:36",
+    "pick": false,
+    "show": true,
+    "original": "R0005892.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005893.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:36",
+    "pick": false,
+    "show": true,
+    "original": "R0005893.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005894.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:37",
+    "pick": false,
+    "show": true,
+    "original": "R0005894.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005895.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:37",
+    "pick": false,
+    "show": true,
+    "original": "R0005895.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005896.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:37",
+    "pick": false,
+    "show": true,
+    "original": "R0005896.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005897.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:38",
+    "pick": false,
+    "show": true,
+    "original": "R0005897.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005898.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:45",
+    "pick": false,
+    "show": true,
+    "original": "R0005898.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005899.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:45",
+    "pick": false,
+    "show": true,
+    "original": "R0005899.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005900.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:46",
+    "pick": false,
+    "show": true,
+    "original": "R0005900.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005901.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 13:56",
+    "pick": false,
+    "show": true,
+    "original": "R0005901.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6106.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 14:06",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6106.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6108.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 14:19",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6108.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005902.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 14:21",
+    "pick": false,
+    "show": true,
+    "original": "R0005902.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005903.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 15:15",
+    "pick": false,
+    "show": true,
+    "original": "R0005903.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005904.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 15:21",
+    "pick": false,
+    "show": true,
+    "original": "R0005904.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6109.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 15:35",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6109.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6110.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 18:40",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6110.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6111.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-28 20:18",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6111.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6113.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 09:09",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6113.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6114.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 11:12",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6114.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005906.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 11:25",
+    "pick": false,
+    "show": true,
+    "original": "R0005906.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005907.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 11:47",
+    "pick": false,
+    "show": true,
+    "original": "R0005907.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005908.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 11:48",
+    "pick": false,
+    "show": true,
+    "original": "R0005908.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005909.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 13:18",
+    "pick": false,
+    "show": true,
+    "original": "R0005909.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005910.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 13:19",
+    "pick": false,
+    "show": true,
+    "original": "R0005910.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005911.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 13:21",
+    "pick": false,
+    "show": true,
+    "original": "R0005911.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6115.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 13:28",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6115.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6117.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:18",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6117.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005912.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:29",
+    "pick": false,
+    "show": true,
+    "original": "R0005912.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005914.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:29",
+    "pick": false,
+    "show": true,
+    "original": "R0005914.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6119.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:32",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6119.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005916.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:38",
+    "pick": false,
+    "show": true,
+    "original": "R0005916.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005917.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:39",
+    "pick": false,
+    "show": true,
+    "original": "R0005917.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005918.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:40",
+    "pick": false,
+    "show": true,
+    "original": "R0005918.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005919.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:40",
+    "pick": false,
+    "show": true,
+    "original": "R0005919.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005921.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:40",
+    "pick": false,
+    "show": true,
+    "original": "R0005921.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005922.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:43",
+    "pick": false,
+    "show": true,
+    "original": "R0005922.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005923.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 14:43",
+    "pick": false,
+    "show": true,
+    "original": "R0005923.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6121.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 16:13",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6121.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6123.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 21:29",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6123.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6124.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 21:32",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6124.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6125.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-29 21:37",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6125.JPG",
+    "new": true
+  },
+  {
+    "file": "img-6127.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-30 10:01",
+    "pick": false,
+    "show": true,
+    "original": "IMG_6127.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005924.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-30 12:51",
+    "pick": false,
+    "show": true,
+    "original": "R0005924.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005925.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-30 12:51",
+    "pick": false,
+    "show": true,
+    "original": "R0005925.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005926.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-30 12:53",
+    "pick": false,
+    "show": true,
+    "original": "R0005926.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005927.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-30 12:55",
+    "pick": false,
+    "show": true,
+    "original": "R0005927.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005928.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-30 12:55",
+    "pick": false,
+    "show": true,
+    "original": "R0005928.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005929.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-30 12:57",
+    "pick": false,
+    "show": true,
+    "original": "R0005929.JPG",
+    "new": true
   }
 ]

@@ -269,7 +269,7 @@
     {/each}
     <div class="bar">
       <p class="caption">
-        <span>{current.photo.caption ?? current.place}</span>
+        <span>{current.photo.caption ?? ''}</span>
         {#if current.photo.taken}<span class="lettering credit">{current.photo.taken}</span>{/if}
         {#if current.photo.comment}<span class="comment">{current.photo.comment}</span>{/if}
       </p>

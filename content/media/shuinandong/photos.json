@@ -1,5 +1,26 @@
 [
   {
+    "file": "img-5793.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 11:06",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5793.MOV",
+    "new": true,
+    "poster": "img-5793-poster.jpg"
+  },
+  {
+    "file": "r0005725.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 11:25",
+    "pick": false,
+    "show": true,
+    "original": "R0005725.JPG",
+    "new": true
+  },
+  {
     "file": "ting-at-a-cafe.jpg",
     "caption": "",
     "comment": "",
@@ -9,8 +30,28 @@
     "original": "IMG_0549.HEIC"
   },
   {
-    "file": "thirteen-levels-ruins.jpg",
+    "file": "img-5796.jpg",
     "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 11:28",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5796.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005726.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 11:41",
+    "pick": true,
+    "show": true,
+    "original": "R0005726.JPG",
+    "new": true
+  },
+  {
+    "file": "thirteen-levels-ruins.jpg",
+    "caption": "Remains of the Thirteen Levels 十三層遺址",
     "comment": "",
     "taken": "2026-10-16 12:28",
     "pick": true,
@@ -19,11 +60,33 @@
     "favorite": true
   },
   {
+    "file": "img-5797.mp4",
+    "caption": "Yin Yang Sea 陰陽海",
+    "comment": "The sea color mix of blue and yellow",
+    "taken": "2026-10-16 12:32",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5797.MOV",
+    "new": true,
+    "poster": "img-5797-poster.jpg"
+  },
+  {
+    "file": "img-5798.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:32",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5798.MOV",
+    "new": true,
+    "poster": "img-5798-poster.jpg"
+  },
+  {
     "file": "coast-road.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-16 12:33",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0553.HEIC"
   },
@@ -59,16 +122,126 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-16 12:42",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0558.HEIC"
+  },
+  {
+    "file": "r0005727.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:43",
+    "pick": false,
+    "show": true,
+    "original": "R0005727.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005729.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:49",
+    "pick": false,
+    "show": true,
+    "original": "R0005729.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005730.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:52",
+    "pick": false,
+    "show": true,
+    "original": "R0005730.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005731.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:56",
+    "pick": false,
+    "show": true,
+    "original": "R0005731.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005733.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 12:57",
+    "pick": true,
+    "show": true,
+    "original": "R0005733.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5799.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 13:18",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5799.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005734.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 13:23",
+    "pick": false,
+    "show": true,
+    "original": "R0005734.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005736.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 13:24",
+    "pick": false,
+    "show": true,
+    "original": "R0005736.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005738.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 13:24",
+    "pick": false,
+    "show": true,
+    "original": "R0005738.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005740.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 13:33",
+    "pick": true,
+    "show": true,
+    "original": "R0005740.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005741.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 13:35",
+    "pick": false,
+    "show": true,
+    "original": "R0005741.JPG",
+    "new": true
   },
   {
     "file": "blue-window-house.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-16 13:52",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0562.HEIC"
   },
@@ -82,13 +255,24 @@
     "original": "IMG_0563.HEIC"
   },
   {
-    "file": "golden-waterfall-hills.jpg",
+    "file": "r0005742.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-16 14:11",
+    "taken": "2026-10-16 14:02",
+    "pick": false,
+    "show": true,
+    "original": "R0005742.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005745.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 14:15",
     "pick": true,
     "show": true,
-    "original": "IMG_0565.HEIC"
+    "original": "R0005745.JPG",
+    "new": true
   },
   {
     "file": "golden-waterfall.jpg",
@@ -98,5 +282,43 @@
     "pick": false,
     "show": true,
     "original": "IMG_0566.HEIC"
+  },
+  {
+    "file": "golden-waterfall-hills.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 14:11",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0565.HEIC"
+  },
+  {
+    "file": "r0005746.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 14:25",
+    "pick": false,
+    "show": true,
+    "original": "R0005746.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005747.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 14:25",
+    "pick": true,
+    "show": true,
+    "original": "R0005747.JPG",
+    "new": true
+  },
+  {
+    "file": "train-tickets-ruifang-to-taipei.jpg",
+    "caption": "Back to Taipei",
+    "comment": "",
+    "taken": "2026-10-17 10:14",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0573.HEIC"
   }
 ]

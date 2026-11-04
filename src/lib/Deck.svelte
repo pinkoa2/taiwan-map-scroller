@@ -81,7 +81,37 @@
     k = (k + n) % n
     if (k === at) return
     flipped = true
+    turned = -1
     flip(k)
+  }
+
+  // A photo's note (its `comment`) is written on the back of the print, and
+  // the print's top-right corner is turned up to say so (the user picked it,
+  // Nov 3, 2026, from ten flip marks, after a pin and a post-it). A tap on
+  // the corner turns the print over; a tap on the back, or any flip of the
+  // deck, turns it face up again, so a print always comes back as the photo.
+  let turned = $state(-1)
+  $effect(() => {
+    at
+    turned = -1
+  })
+  function turn(i) {
+    turned = turned === i ? -1 : i
+  }
+  // The note shrinks a little rather than run off the back, if it must.
+  function fitNote(node) {
+    const check = () => {
+      let f = 1
+      node.style.setProperty('--fit', f)
+      while (node.scrollHeight > node.clientHeight + 1 && f > 0.76) {
+        f = Math.round((f - 0.04) * 100) / 100
+        node.style.setProperty('--fit', f)
+      }
+    }
+    const ro = new ResizeObserver(check)
+    ro.observe(node)
+    document.fonts?.ready.then(check)
+    return () => ro.disconnect()
   }
 
   // Which photos have been on top here. Once every one has, the ↓ under the
@@ -173,12 +203,14 @@
   // wearing the keyboard focus ring (the browser shows it after the viewer's
   // keys); one opened from the keyboard keeps it.
   let byPointer = false
-  function click(e, print) {
+  function click(e, print, i) {
     if (moved) return
     if (print.note) {
       if (!e.target.closest('a')) go(at + 1)
       return
     }
+    if (e.target.closest('.fold')) return turn(i)
+    if (turned === i) return (turned = -1)
     byPointer = e.detail > 0
     open(print.number)
   }
@@ -304,9 +336,15 @@
       <PlaceCard note={print.note} part={print.part} parts={print.parts} final={!!print.final} photos={photoCount} live={i === at} />
     </div>
     {:else}
-    <button
-      class="print"
+    {@const over = turned === i}
+    {@const comment = print.photo.comment}
+    {@const fold = Math.round(Math.max(30, Math.min(40, s.pw * 0.1)))}
+    <!-- A photo print: the photo on its paper mount; with a note, its corner
+         turned up, and the note written on the back. -->
+    <div
+      class="print photo"
       class:top={i === at}
+      class:turned={over}
       class:dragging={i === at && (dragging || give !== 0)}
       data-own-swipe={i === at ? '' : undefined}
       style:left="{area.cx}px"
@@ -315,37 +353,73 @@
       style:transform={pos.transform}
       style:opacity={pos.opacity}
       style:z-index={pos.z}
-      tabindex={i === at ? 0 : -1}
+      role="group"
+      aria-roledescription="print"
+      aria-label={print.photo.caption ?? print.place}
       aria-hidden={i !== at}
       onpointerdown={down}
       onpointermove={move}
       onpointerup={up}
       onpointercancel={up}
-      onclick={(e) => click(e, print)}
+      onclick={(e) => click(e, print, i)}
       ondragstart={(e) => e.preventDefault()}
-      aria-label={print.photo.video ? `Play video` : `Open photo full screen`}
       in:deal|global={{ i }}
     >
-      <img
-        src={near ? print.photo.src : undefined}
-        srcset={near ? print.photo.srcset : undefined}
-        sizes={printSizes(s.iw)}
-        fetchpriority={i === at ? 'high' : 'low'}
-        width={print.photo.w}
-        height={print.photo.h}
-        alt={print.photo.alt}
-        draggable="false"
-        style:height="{s.ih}px"
-        style:background-image="url({print.photo.placeholder})"
-      />
-      {#if print.photo.video}
-        <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l11-6.5z" /></svg></span>
-      {/if}
-      <span class="foot">
-        {#if print.photo.caption}<span class="caption">{print.photo.caption}</span>{:else}<span class="lettering">{print.place}</span>{/if}
-        <span class="count lettering"><b>{i + 1 - noted}</b> / {photoCount}</span>
-      </span>
-    </button>
+      <div class="leaf" class:folded={!!comment} class:lifting={!!comment && i === at && !over && !still} style:--fold-base="{fold}px">
+        <button class="face front" tabindex={i === at && !over ? 0 : -1} aria-hidden={over} aria-label={print.photo.video ? `Play video` : `Open photo full screen`}>
+          <img
+            src={near ? print.photo.src : undefined}
+            srcset={near ? print.photo.srcset : undefined}
+            sizes={printSizes(s.iw)}
+            fetchpriority={i === at ? 'high' : 'low'}
+            width={print.photo.w}
+            height={print.photo.h}
+            alt={print.photo.alt}
+            draggable="false"
+            style:height="{s.ih}px"
+            style:background-image="url({print.photo.placeholder})"
+          />
+          {#if print.photo.video}
+            <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M8 5.5v13l11-6.5z" /></svg></span>
+          {/if}
+          <span class="foot">
+            <span class="caption">{print.photo.caption ?? ''}</span>
+            <span class="count lettering"><b>{i + 1 - noted}</b> / {photoCount}</span>
+          </span>
+        </button>
+        {#if comment}
+          <!-- The corner, turned up: its underside shows, with a small turn
+               arrow on it. It lifts a little now and then, to be tapped. -->
+          <button class="fold" tabindex={i === at && !over ? 0 : -1} aria-hidden={over} aria-label="Turn over to read the note">
+            <span class="flap-shade"
+              ><span class="flap"
+                ><svg viewBox="0 0 31 31" aria-hidden="true"><path d="M5.5 15.5c3.8.2 6.4 2.6 6.8 6.4" /><path d="M10.2 20.6l2.1 1.5 1.5-2.2" /></svg></span
+              ></span
+            >
+          </button>
+          <!-- The same corner seen from the back: still turned, now at the
+               top left, its arrow pointing the way back. -->
+          <span class="fold-back" aria-hidden="true"
+            ><span class="flap-shade"
+              ><span class="flap"
+                ><svg viewBox="0 0 31 31"><path d="M5.5 15.5c3.8.2 6.4 2.6 6.8 6.4" /><path d="M10.2 20.6l2.1 1.5 1.5-2.2" /></svg></span
+              ></span
+            ></span
+          >
+          <!-- The back: the caption and the note, written on the paper. -->
+          <div class="face back" aria-hidden={!over}>
+            <div class="written" {@attach fitNote}>
+              {#if print.photo.caption}<p class="title">{print.photo.caption}</p>{/if}
+              <p class="words">{comment}</p>
+            </div>
+            <span class="foot">
+              <span class="lettering turn-back">Tap to turn back</span>
+              <span class="count lettering"><b>{i + 1 - noted}</b> / {photoCount}</span>
+            </span>
+          </div>
+        {/if}
+      </div>
+    </div>
     {/if}
   {/each}
 
@@ -375,6 +449,13 @@
 </div>
 
 <style>
+  /* How far the turned-up corner of a print with a note is lifted (animated). */
+  @property --lift {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 1;
+  }
+
   .deck {
     position: fixed;
     inset: 0;
@@ -434,6 +515,252 @@
     transition: none;
   }
 
+  /* A photo print is two-sided: the leaf turns over in 3D, each face on
+     its own paper; the print box only places it on the pile. */
+  .print.photo {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    perspective: 1800px;
+    /* The lift is a drop shadow, so it follows the print's shape: the
+       turned-up corner, and the print as it turns over. */
+    filter: drop-shadow(0 1px 1.5px rgb(40 36 20 / 0.22)) drop-shadow(0 12px 14px rgb(40 36 20 / 0.24));
+    transition:
+      transform 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .print.photo.top {
+    box-shadow: none;
+    filter: drop-shadow(0 2px 2px rgb(40 36 20 / 0.22)) drop-shadow(0 22px 22px rgb(40 36 20 / 0.34));
+  }
+
+  .print.photo.top:hover {
+    filter: drop-shadow(0 2px 3px rgb(40 36 20 / 0.2)) drop-shadow(0 28px 26px rgb(40 36 20 / 0.36));
+  }
+
+  .leaf {
+    --fold: calc(var(--fold-base, 34px) * var(--lift, 1));
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Turned over: the back comes round from the right, as a hand turns a
+     print by the corner it lifted. */
+  .print.turned .leaf {
+    transform: rotateY(-180deg);
+  }
+
+  .face {
+    background: var(--paper);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .front {
+    display: block;
+    width: 100%;
+    padding: 10px 10px 0;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    cursor: inherit;
+  }
+
+  /* The corner is cut from the paper where it's turned up. */
+  .folded .front {
+    clip-path: polygon(0 0, calc(100% - var(--fold)) 0, 100% var(--fold), 100% 100%, 0 100%);
+  }
+
+  .front:focus-visible {
+    outline: 2px solid var(--route);
+    outline-offset: 4px;
+  }
+
+  /* The turned-up corner: a 44px tap target over the corner, holding the
+     flap (the corner's underside, folded down across the photo, shaded
+     towards its crease and casting a soft shadow) with a small red turn
+     arrow on it. */
+  .fold {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    width: max(44px, calc(var(--fold) + 8px));
+    height: max(44px, calc(var(--fold) + 8px));
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    transform: translateZ(1px);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .flap-shade {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--fold);
+    height: var(--fold);
+    filter: drop-shadow(-2px 3px 2.5px rgb(40 36 20 / 0.32));
+    transition: filter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .flap {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0 0, 100% 100%, 0 100%);
+    background: linear-gradient(to bottom left, #d4d0bb, #ebe9dd 45%, #f7f6ee);
+  }
+
+  .flap svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--route-deep);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    overflow: visible;
+  }
+
+  .fold:hover .flap-shade {
+    filter: drop-shadow(-3px 5px 4px rgb(40 36 20 / 0.36));
+  }
+
+  .fold:focus-visible {
+    outline: 2px solid var(--route);
+    outline-offset: -2px;
+  }
+
+  /* Now and then the corner lifts a little further and settles, so it's
+     plain it can be turned (the user asked for it to be obvious). */
+  .leaf.lifting {
+    animation: lift 3s cubic-bezier(0.45, 0, 0.55, 1) 1.2s infinite;
+  }
+
+  @keyframes lift {
+    0%,
+    40%,
+    100% {
+      --lift: 1;
+    }
+    14% {
+      --lift: 1.45;
+    }
+    24% {
+      --lift: 1.2;
+    }
+  }
+
+  /* The back: the same paper, written on: the caption over a hairline
+     rule, then the note, and a foot to say how to turn it back. */
+  .back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(18px, 6%, 32px) clamp(18px, 6%, 32px) 0;
+    transform: rotateY(180deg);
+    text-align: left;
+    color: var(--ink);
+    cursor: pointer;
+    pointer-events: none;
+    container-type: inline-size;
+  }
+
+  .print.turned .back {
+    pointer-events: auto;
+  }
+
+  /* The fold stays when the print is turned: from the back the corner is
+     at the top left, cut from the paper the same way, with its flap (the
+     mount's face) folded across and the arrow mirrored. It sits at the
+     leaf's top right, turned round on itself, so it's seen only from the
+     back. */
+  .folded .back {
+    clip-path: polygon(var(--fold) 0, 100% 0, 100% 100%, 0 100%, 0 var(--fold));
+    padding-top: max(clamp(18px, 6%, 32px), calc(var(--fold) + 10px));
+  }
+
+  .fold-back {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    width: var(--fold);
+    height: var(--fold);
+    pointer-events: none;
+    transform: rotateY(180deg) translateZ(1px);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .fold-back .flap-shade {
+    left: 0;
+    right: auto;
+    filter: drop-shadow(2px 3px 2.5px rgb(40 36 20 / 0.32));
+  }
+
+  .fold-back .flap {
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    background: linear-gradient(to bottom right, #d4d0bb, #ebe9dd 45%, #f7f6ee);
+  }
+
+  .fold-back svg {
+    transform: scaleX(-1);
+  }
+
+  .print.turned .front,
+  .print.turned .fold {
+    pointer-events: none;
+  }
+
+  .written {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .written p {
+    margin: 0;
+  }
+
+  .written .title {
+    padding-bottom: 0.5em;
+    margin-bottom: 0.6em;
+    border-bottom: 1px solid rgb(71 75 64 / 0.32);
+    font-family: var(--font-text);
+    font-style: italic;
+    font-size: calc(clamp(1.15rem, 4.6cqi, 1.6rem) * var(--fit, 1));
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .written .words {
+    max-width: 56ch;
+    font-family: var(--font-text);
+    font-size: calc(clamp(1rem, 3.7cqi, 1.3rem) * var(--fit, 1));
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  .back .foot {
+    padding-left: 0;
+    padding-right: 0;
+    border-top: 1px solid rgb(29 31 26 / 0.16);
+  }
+
+  .turn-back {
+    color: var(--ink-faint);
+  }
+
   .print:focus-visible {
     outline: 2px solid var(--route);
     outline-offset: 4px;
@@ -454,8 +781,10 @@
     justify-content: space-between;
     align-items: baseline;
     gap: 1rem;
-    height: 46px;
-    padding: 0.85rem 0.2rem 0;
+    /* 46px for one line of caption; a long caption wraps to a second line
+       and the foot grows to hold it (the user asked, Nov 3, 2026). */
+    min-height: 46px;
+    padding: 0.85rem 0.2rem 0.6rem;
     font-size: 0.78rem;
     color: var(--ink-soft);
     text-align: left;
@@ -479,10 +808,19 @@
     opacity: 0;
   }
 
+  /* Up to two lines, never cut short sooner; past two (none so far) it
+     ends in an ellipsis. */
   .caption {
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    line-height: 1.25;
+    text-wrap: pretty;
+    /* A Chinese name moves to the next line whole, never split. */
+    word-break: keep-all;
     font-family: var(--font-text);
     font-style: italic;
     text-transform: none;
@@ -639,9 +977,15 @@
 
   @media (prefers-reduced-motion: reduce) {
     .print,
+    .leaf,
+    .flap-shade,
     .arrow,
     .tick::before {
       transition: none;
+    }
+
+    .leaf.lifting {
+      animation: none;
     }
   }
 </style>

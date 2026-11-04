@@ -9,22 +9,34 @@
     "original": "IMG_0481.HEIC"
   },
   {
+    "file": "img-5774.mp4",
+    "caption": "Taipei - Ruifang - Shifen ",
+    "comment": "Take train from Taipei train station to Ruifang, then change to Pingxi line to Shifen",
+    "taken": "2026-10-15 12:14",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5774.MOV",
+    "new": true,
+    "poster": "img-5774-poster.jpg"
+  },
+  {
+    "file": "r0005698.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 13:51",
+    "pick": false,
+    "show": true,
+    "original": "R0005698.JPG",
+    "new": true
+  },
+  {
     "file": "pingxi-line-train.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 13:50",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0482.HEIC"
-  },
-  {
-    "file": "tracks-through-pingxi.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-15 13:52",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0483.HEIC"
   },
   {
     "file": "houses-over-the-river.jpg",
@@ -54,14 +66,55 @@
     "original": "IMG_0486.HEIC"
   },
   {
-    "file": "village-by-the-river.jpg",
+    "file": "r0005699.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-15 14:12",
+    "taken": "2026-10-15 14:05",
     "pick": true,
     "show": true,
-    "original": "IMG_0490.HEIC",
-    "favorite": true
+    "original": "R0005699.JPG",
+    "new": true
+  },
+  {
+    "file": "tracks-through-pingxi.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 13:52",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0483.HEIC"
+  },
+  {
+    "file": "img-5775.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 14:24",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5775.MOV",
+    "new": true,
+    "poster": "img-5775-poster.jpg"
+  },
+  {
+    "file": "r0005704.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 14:24",
+    "pick": false,
+    "show": true,
+    "original": "R0005704.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5776.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 14:29",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5776.MOV",
+    "new": true,
+    "poster": "img-5776-poster.jpg"
   },
   {
     "file": "lantern-release-on-the-tracks.jpg",
@@ -73,23 +126,56 @@
     "original": "IMG_0494.heic"
   },
   {
+    "file": "village-by-the-river.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 14:12",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0490.HEIC",
+    "favorite": true
+  },
+  {
+    "file": "img-5777.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 14:48",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5777.MOV",
+    "new": true,
+    "poster": "img-5777-poster.jpg"
+  },
+  {
     "file": "sky-lantern-on-the-tracks.mp4",
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 14:43",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0497.MOV",
     "poster": "sky-lantern-on-the-tracks-poster.jpg"
   },
   {
-    "file": "sky-lanterns-drifting-up.jpg",
+    "file": "img-5779.mp4",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-15 14:56",
+    "taken": "2026-10-15 14:58",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5779.MOV",
+    "new": true,
+    "poster": "img-5779-poster.jpg"
+  },
+  {
+    "file": "r0005705.jpg",
+    "caption": "Taiwan Sausage",
+    "comment": "",
+    "taken": "2026-10-15 15:13",
     "pick": true,
     "show": true,
-    "original": "IMG_0499.HEIC"
+    "original": "R0005705.JPG",
+    "new": true
   },
   {
     "file": "keelung-river-valley.jpg",
@@ -101,6 +187,16 @@
     "original": "IMG_0500.HEIC"
   },
   {
+    "file": "r0005706.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 15:19",
+    "pick": false,
+    "show": true,
+    "original": "R0005706.JPG",
+    "new": true
+  },
+  {
     "file": "ting-on-the-footbridge.jpg",
     "caption": "",
     "comment": "",
@@ -110,13 +206,13 @@
     "original": "IMG_0501.HEIC"
   },
   {
-    "file": "suspension-bridge-over-the-river.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-15 15:27",
+    "file": "sky-lanterns-drifting-up.jpg",
+    "caption": "Lanterns in the sky",
+    "comment": "Write down your wish on the lantern, then light it and let it fly",
+    "taken": "2026-10-15 14:56",
     "pick": true,
     "show": true,
-    "original": "IMG_0503.HEIC"
+    "original": "IMG_0499.HEIC"
   },
   {
     "file": "small-waterfall.jpg",
@@ -128,23 +224,33 @@
     "original": "IMG_0502.HEIC"
   },
   {
+    "file": "suspension-bridge-over-the-river.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 15:27",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0503.HEIC"
+  },
+  {
     "file": "shifen-suspension-bridge.mp4",
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 15:30",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0504.MOV",
     "poster": "shifen-suspension-bridge-poster.jpg"
   },
   {
-    "file": "ting-on-a-stone-animal.jpg",
+    "file": "img-5780.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-15 15:32",
-    "pick": true,
+    "taken": "2026-10-15 15:33",
+    "pick": false,
     "show": true,
-    "original": "IMG_0505.HEIC"
+    "original": "IMG_5780.JPG",
+    "new": true
   },
   {
     "file": "garden-with-stone-tables.jpg",
@@ -156,6 +262,16 @@
     "original": "IMG_0509.HEIC"
   },
   {
+    "file": "r0005708.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 15:35",
+    "pick": false,
+    "show": true,
+    "original": "R0005708.JPG",
+    "new": true
+  },
+  {
     "file": "koi-pond-pavilion.jpg",
     "caption": "",
     "comment": "",
@@ -165,22 +281,32 @@
     "original": "IMG_0510.HEIC"
   },
   {
+    "file": "ting-on-a-stone-animal.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 15:32",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0505.HEIC"
+  },
+  {
+    "file": "r0005712.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 15:41",
+    "pick": false,
+    "show": true,
+    "original": "R0005712.JPG",
+    "new": true
+  },
+  {
     "file": "shifen-waterfall.jpg",
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 15:39",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0511.HEIC"
-  },
-  {
-    "file": "shifen-waterfall-close-up.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-15 15:42",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0515.HEIC"
   },
   {
     "file": "selfie-at-shifen-waterfall.jpg",
@@ -190,5 +316,24 @@
     "pick": false,
     "show": true,
     "original": "IMG_0516.HEIC"
+  },
+  {
+    "file": "r0005715.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 15:42",
+    "pick": false,
+    "show": true,
+    "original": "R0005715.JPG",
+    "new": true
+  },
+  {
+    "file": "shifen-waterfall-close-up.jpg",
+    "caption": "Shifen Waterfall 十分瀑布",
+    "comment": "",
+    "taken": "2026-10-15 15:42",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0515.HEIC"
   }
 ]

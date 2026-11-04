@@ -21,7 +21,7 @@ docker compose run --rm dev npm run photos:download   # the photos zip → photo
 
 - Add `--build` the first time, and after `package-lock.json` changes (with `-V` too, so the new packages replace the old ones).
 - Ctrl+C stops them; `-d` runs them in the background (`docker compose stop` to stop).
-- **On other devices:** the dev server and the preview are offered to the wifi, so a phone can open `http://<laptop's address>:5173` or `:4317` (`hostname -I` shows the address). The picker isn't: it has no password, so it's on the laptop only (`127.0.0.1` in the compose file).
+- **On other devices:** the dev server and the preview are offered to the wifi, so a phone can open `http://<laptop's address>:5173` or `:4317` (`hostname -I` shows the address). The picker isn't by default: it has no password, so it's on the laptop only (`127.0.0.1` in the compose file). To use it from a phone, start it with `CURATE_HOST=0.0.0.0 docker compose up -d curate`; a plain `docker compose up -d curate` closes it again.
 - The picker's "Update site" rebuilds `dist/`; the preview (Caddy, as on the server) shows it on a reload.
 - The picker only ever runs on the laptop.
 

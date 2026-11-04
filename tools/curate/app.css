@@ -517,6 +517,32 @@ input::placeholder {
   padding: 0.7rem 0.75rem 0.8rem;
 }
 
+/* The caption field, with its count tucked in at the right as it nears
+   the cap (red once it's reached). */
+.cap {
+  position: relative;
+}
+
+.cap input {
+  padding-right: 4.2rem;
+}
+
+.cap-count {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.cap-count.full {
+  color: var(--route-deep);
+  font-weight: 600;
+}
+
 .when-row {
   display: flex;
   justify-content: space-between;

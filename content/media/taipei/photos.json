@@ -1,132 +1,5 @@
 [
   {
-    "file": "selfie-under-taipei-101.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-12 09:53",
-    "pick": true,
-    "show": true,
-    "original": "IMG_5665.JPG"
-  },
-  {
-    "file": "view-from-taipei-101.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-12 10:14",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0392.HEIC"
-  },
-  {
-    "file": "taipei-at-night.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-12 18:31",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0399.HEIC"
-  },
-  {
-    "file": "liberty-square-gate.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-13 10:45",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0404.HEIC",
-    "favorite": true
-  },
-  {
-    "file": "chiang-kai-shek-memorial-hall.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-13 10:50",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0407.HEIC"
-  },
-  {
-    "file": "liberty-square-gardens.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-13 10:56",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0411.HEIC"
-  },
-  {
-    "file": "concert-hall-and-memorial.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-13 12:54",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0418.HEIC"
-  },
-  {
-    "file": "neighbourhood-temple.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-13 15:56",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0422.HEIC"
-  },
-  {
-    "file": "ting-on-a-quiet-lane.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-13 16:37",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0425.HEIC"
-  },
-  {
-    "file": "sun-setting-over-the-river.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-13 17:01",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0433.HEIC"
-  },
-  {
-    "file": "beer-by-the-river.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-13 17:28",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0435.HEIC"
-  },
-  {
-    "file": "ting-at-a-record-bar.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-14 10:40",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0440.HEIC"
-  },
-  {
-    "file": "ximending-at-night.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-16 21:24",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0571.HEIC"
-  },
-  {
-    "file": "soju-on-a-balcony.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-16 22:20",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0572.HEIC"
-  },
-  {
     "file": "taoyuan-airport-arrival.jpg",
     "caption": "",
     "comment": "",
@@ -154,6 +27,37 @@
     "original": "IMG_5651.JPEG"
   },
   {
+    "file": "img-5649.jpg",
+    "caption": "Landed in Taiwan 臺灣!",
+    "comment": "We took the airport metro to Taipei train station and put our luggage in a storage locker before exploring the city",
+    "taken": "2026-10-12 06:00",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5649.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5653.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 06:16",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5653.MOV",
+    "new": true,
+    "poster": "img-5653-poster.jpg"
+  },
+  {
+    "file": "img-5654.jpg",
+    "caption": "Ogawa coffee shop ",
+    "comment": "A coffee shop near Taipei 101",
+    "taken": "2026-10-12 09:16",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5654.JPG",
+    "new": true
+  },
+  {
     "file": "first-taipei-street.jpg",
     "caption": "",
     "comment": "",
@@ -161,6 +65,66 @@
     "pick": false,
     "show": true,
     "original": "IMG_0386.HEIC"
+  },
+  {
+    "file": "img-5658.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 09:36",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5658.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5659.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 09:37",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5659.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5660.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 09:37",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5660.MOV",
+    "new": true,
+    "poster": "img-5660-poster.jpg"
+  },
+  {
+    "file": "img-5661.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 09:52",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5661.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5662.jpg",
+    "caption": "Taipei 101",
+    "comment": "",
+    "taken": "2026-10-12 09:52",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5662.JPG",
+    "new": true
+  },
+  {
+    "file": "selfie-under-taipei-101.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 09:53",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5665.JPG"
   },
   {
     "file": "taipei-101.jpg",
@@ -181,6 +145,36 @@
     "original": "IMG_0388.HEIC"
   },
   {
+    "file": "img-5670.jpg",
+    "caption": "Up on the 89th floor!",
+    "comment": "",
+    "taken": "2026-10-12 10:12",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5670.JPG",
+    "new": true
+  },
+  {
+    "file": "view-from-taipei-101.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 10:14",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0392.HEIC"
+  },
+  {
+    "file": "img-5671.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 10:16",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5671.MOV",
+    "new": true,
+    "poster": "img-5671-poster.jpg"
+  },
+  {
     "file": "hello-from-taipei-101.jpg",
     "caption": "",
     "comment": "",
@@ -188,6 +182,16 @@
     "pick": false,
     "show": true,
     "original": "IMG_0395.HEIC"
+  },
+  {
+    "file": "img-5672.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 10:17",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5672.JPG",
+    "new": true
   },
   {
     "file": "taipei-101-tuned-mass-damper.jpg",
@@ -199,6 +203,110 @@
     "original": "IMG_0397.HEIC"
   },
   {
+    "file": "img-5674.mp4",
+    "caption": "Din Tai Fung 鼎泰豐",
+    "comment": "Famous dumpling 小籠包 spot at the base of Taipei 101",
+    "taken": "2026-10-12 12:14",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5674.MOV",
+    "new": true,
+    "poster": "img-5674-poster.jpg"
+  },
+  {
+    "file": "img-5675.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 12:16",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5675.MOV",
+    "new": true,
+    "poster": "img-5675-poster.jpg"
+  },
+  {
+    "file": "img-5676.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 13:05",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5676.MOV",
+    "new": true,
+    "poster": "img-5676-poster.jpg"
+  },
+  {
+    "file": "img-5680.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 15:05",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5680.JPG",
+    "new": true
+  },
+  {
+    "file": "taipei-at-night.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 18:31",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0399.HEIC"
+  },
+  {
+    "file": "r0005612.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 18:45",
+    "pick": false,
+    "show": true,
+    "original": "R0005612.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005613.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 18:46",
+    "pick": false,
+    "show": true,
+    "original": "R0005613.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5683.mp4",
+    "caption": "Beef noodle soup　牛肉麵",
+    "comment": "",
+    "taken": "2026-10-12 19:14",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5683.MOV",
+    "new": true,
+    "poster": "img-5683-poster.jpg"
+  },
+  {
+    "file": "img-5684.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 19:16",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5684.mov",
+    "new": true,
+    "poster": "img-5684-poster.jpg"
+  },
+  {
+    "file": "img-5688.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-12 20:33",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5688.JPG",
+    "new": true
+  },
+  {
     "file": "alex-in-sunglasses.jpg",
     "caption": "",
     "comment": "",
@@ -206,6 +314,114 @@
     "pick": false,
     "show": true,
     "original": "IMG_5689.JPG"
+  },
+  {
+    "file": "img-5692.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 08:52",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5692.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5695.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 09:47",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5695.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5696.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 09:47",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5696.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005616.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:01",
+    "pick": false,
+    "show": true,
+    "original": "R0005616.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005617.jpg",
+    "caption": "Traditional Breakfast",
+    "comment": "Tried Danbing 蛋餅 for the first time. 好吃 !!!",
+    "taken": "2026-10-13 10:01",
+    "pick": true,
+    "show": true,
+    "original": "R0005617.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005619.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:20",
+    "pick": false,
+    "show": true,
+    "original": "R0005619.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5700.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:24",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5700.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005620.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:30",
+    "pick": false,
+    "show": true,
+    "original": "R0005620.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005622.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:30",
+    "pick": false,
+    "show": true,
+    "original": "R0005622.JPG",
+    "new": true
+  },
+  {
+    "file": "liberty-square-gate.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:45",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0404.HEIC"
+  },
+  {
+    "file": "chiang-kai-shek-memorial-hall.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:50",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0407.HEIC"
   },
   {
     "file": "memorial-hall-from-the-lawn.jpg",
@@ -217,6 +433,15 @@
     "original": "IMG_0409.HEIC"
   },
   {
+    "file": "liberty-square-gardens.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:56",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0411.HEIC"
+  },
+  {
     "file": "chiang-kai-shek-statue.jpg",
     "caption": "",
     "comment": "",
@@ -224,6 +449,56 @@
     "pick": false,
     "show": true,
     "original": "IMG_0412.HEIC"
+  },
+  {
+    "file": "r0005625.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:59",
+    "pick": false,
+    "show": true,
+    "original": "R0005625.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005626.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 10:59",
+    "pick": false,
+    "show": true,
+    "original": "R0005626.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005629.jpg",
+    "caption": "Chiang Kai-shek Memorial Hall 中正紀念堂",
+    "comment": "",
+    "taken": "2026-10-13 11:04",
+    "pick": true,
+    "show": true,
+    "original": "R0005629.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005633.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 11:08",
+    "pick": true,
+    "show": true,
+    "original": "R0005633.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005634.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 11:08",
+    "pick": false,
+    "show": true,
+    "original": "R0005634.JPG",
+    "new": true
   },
   {
     "file": "museum-room.jpg",
@@ -235,6 +510,67 @@
     "original": "IMG_0415.HEIC"
   },
   {
+    "file": "r0005636.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 11:24",
+    "pick": false,
+    "show": true,
+    "original": "R0005636.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005641.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 11:36",
+    "pick": false,
+    "show": true,
+    "original": "R0005641.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005642.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 12:02",
+    "pick": false,
+    "show": true,
+    "original": "R0005642.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5702.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 12:32",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5702.MOV",
+    "new": true,
+    "poster": "img-5702-poster.jpg"
+  },
+  {
+    "file": "r0005643.jpg",
+    "caption": "Chun Shu Tang 春水堂",
+    "comment": "Chun Shu Tang invented the first Bubble Milk Tea!",
+    "taken": "2026-10-13 12:42",
+    "pick": true,
+    "show": true,
+    "original": "R0005643.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005646.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 12:43",
+    "pick": false,
+    "show": true,
+    "original": "R0005646.JPG",
+    "new": true
+  },
+  {
     "file": "national-theater-plaza.jpg",
     "caption": "",
     "comment": "",
@@ -242,6 +578,17 @@
     "pick": false,
     "show": true,
     "original": "IMG_0417.HEIC"
+  },
+  {
+    "file": "img-5704.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 12:51",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5704.MOV",
+    "new": true,
+    "poster": "img-5704-poster.jpg"
   },
   {
     "file": "alex-at-the-national-concert-hall.jpg",
@@ -253,6 +600,96 @@
     "original": "IMG_5706.JPG"
   },
   {
+    "file": "img-5707.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 12:53",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5707.JPG",
+    "new": true
+  },
+  {
+    "file": "concert-hall-and-memorial.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 12:54",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0418.HEIC"
+  },
+  {
+    "file": "r0005647.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 13:08",
+    "pick": false,
+    "show": true,
+    "original": "R0005647.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005648.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 13:08",
+    "pick": false,
+    "show": true,
+    "original": "R0005648.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005649.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 13:08",
+    "pick": false,
+    "show": true,
+    "original": "R0005649.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005650.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 13:09",
+    "pick": false,
+    "show": true,
+    "original": "R0005650.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005651.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 14:26",
+    "pick": false,
+    "show": true,
+    "original": "R0005651.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005653.jpg",
+    "caption": "DaDaoCheng 大稻埕",
+    "comment": "",
+    "taken": "2026-10-13 14:26",
+    "pick": true,
+    "show": true,
+    "original": "R0005653.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5709.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 14:28",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5709.MOV",
+    "new": true,
+    "poster": "img-5709-poster.jpg"
+  },
+  {
     "file": "red-umbrella-garden.jpg",
     "caption": "",
     "comment": "",
@@ -260,6 +697,65 @@
     "pick": false,
     "show": true,
     "original": "IMG_0421.HEIC"
+  },
+  {
+    "file": "img-5711.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 15:18",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5711.MOV",
+    "new": true,
+    "poster": "img-5711-poster.jpg"
+  },
+  {
+    "file": "neighbourhood-temple.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 15:56",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0422.HEIC"
+  },
+  {
+    "file": "r0005654.jpg",
+    "caption": "Taipei Xia Hai City God Temple 台北霞海城隍廟",
+    "comment": "If you looking for love, come meet Taiwan Cupid, we called 月老Yue Lao",
+    "taken": "2026-10-13 16:09",
+    "pick": true,
+    "show": true,
+    "original": "R0005654.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005658.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 16:21",
+    "pick": false,
+    "show": true,
+    "original": "R0005658.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005661.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 16:31",
+    "pick": false,
+    "show": true,
+    "original": "R0005661.JPG",
+    "new": true
+  },
+  {
+    "file": "ting-on-a-quiet-lane.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 16:37",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0425.HEIC"
   },
   {
     "file": "walking-down-a-taipei-lane.mp4",
@@ -270,6 +766,17 @@
     "show": true,
     "original": "IMG_0429.MOV",
     "poster": "walking-down-a-taipei-lane-poster.jpg"
+  },
+  {
+    "file": "img-5712.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 16:57",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5712.MOV",
+    "new": true,
+    "poster": "img-5712-poster.jpg"
   },
   {
     "file": "river-sunset.jpg",
@@ -290,6 +797,36 @@
     "original": "IMG_0432.HEIC"
   },
   {
+    "file": "sun-setting-over-the-river.jpg",
+    "caption": "DaDaoCheng 大稻埕",
+    "comment": "Sunset and bike!",
+    "taken": "2026-10-13 17:01",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0433.HEIC"
+  },
+  {
+    "file": "img-5714.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 17:01",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5714.MOV",
+    "new": true,
+    "poster": "img-5714-poster.jpg"
+  },
+  {
+    "file": "img-5715.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 17:01",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5715.JPG",
+    "new": true
+  },
+  {
     "file": "sunset-selfie-by-the-river.jpg",
     "caption": "",
     "comment": "",
@@ -297,6 +834,77 @@
     "pick": false,
     "show": true,
     "original": "IMG_5718.JPG"
+  },
+  {
+    "file": "r0005664.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 17:16",
+    "pick": false,
+    "show": true,
+    "original": "R0005664.JPG",
+    "new": true
+  },
+  {
+    "file": "beer-by-the-river.jpg",
+    "caption": "18D Taiwan Beer 18天台灣生啤酒",
+    "comment": "Had my first of many Taiwan 18 day draft beer! It has a strict 18-day freshness window because it is unpasteurized, meaning live yeast is preserved. Any unsold stock is pulled from shelves after 18 days",
+    "taken": "2026-10-13 17:28",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0435.HEIC"
+  },
+  {
+    "file": "img-5719.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 17:28",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5719.MOV",
+    "new": true,
+    "poster": "img-5719-poster.jpg"
+  },
+  {
+    "file": "img-5721.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-13 19:13",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5721.MOV",
+    "new": true,
+    "poster": "img-5721-poster.jpg"
+  },
+  {
+    "file": "img-5722.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 10:29",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5722.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5724.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 10:36",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5724.MOV",
+    "new": true,
+    "poster": "img-5724-poster.jpg"
+  },
+  {
+    "file": "ting-at-a-record-bar.jpg",
+    "caption": "Day 3 in Taipei",
+    "comment": "",
+    "taken": "2026-10-14 10:40",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0440.HEIC"
   },
   {
     "file": "coffee-and-dessert.jpg",
@@ -308,6 +916,68 @@
     "original": "IMG_0441.HEIC"
   },
   {
+    "file": "r0005665.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 10:56",
+    "pick": false,
+    "show": true,
+    "original": "R0005665.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005666.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 10:56",
+    "pick": false,
+    "show": true,
+    "original": "R0005666.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005669.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 10:57",
+    "pick": false,
+    "show": true,
+    "original": "R0005669.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005672.jpg",
+    "caption": "Beam Coast Coffee 熙岸咖啡所",
+    "comment": "Cozy coffee shop near the hotel ",
+    "taken": "2026-10-14 11:00",
+    "pick": true,
+    "show": true,
+    "original": "R0005672.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5726.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 11:13",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5726.MOV",
+    "new": true,
+    "poster": "img-5726-poster.jpg"
+  },
+  {
+    "file": "img-5731.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 13:30",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5731.MOV",
+    "new": true,
+    "poster": "img-5731-poster.jpg"
+  },
+  {
     "file": "conveyor-belt-sushi.jpg",
     "caption": "",
     "comment": "",
@@ -317,13 +987,84 @@
     "original": "IMG_0442.HEIC"
   },
   {
-    "file": "selfie-on-the-mrt.jpg",
+    "file": "img-5732.jpg",
     "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 13:41",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5732.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5735.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 13:41",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5735.MOV",
+    "new": true,
+    "poster": "img-5735-poster.jpg"
+  },
+  {
+    "file": "img-5737.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 13:42",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5737.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5741.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 14:52",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5741.JPG",
+    "new": true
+  },
+  {
+    "file": "selfie-on-the-mrt.jpg",
+    "caption": "Heading to Tamsui",
     "comment": "",
     "taken": "2026-10-14 14:53",
     "pick": false,
     "show": true,
     "original": "IMG_0445.HEIC"
+  },
+  {
+    "file": "img-5758.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 20:13",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5758.JPG",
+    "new": true
+  },
+  {
+    "file": "r0005696.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-14 21:05",
+    "pick": true,
+    "show": true,
+    "original": "R0005696.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5800.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 16:18",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5800.JPG",
+    "new": true
   },
   {
     "file": "night-market-snack.jpg",
@@ -335,12 +1076,81 @@
     "original": "IMG_0569.HEIC"
   },
   {
-    "file": "train-tickets-ruifang-to-taipei.jpg",
+    "file": "ximending-at-night.jpg",
+    "caption": "Shi-men Ting 西門町",
+    "comment": "",
+    "taken": "2026-10-16 21:24",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0571.HEIC"
+  },
+  {
+    "file": "img-5804.jpg",
+    "caption": "Crispy Sparerib Soup Noodles 排骨酥麵",
+    "comment": "",
+    "taken": "2026-10-16 21:06",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5804.JPG",
+    "new": true
+  },
+  {
+    "file": "soju-on-a-balcony.jpg",
+    "caption": "First Soju in Taiwan!",
+    "comment": "",
+    "taken": "2026-10-16 22:20",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0572.HEIC"
+  },
+  {
+    "file": "img-5806.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-17 10:14",
+    "taken": "2026-10-16 22:35",
     "pick": false,
     "show": true,
-    "original": "IMG_0573.HEIC"
+    "original": "IMG_5806.JPG",
+    "new": true
+  },
+  {
+    "file": "fxn-2026-10-16-2235422b7c840af03f.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 22:35",
+    "pick": false,
+    "show": true,
+    "original": "fxn 2026-10-16 2235422B7C840AF03F.JPG",
+    "new": true
+  },
+  {
+    "file": "fxn-2026-10-16-223555846eaca7a4bd.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 22:35",
+    "pick": false,
+    "show": true,
+    "original": "fxn 2026-10-16 223555846EACA7A4BD.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5815.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-17 10:01",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5815.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5816.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-17 10:02",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5816.JPG",
+    "new": true
   }
 ]

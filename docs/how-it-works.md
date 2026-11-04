@@ -94,7 +94,7 @@ It shows every photo and video in the zip, picked or not. The grid's previews ar
 
 Photos run in the order they were taken. A place can be set to its own order with the arrows on a picked photo. Each card's time can be changed, and its "Move to…" menu sends the photo to another place (only the JSON changes; the zip is never touched). Files in a newer zip that no place lists yet appear in an **Unsorted** section, marked New and with no time; move each to its place. (Live Photos' short `.MP4` parts are left out.)
 
-Everything saves by itself into `content/media/<place>/photos.json`, `content/order.json` and `content/descriptions.json`, which are part of the repo, so commit them as usual. "Update site" rebuilds `dist/`, and the preview (http://localhost:4317) shows it on a reload.
+Everything saves by itself into `content/media/<place>/photos.json`, `content/order.json` and `content/descriptions.json`, which are part of the repo, so commit them as usual. Two people can use it at once (from the wifi, see `docs/docker.md`): each save carries only what was changed on that screen and is merged into the file, so edits to the same place don't undo each other; a screen shows the other person's changes when you open a place or come back to the tab. "Update site" rebuilds `dist/`, and the preview (http://localhost:4317) shows it on a reload.
 
 ## Getting around
 

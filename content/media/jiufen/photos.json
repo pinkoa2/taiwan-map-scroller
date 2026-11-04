@@ -31,37 +31,29 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 19:08",
-    "pick": true,
+    "pick": false,
     "show": true,
-    "original": "IMG_0523.HEIC",
-    "favorite": true
+    "original": "IMG_0523.HEIC"
   },
   {
-    "file": "lanterns-over-the-old-street.jpg",
+    "file": "img-5783.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-15 19:09",
-    "pick": true,
+    "taken": "2026-10-15 18:56",
+    "pick": false,
     "show": true,
-    "original": "IMG_0524.HEIC"
+    "original": "IMG_5783.JPG",
+    "new": true
   },
   {
-    "file": "teahouse-lanterns.jpg",
+    "file": "r0005722.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-15 19:11",
+    "taken": "2026-10-15 20:38",
     "pick": true,
     "show": true,
-    "original": "IMG_0525.HEIC"
-  },
-  {
-    "file": "lantern-lit-steps.jpg",
-    "caption": "",
-    "comment": "",
-    "taken": "2026-10-15 19:37",
-    "pick": true,
-    "show": true,
-    "original": "IMG_0528.HEIC"
+    "original": "R0005722.JPG",
+    "new": true
   },
   {
     "file": "jiufen-lights-at-night.jpg",
@@ -73,6 +65,88 @@
     "original": "IMG_0529.HEIC"
   },
   {
+    "file": "teahouse-lanterns.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:11",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0525.HEIC"
+  },
+  {
+    "file": "img-5784.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:22",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5784.MOV",
+    "new": true,
+    "poster": "img-5784-poster.jpg"
+  },
+  {
+    "file": "img-5785.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:22",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5785.MOV",
+    "new": true,
+    "poster": "img-5785-poster.jpg"
+  },
+  {
+    "file": "r0005718.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:23",
+    "pick": false,
+    "show": true,
+    "original": "R0005718.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5786.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:25",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5786.MOV",
+    "new": true,
+    "poster": "img-5786-poster.jpg"
+  },
+  {
+    "file": "lantern-lit-steps.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:37",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0528.HEIC"
+  },
+  {
+    "file": "img-5787.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:37",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5787.MOV",
+    "new": true,
+    "poster": "img-5787-poster.jpg"
+  },
+  {
+    "file": "img-5781.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 18:56",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5781.JPG",
+    "new": true
+  },
+  {
     "file": "crowded-lantern-lane.jpg",
     "caption": "",
     "comment": "",
@@ -82,13 +156,34 @@
     "original": "IMG_0533.HEIC"
   },
   {
-    "file": "ting-on-the-steps.jpg",
+    "file": "img-5788.mp4",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-15 19:47",
-    "pick": true,
+    "taken": "2026-10-15 19:46",
+    "pick": false,
     "show": true,
-    "original": "IMG_0536.HEIC"
+    "original": "IMG_5788.MOV",
+    "new": true,
+    "poster": "img-5788-poster.jpg"
+  },
+  {
+    "file": "lanterns-over-the-old-street.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:09",
+    "pick": false,
+    "show": true,
+    "original": "IMG_0524.HEIC"
+  },
+  {
+    "file": "r0005720.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:51",
+    "pick": false,
+    "show": true,
+    "original": "R0005720.JPG",
+    "new": true
   },
   {
     "file": "dinner-in-jiufen.mp4",
@@ -101,13 +196,43 @@
     "poster": "dinner-in-jiufen-poster.jpg"
   },
   {
-    "file": "taiwan-beer-over-the-lanterns.jpg",
+    "file": "img-5789.mp4",
     "caption": "",
     "comment": "",
+    "taken": "2026-10-15 20:03",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5789.MOV",
+    "new": true,
+    "poster": "img-5789-poster.jpg"
+  },
+  {
+    "file": "taiwan-beer-over-the-lanterns.jpg",
+    "caption": "18天台灣生啤酒",
+    "comment": "18 day Taiwan draft beer! It has a strict 18-day freshness window because it is unpasteurized, meaning live yeast is preserved. Any unsold stock is pulled from shelves after 18 days",
     "taken": "2026-10-15 20:04",
     "pick": true,
     "show": true,
     "original": "IMG_0541.HEIC"
+  },
+  {
+    "file": "img-5792.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 20:24",
+    "pick": true,
+    "show": true,
+    "original": "IMG_5792.JPG",
+    "new": true
+  },
+  {
+    "file": "ting-on-the-steps.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 19:47",
+    "pick": true,
+    "show": true,
+    "original": "IMG_0536.HEIC"
   },
   {
     "file": "selfie-in-jiufen.jpg",
@@ -117,5 +242,26 @@
     "pick": true,
     "show": true,
     "original": "IMG_0545.HEIC"
+  },
+  {
+    "file": "r0005723.jpg",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-15 20:40",
+    "pick": false,
+    "show": true,
+    "original": "R0005723.JPG",
+    "new": true
+  },
+  {
+    "file": "img-5794.mp4",
+    "caption": "",
+    "comment": "",
+    "taken": "2026-10-16 11:27",
+    "pick": false,
+    "show": true,
+    "original": "IMG_5794.MOV",
+    "new": true,
+    "poster": "img-5794-poster.jpg"
   }
 ]

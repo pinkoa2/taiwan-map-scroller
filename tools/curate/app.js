@@ -30,6 +30,9 @@ function h(tag, attrs = {}, ...kids) {
   return el
 }
 
+// The longest caption the picker takes (see the caption field).
+const CAPTION_MAX = 48
+
 const ICON_UP = '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg>'
 const ICON_STAR = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3.2l2.6 5.5 6 .8-4.4 4.1 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.5l6-.8z"/></svg>'
 const ICON_DOWN = '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg>'
@@ -59,31 +62,76 @@ function status(text, bad = false) {
 
 // ---------- saving ----------
 
+// Two people can use the picker at once (it's on the wifi), so a save sends
+// only what was changed here, field by field, and the server merges it into
+// the file as it is now. Nothing someone else changed is written back.
 let saveTimer = null
-const dirty = new Set()
+// section → { photos: Map(file → { p, fields: Set }), description, order, arrangement }
+const dirty = new Map()
 
-function changed(section) {
-  dirty.add(section)
+function edits(s) {
+  if (!dirty.has(s)) dirty.set(s, { photos: new Map(), description: false, order: false, arrangement: false })
+  return dirty.get(s)
+}
+
+function schedule() {
   status('Saving…')
   clearTimeout(saveTimer)
   saveTimer = setTimeout(flush, 500)
 }
 
+// A photo's fields changed: 'pick', 'favorite', 'caption', 'comment', 'taken', 'new'.
+function changed(s, p, ...fields) {
+  const e = edits(s).photos
+  if (!e.has(p.file)) e.set(p.file, { p, fields: new Set() })
+  for (const f of fields) e.get(p.file).fields.add(f)
+  schedule()
+}
+
+// The place's description, its order setting, or its custom arrangement changed.
+function changedPlace(s, what) {
+  edits(s)[what] = true
+  schedule()
+}
+
+function payload(s, e) {
+  const out = { id: s.id, folder: s.folder }
+  if (e.description) out.description = s.description
+  if (e.order) out.order = s.order
+  if (e.arrangement && s.order === 'custom') out.arrangement = s.list.map((p) => p.file)
+  out.changes = [...e.photos.values()].map(({ p, fields }) => {
+    const c = { file: p.file }
+    for (const f of fields) c[f] = f === 'pick' || f === 'favorite' || f === 'new' ? !!p[f] : (p[f] ?? '')
+    return c
+  })
+  return out
+}
+
+// Put unsent edits back after a failed save (newer edits made meanwhile win).
+function merge(s, e) {
+  const now = edits(s)
+  for (const [file, x] of e.photos) {
+    if (!now.photos.has(file)) now.photos.set(file, { p: x.p, fields: new Set() })
+    for (const f of x.fields) now.photos.get(file).fields.add(f)
+  }
+  for (const k of ['description', 'order', 'arrangement']) now[k] ||= e[k]
+}
+
 async function flush() {
   const list = [...dirty]
   dirty.clear()
-  for (const s of list) {
-    const photos = ordered(s).map((p) => ({ file: p.file, caption: p.caption, comment: p.comment, pick: !!p.pick, favorite: !!p.favorite, new: !!p.new, taken: p.taken ?? '' }))
+  for (let i = 0; i < list.length; i++) {
+    const [s, e] = list[i]
     try {
       const res = await fetch('/api/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: s.id, folder: s.folder, description: s.description, photos, order: s.order }),
+        body: JSON.stringify(payload(s, e)),
       })
       if (!res.ok) throw new Error(await res.text())
-    } catch (e) {
-      status(`Couldn't save ${s.name}: ${e.message}. Retrying…`, true)
-      dirty.add(s)
+    } catch (err) {
+      status(`Couldn't save ${s.name}: ${err.message}. Retrying…`, true)
+      for (const [s2, e2] of list.slice(i)) merge(s2, e2)
       clearTimeout(saveTimer)
       saveTimer = setTimeout(flush, 3000)
       return
@@ -149,6 +197,7 @@ function go(i) {
   renderSection()
   $('#section').focus()
   scrollTo({ top: 0 })
+  refresh()
 }
 
 // ---------- one place ----------
@@ -159,7 +208,7 @@ function descriptionBox(s, rows, fallback) {
     placeholder: s.placeholder ? `Now on the site: “${s.placeholder}”` : fallback,
     oninput: (e) => {
       s.description = e.target.value
-      changed(s)
+      changedPlace(s, 'description')
     },
   })
   box.value = s.description
@@ -218,9 +267,12 @@ function renderSection() {
                 class: 'lettering clear seen',
                 title: 'Clear the New marks on this place’s photos',
                 onclick: () => {
-                  for (const p of s.list) p.new = false
+                  for (const p of s.list)
+                    if (p.new) {
+                      p.new = false
+                      changed(s, p, 'new')
+                    }
                   if (state.filter === 'new') state.filter = 'all'
-                  changed(s)
                   renderSection()
                   refreshCount(s)
                 },
@@ -233,7 +285,7 @@ function renderSection() {
         pill('By time taken', s.order !== 'custom', () => {
           if (s.order === 'custom') {
             s.order = 'taken'
-            changed(s)
+            changedPlace(s, 'order')
             renderSection()
           }
         }),
@@ -248,8 +300,12 @@ function renderSection() {
             onclick: () => {
               const n = picks(s).length
               if (!n || !confirm(`Drop all ${n} picks for ${s.name}?`)) return
-              for (const p of s.list) p.pick = false
-              changed(s)
+              for (const p of s.list)
+                if (p.pick) {
+                  p.pick = false
+                  p.favorite = false
+                  changed(s, p, 'pick', 'favorite')
+                }
               renderSection()
               refreshCount(s)
             },
@@ -284,7 +340,8 @@ function renderIntro(s, main) {
 function setCustom(s) {
   s.list = ordered(s)
   s.order = 'custom'
-  changed(s)
+  changedPlace(s, 'order')
+  changedPlace(s, 'arrangement')
 }
 
 function grid(s) {
@@ -303,9 +360,13 @@ function card(s, p) {
     html: ICON_STAR,
     onclick: () => {
       const on = !p.favorite
-      for (const o of s.list) o.favorite = false
+      for (const o of s.list)
+        if (o.favorite && o !== p) {
+          o.favorite = false
+          changed(s, o, 'favorite')
+        }
       p.favorite = on
-      changed(s)
+      changed(s, p, 'favorite')
       repaintAll()
     },
   })
@@ -348,7 +409,7 @@ function card(s, p) {
     const a = s.list.indexOf(p)
     const b = s.list.indexOf(other)
     ;[s.list[a], s.list[b]] = [s.list[b], s.list[a]]
-    changed(s)
+    changedPlace(s, 'arrangement')
     renderSection()
   }
   up.addEventListener('click', () => shift(-1))
@@ -357,27 +418,41 @@ function card(s, p) {
   const toggle = () => {
     p.pick = !p.pick
     if (!p.pick) p.favorite = false
-    changed(s)
+    changed(s, p, 'pick', 'favorite')
     if (state.filter === 'picked') renderSection()
     else repaintAll()
   }
 
-  const caption = h('input', {
+  // The caption: capped at CAPTION_MAX characters, about two lines under a
+  // phone's photo (the user asked, Nov 3, 2026: long captions wrap to a
+  // second line on the site, and no further). A count shows as it nears
+  // the cap. Older captions over it are kept as they are until edited.
+  const count = h('span', { class: 'cap-count lettering', 'aria-live': 'polite' })
+  const showCount = () => {
+    const n = [...(p.caption ?? '')].length
+    count.textContent = n >= CAPTION_MAX - 12 ? `${n} / ${CAPTION_MAX}` : ''
+    count.classList.toggle('full', n >= CAPTION_MAX)
+  }
+  const captionInput = h('input', {
     type: 'text',
+    maxlength: CAPTION_MAX,
     placeholder: 'Caption, shown under the photo',
     oninput: (e) => {
       p.caption = e.target.value
-      changed(s)
+      changed(s, p, 'caption')
+      showCount()
     },
   })
-  caption.value = p.caption ?? ''
+  captionInput.value = p.caption ?? ''
+  showCount()
+  const caption = h('div', { class: 'cap' }, captionInput, count)
 
   const note = h('textarea', {
     rows: 2,
-    placeholder: 'Note, shown full screen (optional)',
+    placeholder: 'Note, on the back of the print (optional)',
     oninput: (e) => {
       p.comment = e.target.value
-      changed(s)
+      changed(s, p, 'comment')
     },
   })
   note.value = p.comment ?? ''
@@ -389,7 +464,7 @@ function card(s, p) {
     title: p.taken ? 'When it was taken' : 'No time yet: set one to place it in order',
     onchange: (e) => {
       p.taken = fromInput(e.target.value)
-      changed(s)
+      changed(s, p, 'taken')
       renderSection()
     },
   })
@@ -484,6 +559,28 @@ async function reload() {
   renderPlaces()
   renderSection()
 }
+
+// Pick up what someone else changed: on opening a place and on coming back
+// to this tab. Our own edits are sent first; not while typing in a field.
+let refreshing = false
+async function refresh() {
+  if (refreshing) return
+  refreshing = true
+  try {
+    if (dirty.size) await flush()
+    if (dirty.size || document.activeElement?.matches('input, textarea, select')) return
+    const y = scrollY
+    await reload()
+    scrollTo({ top: y })
+  } catch {
+    // Offline for a moment: the next refresh will catch up.
+  } finally {
+    refreshing = false
+  }
+}
+addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') refresh()
+})
 
 reload()
   .then(() => status('All changes save by themselves.'))
