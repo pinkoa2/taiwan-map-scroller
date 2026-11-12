@@ -754,3 +754,95 @@ input::placeholder {
 .filter .seen {
   margin-left: 0.4rem;
 }
+
+/* Videos: a Play button over the frame, and the player it opens. */
+.play-spot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  pointer-events: none;
+}
+
+.play {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(29 31 26 / 0.82);
+  color: var(--paper);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.play:hover,
+.play:focus-visible {
+  background: var(--route-deep);
+}
+
+.player {
+  width: min(960px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  padding: 0;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.player::backdrop {
+  background: rgb(29 31 26 / 0.7);
+}
+
+.player-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+}
+
+.player-head span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-head button {
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1px solid var(--paper);
+  background: transparent;
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.player-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 12rem;
+}
+
+.player video {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 6rem);
+  background: #000;
+}
+
+.player .wait {
+  position: absolute;
+  inset: auto 1rem 50%;
+  z-index: 1;
+  margin: 0;
+  text-align: center;
+  color: var(--paper);
+}

@@ -18,7 +18,7 @@
 
 import http from 'node:http'
 import fs from 'node:fs/promises'
-import { existsSync, createReadStream } from 'node:fs'
+import { existsSync, createReadStream, statSync } from 'node:fs'
 import path from 'node:path'
 import { spawn } from 'node:child_process'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -111,6 +111,42 @@ async function preview(folder, file) {
 }
 const thumb = (folder, entry) => `/preview/${folder}/${encodeURIComponent(entry.file)}`
 
+// A video to watch in the picker: a small, quick H.264 copy (at most 720px,
+// sound kept), made from the zip on first play and kept in .cache/previews/.
+// Its own queue, so the grid's stills keep coming while a clip encodes.
+let clipQueue = Promise.resolve()
+async function clip(folder, file) {
+  const entry = (await readJSON(path.join(media, folder, 'photos.json'), [])).find((p) => p.file === file)
+  const src = entry && VIDEO.test(entry.file) && (await locate(folder, entry))
+  if (!src) return null
+  const out = path.join(previews, crypto.createHash('sha1').update(src.key).digest('hex').slice(0, 12) + '.mp4')
+  if (existsSync(out)) return out
+  const job = clipQueue.then(async () => {
+    if (existsSync(out)) return
+    await fs.mkdir(previews, { recursive: true })
+    const video = await videoFile(src)
+    try {
+      await new Promise((ok, fail) => {
+        const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-i', video.file, '-map_metadata', '-1',
+          '-vf', "scale='if(gt(iw,ih),min(720,iw),-2)':'if(gt(iw,ih),-2,min(720,ih))'",
+          '-c:v', 'libx264', '-crf', '30', '-preset', 'veryfast', '-pix_fmt', 'yuv420p',
+          '-c:a', 'aac', '-b:a', '80k', '-movflags', '+faststart', '-f', 'mp4', out + '.part'])
+        let err = ''
+        ff.stderr.on('data', (d) => (err += d))
+        ff.on('error', fail)
+        ff.on('close', (code) => (code === 0 ? ok() : fail(new Error(err.slice(-500) || `ffmpeg ${code}`))))
+      })
+      await fs.rename(out + '.part', out)
+    } finally {
+      await video.done()
+      await fs.rm(out + '.part', { force: true })
+    }
+  })
+  clipQueue = job.catch(() => {})
+  await job
+  return out
+}
+
 // A folder's photos.json, plus any media files dropped into the folder that
 // it doesn't list yet (added with no time, marked new; fill the time in later
 // in the picker).
@@ -141,7 +177,7 @@ async function load() {
     s.placeholder = s.text
     s.order = s.folder && orders[s.folder] === 'custom' ? 'custom' : 'taken'
     const photos = s.folder ? await photosOf(s.folder) : []
-    s.photos = photos.map((p) => ({ ...p, thumb: thumb(s.folder, p), video: VIDEO.test(p.file) }))
+    s.photos = photos.map((p) => ({ ...p, thumb: thumb(s.folder, p), video: VIDEO.test(p.file), clip: VIDEO.test(p.file) ? `/clip/${s.folder}/${encodeURIComponent(p.file)}` : undefined }))
   }
   return list
 }
@@ -262,9 +298,24 @@ function rebuild() {
 
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.png': 'image/png', '.mp4': 'video/mp4', '.woff2': 'font/woff2', '.woff': 'font/woff' }
 
-function serveFile(res, file) {
+// Byte ranges are honoured, so a video can be scrubbed (Safari won't play one without).
+function serveFile(res, file, req) {
   if (!existsSync(file)) return send(res, 404, 'Not found')
-  res.writeHead(200, { 'Content-Type': TYPES[path.extname(file).toLowerCase()] ?? 'application/octet-stream', 'Cache-Control': 'no-cache' })
+  const type = TYPES[path.extname(file).toLowerCase()] ?? 'application/octet-stream'
+  const size = statSync(file).size
+  const range = /^bytes=(\d*)-(\d*)$/.exec(req?.headers.range ?? '')
+  if (range && (range[1] || range[2])) {
+    let start = range[1] ? +range[1] : size - +range[2]
+    let end = range[1] && range[2] ? Math.min(+range[2], size - 1) : size - 1
+    if (start < 0) start = 0
+    if (start > end || start >= size) {
+      res.writeHead(416, { 'Content-Range': `bytes */${size}` })
+      return res.end()
+    }
+    res.writeHead(206, { 'Content-Type': type, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1, 'Accept-Ranges': 'bytes', 'Cache-Control': 'no-cache' })
+    return createReadStream(file, { start, end }).pipe(res)
+  }
+  res.writeHead(200, { 'Content-Type': type, 'Content-Length': size, 'Accept-Ranges': 'bytes', 'Cache-Control': 'no-cache' })
   createReadStream(file).pipe(res)
 }
 
@@ -325,6 +376,11 @@ http
         const [folder, file] = p.slice(9).split('/').map(decodeURIComponent)
         const out = /^[a-z0-9-]+$/.test(folder ?? '') && (await preview(folder, file))
         return out ? serveFile(res, out) : send(res, 404, 'Not found')
+      }
+      if (p.startsWith('/clip/')) {
+        const [folder, file] = p.slice(6).split('/').map(decodeURIComponent)
+        const out = /^[a-z0-9-]+$/.test(folder ?? '') && (await clip(folder, file))
+        return out ? serveFile(res, out, req) : send(res, 404, 'Not found')
       }
       for (const [prefix, base] of [
         ['/media/', media],

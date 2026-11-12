@@ -517,10 +517,53 @@ function card(s, p) {
       p.new ? h('span', { class: 'new-tag lettering' }, 'New') : null,
     ),
     star,
+    p.video
+      ? h(
+          'div',
+          { class: 'play-spot' },
+          h('button', { class: 'play lettering', 'aria-label': `Play ${p.file}`, title: 'Play the video', onclick: () => play(p) }, h('span', { 'aria-hidden': 'true' }, '▶'), ' Play'),
+        )
+      : '',
     h('div', { class: 'body' }, h('div', { class: 'when-row' }, time, move), caption, note, moveTo),
   )
   paint()
   return el
+}
+
+// ---------- watch a video ----------
+
+// The player: a small copy made from the zip on first play (a long clip takes
+// a little while), then kept. Escape, the Close button or a click outside closes it.
+let player
+function play(p) {
+  player?.remove()
+  const video = h('video', { controls: true, autoplay: true, playsinline: true, preload: 'auto' })
+  const wait = h('p', { class: 'wait lettering' }, 'Getting the video ready… a long one can take a minute the first time.')
+  const close = () => {
+    video.pause()
+    video.removeAttribute('src')
+    video.load()
+    player.close()
+    player.remove()
+    player = null
+  }
+  video.addEventListener('loadeddata', () => wait.remove())
+  video.addEventListener('error', () => {
+    if (video.getAttribute('src')) wait.textContent = 'This video couldn’t be played.'
+  })
+  player = h(
+    'dialog',
+    { class: 'player', 'aria-label': p.file, onclose: () => player && close(), onclick: (e) => e.target === player && close() },
+    h(
+      'div',
+      { class: 'player-box' },
+      h('div', { class: 'player-head' }, h('span', { class: 'lettering' }, p.caption || p.file), h('button', { class: 'lettering', onclick: close }, 'Close')),
+      h('div', { class: 'player-stage' }, wait, video),
+    ),
+  )
+  document.body.append(player)
+  player.showModal()
+  video.src = p.clip
 }
 
 // ---------- update site ----------
