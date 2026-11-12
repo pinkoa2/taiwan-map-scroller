@@ -4,7 +4,7 @@
     "caption": "Watch Sunrise ",
     "comment": "We were there 30 mins before ticket start sell ",
     "taken": "2026-10-21 04:52",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_5893.JPG",
     "new": true
@@ -12,7 +12,7 @@
   {
     "file": "img-5894.jpg",
     "caption": "Zhushan line 祝山線",
-    "comment": "",
+    "comment": "Arrive 30 minutes early to get tickets",
     "taken": "2026-10-21 04:55",
     "pick": true,
     "show": true,
@@ -42,10 +42,10 @@
   },
   {
     "file": "img-5897.jpg",
-    "caption": "In the train",
+    "caption": "On the train",
     "comment": "Luckily, got seats on second train!",
     "taken": "2026-10-21 05:19",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_5897.JPG",
     "new": true
@@ -213,7 +213,7 @@
     "caption": "START MianYue Line !",
     "comment": "10 Miles hike",
     "taken": "2026-10-21 07:29",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_5914.JPG",
     "new": true
@@ -265,7 +265,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 07:33",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0680.HEIC"
   },
@@ -303,7 +303,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 07:36",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0684.HEIC"
   },
@@ -390,7 +390,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 07:47",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0692.HEIC"
   },
@@ -485,7 +485,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 08:03",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "R0005799.JPG",
     "new": true
@@ -513,7 +513,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 08:08",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0702.HEIC"
   },
@@ -678,7 +678,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 08:34",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "R0005813.JPG",
     "new": true
@@ -774,7 +774,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 08:43",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0730.HEIC"
   },
@@ -895,13 +895,14 @@
     "original": "IMG_0743.HEIC"
   },
   {
-    "file": "inside-the-rock-tunnel.jpg",
+    "file": "r0005825.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 09:01",
-    "pick": false,
+    "taken": "2026-10-21 09:02",
+    "pick": true,
     "show": true,
-    "original": "IMG_0746.HEIC"
+    "original": "R0005825.JPG",
+    "new": true
   },
   {
     "file": "rough-rock-tunnel.jpg",
@@ -933,14 +934,13 @@
     "new": true
   },
   {
-    "file": "r0005825.jpg",
+    "file": "inside-the-rock-tunnel.jpg",
     "caption": "",
     "comment": "",
-    "taken": "2026-10-21 09:02",
+    "taken": "2026-10-21 09:01",
     "pick": true,
     "show": true,
-    "original": "R0005825.JPG",
-    "new": true
+    "original": "IMG_0746.HEIC"
   },
   {
     "file": "through-the-dark-tunnel.mp4",
@@ -958,7 +958,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:03",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "R0005826.JPG",
     "new": true
@@ -1046,7 +1046,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:24",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "R0005829.JPG",
     "new": true
@@ -1117,7 +1117,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:26",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "R0005831.JPG",
     "new": true
@@ -1249,7 +1249,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:38",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_5948.JPG",
     "new": true
@@ -1336,7 +1336,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:48",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0791.HEIC"
   },
@@ -1345,7 +1345,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:52",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0792.MOV",
     "new": true,
@@ -1387,7 +1387,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 13:25",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0860.HEIC"
   },
@@ -1396,7 +1396,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:56",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0795.HEIC"
   },
@@ -1433,7 +1433,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:52",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "R0005838.JPG",
     "new": true
@@ -1462,7 +1462,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 10:00",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5966.mov",
     "new": true,
@@ -1618,7 +1618,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 09:58",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_5960.JPG",
     "new": true
@@ -1667,7 +1667,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 11:20",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0814.HEIC"
   },
@@ -1733,7 +1733,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 11:31",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_0819.HEIC"
   },
@@ -1782,7 +1782,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 11:36",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_5985.JPG",
     "new": true
@@ -1966,7 +1966,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 12:23",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_6006.JPG",
     "new": true
@@ -2085,7 +2085,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-21 13:48",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "AllTrails.jpg"
   },

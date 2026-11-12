@@ -4,7 +4,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-28 13:20",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0928.HEIC",
     "new": true
@@ -14,7 +14,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-28 13:34",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "R0005890.JPG",
     "new": true
@@ -384,7 +384,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-29 13:28",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_6115.JPG",
     "new": true
@@ -634,7 +634,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-30 10:01",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_6127.JPG",
     "new": true

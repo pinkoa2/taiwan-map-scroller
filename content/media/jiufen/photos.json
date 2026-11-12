@@ -22,7 +22,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 18:55",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0522.HEIC"
   },
@@ -69,7 +69,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 19:11",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0525.HEIC"
   },
@@ -200,7 +200,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 20:03",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_5789.MOV",
     "new": true,

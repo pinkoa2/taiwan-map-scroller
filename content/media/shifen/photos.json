@@ -13,7 +13,7 @@
     "caption": "Taipei - Ruifang - Shifen ",
     "comment": "Take train from Taipei train station to Ruifang, then change to Pingxi line to Shifen",
     "taken": "2026-10-15 12:14",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_5774.MOV",
     "new": true,
@@ -34,7 +34,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 13:50",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0482.HEIC"
   },
@@ -43,7 +43,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 13:53",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0484.HEIC"
   },
@@ -70,7 +70,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 14:05",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "R0005699.JPG",
     "new": true
@@ -151,7 +151,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-15 14:43",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_0497.MOV",
     "poster": "sky-lantern-on-the-tracks-poster.jpg"

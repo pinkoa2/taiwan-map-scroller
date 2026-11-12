@@ -134,7 +134,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-11-01 10:21",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_1025.HEIC",
     "new": true
@@ -468,7 +468,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-11-01 11:18",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6161.JPG",
     "new": true
@@ -578,7 +578,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-11-01 11:23",
-    "pick": false,
+    "pick": true,
     "show": true,
     "original": "IMG_6177.JPG",
     "new": true

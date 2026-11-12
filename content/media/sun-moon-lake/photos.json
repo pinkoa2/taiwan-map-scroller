@@ -243,7 +243,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-18 17:01",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_5837.JPG",
     "new": true
@@ -263,7 +263,7 @@
     "caption": "",
     "comment": "",
     "taken": "2026-10-18 17:00",
-    "pick": true,
+    "pick": false,
     "show": true,
     "original": "IMG_5835.JPG",
     "new": true
